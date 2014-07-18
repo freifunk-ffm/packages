@@ -1,0 +1,13 @@
+#!/bin/sh
+UPLOAD_URL=$1
+KEY=$(/etc/init.d/fastd show_key mesh_vpn)
+WGETC=$(which wget)
+VERSION=$(cat /lib/gluon/release)
+MAC=$(sed 's/://g' /lib/gluon/core/sysconfig/primary_mac)
+
+while [ 1 = 1 ]
+do
+  $WGETC -O - -q "$UPLOAD_URL/upload_key?nodeid=${MAC}&_method=post&key=${KEY}&fw_version=${VERSION}"  2>&1 |grep -q 201 && break
+  sleep 30
+done
+
