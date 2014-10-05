@@ -1,0 +1,20 @@
+#!/usr/bin/lua
+local nio = require 'nixio'
+local lutil = require 'luci.util'
+local WGETC = "/usr/bin/wget"
+local SSD = "/sbin/start-stop-daemon"
+
+
+local gutil = require 'gluon.util'
+local fs = require 'luci.fs'
+local UPLOAD_URL = arg[1]
+local NODEID = gutil.node_id()
+local KEY = lutil.trim(lutil.exec('/etc/init.d/fastd show_key mesh_vpn'))
+local VERSION = lutil.trim(fs.readfile('/lib/gluon/release'))
+local wgetsuccess = 500
+
+while tonumber(wgetsuccess) ~= 201  do
+  wgetsuccess = lutil.exec(SSD .. ' -S -c root:gluon-fastd -x ' .. WGETC .. ' -- -q -O - "' .. UPLOAD_URL .. '?nodeid=' ..  NODEID .. '&_method=post&key=' .. KEY .. '&fw_version=' .. VERSION .. '" 2>&1|/bin/grep -o 201')
+  nio.nanosleep(30)
+end
+
