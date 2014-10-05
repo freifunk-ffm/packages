@@ -1,7 +1,5 @@
-#!/bin/sh
-path="$( dirname "$0" )"
+#!/usr/bin/lua
+local site = require 'gluon.site_config'
+local urls = site.key_upload_urls
 
-uci show fastd |grep remote|cut -d"=" -f2| sed -e 's:" .*::' -e 's:.* "::' | while read host; do
-  "$path/upload_key_to_server" "http://$host" &
-done
-exit 0
+for url in ipairs(urls) do os.execute('/lib/gluon/gluon-ffmautokey/upload_key_to_server ' .. urls[url] .. ' &') end

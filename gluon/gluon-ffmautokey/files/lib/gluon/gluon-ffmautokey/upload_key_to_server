@@ -1,13 +1,20 @@
-#!/bin/sh
-UPLOAD_URL=$1
-KEY=$(/etc/init.d/fastd show_key mesh_vpn)
-WGETC=$(which wget)
-VERSION=$(cat /lib/gluon/release)
-MAC=$(sed 's/://g' /lib/gluon/core/sysconfig/primary_mac)
+#!/usr/bin/lua
+local nio = require 'nixio'
+local lutil = require 'luci.util'
+local WGETC = "/usr/bin/wget"
+local SSD = "/sbin/start-stop-daemon"
 
-while [ 1 = 1 ]
-do
-  $WGETC -O - -q "$UPLOAD_URL/upload_key?nodeid=${MAC}&_method=post&key=${KEY}&fw_version=${VERSION}"  2>&1 |grep -q 201 && break
-  sleep 30
-done
+
+local gutil = require 'gluon.util'
+local fs = require 'luci.fs'
+local UPLOAD_URL = arg[1]
+local NODEID = gutil.node_id()
+local KEY = lutil.trim(lutil.exec('/etc/init.d/fastd show_key mesh_vpn'))
+local VERSION = lutil.trim(fs.readfile('/lib/gluon/release'))
+local wgetsuccess = 500
+
+while tonumber(wgetsuccess) ~= 201  do
+  wgetsuccess = lutil.exec(SSD .. ' -S -c root:gluon-fastd -x ' .. WGETC .. ' -- -q -O - "' .. UPLOAD_URL .. '?nodeid=' ..  NODEID .. '&_method=post&key=' .. KEY .. '&fw_version=' .. VERSION .. '" 2>&1|/bin/grep -o 201')
+  nio.nanosleep(30)
+end
 
