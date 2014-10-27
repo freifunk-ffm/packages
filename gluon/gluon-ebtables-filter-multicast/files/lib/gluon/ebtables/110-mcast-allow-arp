@@ -1,1 +1,0 @@
-rule 'MULTICAST_OUT -p ARP -j RETURN'

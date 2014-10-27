@@ -1,5 +1,0 @@
-#!/usr/bin/lua
-
-local users = require 'gluon.users'
-
-users.add_user('gluon-radvd', 801, 100)

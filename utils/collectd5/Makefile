@@ -253,7 +253,7 @@ define BuildPlugin
   define Package/collectd-mod-$(1)
   $$(call Package/collectd/Default)
     TITLE:=$(2) plugin
-    DEPENDS:= collectd $(4)
+    DEPENDS:= collectd5 $(4)
   endef
 
   define Package/collectd-mod-$(1)/install
