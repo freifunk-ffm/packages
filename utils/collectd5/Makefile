@@ -143,20 +143,20 @@ PKG_CONFIG_DEPENDS:= \
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/kernel.mk
 
-define Package/collectd/Default
+define Package/collectd5/Default
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=Lightweight system statistics collection daemon
   URL:=http://verplant.org/collectd/
 endef
 
-define Package/collectd
+define Package/collectd5
 $(call Package/collectd/Default)
   DEPENDS:= +libpthread +zlib +libltdl +libip4tc
   MENU:=1
 endef
 
-define Package/collectd/description
+define Package/collectd5/description
  collectd is a small daemon which collects system information periodically
  and provides mechanismns to store the values in a variety of ways.
 endef
@@ -227,11 +227,11 @@ ifneq ($(CONFIG_PACKAGE_collectd-mod-rrdtool),)
   CONFIGURE_ARGS+= --with-librrd="$(STAGING_DIR)/usr/lib/rrdtool-1.0"
 endif
 
-define Package/collectd/conffiles
+define Package/collectd5/conffiles
 /etc/collectd.conf
 endef
 
-define Package/collectd/install
+define Package/collectd5/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/collectd $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/usr/share/collectd
