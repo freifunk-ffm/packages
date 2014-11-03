@@ -11,7 +11,7 @@ PKG_NAME:=collectd5
 PKG_VERSION:=5.4.1
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+PKG_SOURCE:=collectd-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=http://collectd.org/files/
 PKG_MD5SUM:=6f56c71c96573a7f4f7fb3bfab185974
 
@@ -151,7 +151,7 @@ define Package/collectd5/Default
 endef
 
 define Package/collectd5
-$(call Package/collectd/Default)
+$(call Package/collectd5/Default)
   DEPENDS:= +libpthread +zlib +libltdl +libip4tc
   MENU:=1
 endef
@@ -251,7 +251,7 @@ define BuildPlugin
   PKG_CONFIG_DEPENDS+= CONFIG_PACKAGE_collectd-mod-$(1)
 
   define Package/collectd-mod-$(1)
-  $$(call Package/collectd/Default)
+  $$(call Package/collectd5/Default)
     TITLE:=$(2) plugin
     DEPENDS:= collectd5 $(4)
   endef
@@ -269,7 +269,7 @@ define BuildPlugin
 
 endef
 
-$(eval $(call BuildPackage,collectd))
+$(eval $(call BuildPackage,collectd5))
 
 #$(eval $(call BuildPlugin,NAME,DESCRIPTION,FILES,DEPENDENCIES))
 $(eval $(call BuildPlugin,apache,apache status input,apache,+PACKAGE_collectd-mod-apache:libcurl))
