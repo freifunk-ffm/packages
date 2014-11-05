@@ -12,6 +12,7 @@ PKG_VERSION:=5.4.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=collectd-$(PKG_VERSION).tar.bz2
+PKG_BUILD_DIR:=$(BUILD_DIR)/collectd-$(PKG_VERSION)
 PKG_SOURCE_URL:=http://collectd.org/files/
 PKG_MD5SUM:=6f56c71c96573a7f4f7fb3bfab185974
 
