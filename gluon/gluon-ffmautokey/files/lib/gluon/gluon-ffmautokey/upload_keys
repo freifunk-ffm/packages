@@ -2,4 +2,7 @@
 local site = require 'gluon.site_config'
 local urls = site.key_upload_urls
 
-for url in ipairs(urls) do os.execute('/lib/gluon/gluon-ffmautokey/upload_key_to_server ' .. urls[url] .. ' &') end
+for url in ipairs(urls) do 
+  os.execute('/lib/gluon/gluon-ffmautokey/upload_key_to_server ' .. urls[url] .. ' &') 
+
+end
