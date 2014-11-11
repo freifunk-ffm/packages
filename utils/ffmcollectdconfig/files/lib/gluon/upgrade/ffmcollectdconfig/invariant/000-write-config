@@ -2,9 +2,12 @@
 local site = require 'gluon.site_config'
 local file = '/etc/collectd.conf'
 local host = site.collectd_host
+local gutil = require 'gluon.util' 
+
+local NODEID = gutil.node_id()
 
 local f = io.open(file, 'w')
-
+f:write('Hostname    "freifunk-' .. NODEID .. '"')
 f:write('BaseDir     "/var/lib/collectd"\n')
 f:write('PIDFile     "/var/run/collectd.pid"\n')
 f:write('Interval    30\n')
