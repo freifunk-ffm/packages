@@ -12,13 +12,14 @@ PKG_VERSION:=5.4.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=collectd-$(PKG_VERSION).tar.bz2
-PKG_BUILD_DIR:=$(BUILD_DIR)/collectd-$(PKG_VERSION)
 PKG_SOURCE_URL:=http://collectd.org/files/
 PKG_MD5SUM:=6f56c71c96573a7f4f7fb3bfab185974
 
 PKG_FIXUP:=autoreconf
 PKG_REMOVE_FILES:=aclocal.m4 libltdl/aclocal.m4
 PKG_MAINTAINER:=Jo-Philipp Wich <jow@openwrt.org>
+
+PKG_BUILD_DIR:=$(BUILD_DIR)/collectd-$(PKG_VERSION)
 
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
@@ -80,43 +81,29 @@ COLLECTD_PLUGINS_DISABLED:= \
 	write_redis \
 	write_riemann \
 	xmms \
-	zfs_arc \
-
-COLLECTD_PLUGINS_SELECTED:= \
 	apache \
 	apcups \
 	ascent \
 	bind \
 	conntrack \
 	contextswitch \
-	cpu \
 	csv \
 	curl \
-	df \
 	disk \
 	dns \
 	email \
 	exec \
 	filecount \
 	fscache \
-	interface \
 	iptables \
 	irq \
-	iwinfo \
-	load \
 	logfile \
 	madwifi \
-	memory \
 	modbus \
 	mysql \
-	netlink \
-	network \
-	nginx \
-	ntpd \
 	olsrd \
 	onewire \
 	openvpn \
-	ping \
 	postgresql \
 	powerdns \
 	processes \
@@ -130,13 +117,27 @@ COLLECTD_PLUGINS_SELECTED:= \
 	tcpconns \
 	teamspeak2 \
 	ted \
+	vmem \
 	thermal \
 	unixsock \
+	write_http \
+	df \
+	netlink \
+	nginx \
+	ntpd \
+	memory \
 	uptime \
 	users \
-	vmem \
+	zfs_arc \
+
+COLLECTD_PLUGINS_SELECTED:= \
+	cpu \
+	interface \
+	iwinfo \
+	load \
+	network \
+	ping \
 	wireless \
-	write_http \
 
 PKG_CONFIG_DEPENDS:= \
 	$(patsubst %,CONFIG_PACKAGE_collectd-mod-%,$(subst _,-,$(COLLECTD_PLUGINS_SELECTED))) \
