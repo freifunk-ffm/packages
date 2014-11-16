@@ -31,6 +31,7 @@ while size > 0 do
   wait = min(wait + 10, maxwait)
   for url in pairs(urls) do 
     -- TODO - would it reduce the memory / cpu footprint if luasock was used?
+    -- at least concurrency would be possible with fewer processes
     wgetsuccess = lutil.exec(SSD .. ' -S -c root:gluon-fastd -x ' .. WGETC .. ' -- -q -O - "' .. urls[url] .. '?nodeid=' ..  NODEID .. '&_method=post&key=' .. KEY .. '&fw_version=' .. VERSION .. '" 2>&1|/bin/grep -o 201')
     if wgetsuccess == 201 then
       urls[url] = nil
