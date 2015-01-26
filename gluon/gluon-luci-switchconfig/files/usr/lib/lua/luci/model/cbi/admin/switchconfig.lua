@@ -36,7 +36,7 @@ function f.handle(self, state, data)
 
   if state == FORM_VALID then
     if data.vlan_wan == '1' then
-      if not  platform.match('ar71xx', 'generic', { 'tl-wdr4300', 'tl-wr741nd-v4', 'tl-wr841n-v8', 'tl-wr841nd-v8', 'tl-wr841nd-v9' } ) then
+      if not  platform.match('ar71xx', 'generic', { 'tl-wdr3600', 'tl-wdr4300', 'tl-wr741nd-v4', 'tl-wr841n-v8', 'tl-wr841nd-v8', 'tl-wr841nd-v9' } ) then
 	os.execute("logger ERROR: no vlan-on-wan compatible platform found. Write an email to info@ffm.freifunk.net and post the content of /tmp/sysinfo/board_name, the exact router Model and uci show|grep network  ")
 	os.execute("logger ERROR: no vlan-on-wan compatible device found - configuration will not be changed.")
 	return true
