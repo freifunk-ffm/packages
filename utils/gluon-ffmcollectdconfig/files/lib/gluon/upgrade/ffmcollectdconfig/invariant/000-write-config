@@ -18,7 +18,7 @@ f:write('LoadPlugin load\n')
 f:write('LoadPlugin network\n')
 f:write('LoadPlugin memory\n')
 f:write('LoadPlugin ping\n')
-f:write('LoadPlugin wireless\n')
+f:write('#LoadPlugin wireless\n')
 f:write('LoadPlugin iwinfo\n')
 
 f:write('#<Plugin interface>\n')
