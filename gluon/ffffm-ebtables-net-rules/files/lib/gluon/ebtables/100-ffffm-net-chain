@@ -1,0 +1,1 @@
+chain('FFFFM_NET_ONLY', 'DROP') 
