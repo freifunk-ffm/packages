@@ -12,7 +12,7 @@ PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/gluon-luci-switchconfig
-  SECTION:=gluon
+  SECTION:=ffffm
   CATEGORY:=Gluon
   TITLE:=Luci module for advanced wan port configuration
   DEPENDS:=+gluon-luci-admin
