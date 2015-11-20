@@ -1,0 +1,40 @@
+#!/usr/bin/lua
+cal uci = require('luci.model.uci').cursor()
+
+function determine_mtu()
+{
+-- TODO obtain real value
+return 1280
+}
+
+function setmtu(mtuval)
+{
+uci:section('fastd', 'fastd', 'mesh_vpn',
+	{
+		mtu = mtuval,
+	}
+)
+if mtuval == 1426 then
+	nport = 10000
+else
+	nport = 10001
+end
+}
+
+uci:section('fastd', 'fastd', 'mesh_vpn', host, {
+	url = 'ipv4=' .. host .. ' port ' .. nport,
+}
+)
+dmtu = determine_mtu(),
+current_mtu = uci:get('fastd', 'fastd', 'mesh_vpn', 'mtu')
+
+if dmtu > current_mtu and dmtu > 1425 then
+	smtu = 1426,
+else
+	smtu = 1280,
+end
+
+setmtu(smtu),
+
+uci:save('fastd')
+uci:commit('fastd')
