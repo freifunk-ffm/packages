@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2015-05-03 20:39+0200\n"
+"Last-Translator:  <mschiffer@universe-factory.net>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid ""
+"This setting will result in usage of a smaller MTU. This setting works on any Uplink but has reduced throughput."
+msgstr ""
+"Diese Einstallung erlaubt die Nutzung einer kleinen MTU und funktioniert daher auch bei DS-Lite-Anschlüssen (natürlich auch bei allen anderen). Die Bandbreite ist reduziert."
+
+msgid ""
+"This setting allows for a larger MTU and therefore better throughput. This setting will not work on DSLite-connections."
+msgstr ""
+"Diese Einstellung erlaubt die Nutzung einer großen MTU und funktioniert daher nur bei vollwertigem DSL oder Ethernet, erlaubt aber höhere Bandbreiten."
+
+msgid "Mesh VPN"
+msgstr "Mesh-VPN"
+
+msgid "MTU 1426"
+msgstr "Hohe Geschwindigkeit, funktioniert bei vollwertigem DSL"
+
+msgid "MTU 1280"
+msgstr "geringere Geschwindigkeit, funktioniert immer"
