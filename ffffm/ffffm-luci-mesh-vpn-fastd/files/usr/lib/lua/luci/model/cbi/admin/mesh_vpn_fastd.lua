@@ -6,7 +6,7 @@ f.template = "admin/expertmode"
 
 local s = f:section(SimpleSection)
 
-local o = s:option(Value, 'mode')
+local o = s:option(Value, 'mtu')
 o.template = "gluon/cbi/mesh-vpn-fastd-mode"
 
 local mtu = uci:get('fastd', 'mesh_vpn', 'mtu')
@@ -19,16 +19,12 @@ end
 function f.handle(self, state, data)
   if state == FORM_VALID then
     local site = require 'gluon.site_config'
-
+local mtuval
     local methods = {}
-    if data.mode == 'performance' then
-      table.insert(methods, 'null')
-    end
-
-    for _, method in ipairs(site.fastd_mesh_vpn.methods) do
-      if method ~= 'null' then
-	table.insert(methods, method)
-      end
+    if data.mtu == '1426' then
+	    mtuval = 1426
+    else
+	    mtuval = 1280
     end
 
     uci:set('fastd', 'mesh_vpn', 'mtu', mval)
