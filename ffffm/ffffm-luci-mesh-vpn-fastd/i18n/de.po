@@ -13,7 +13,7 @@ msgstr ""
 msgid ""
 "This setting will result in usage of a smaller MTU. This setting works on any Uplink but has reduced throughput."
 msgstr ""
-"Diese Einstallung erlaubt die Nutzung einer kleinen MTU und funktioniert daher auch bei DS-Lite-Anschlüssen (natürlich auch bei allen anderen). Die Bandbreite ist reduziert."
+"Diese Einstellung erlaubt die Nutzung einer kleinen MTU und funktioniert daher auch bei DS-Lite-Anschlüssen (natürlich auch bei allen anderen). Die Bandbreite ist reduziert."
 
 msgid ""
 "This setting allows for a larger MTU and therefore better throughput. This setting will not work on DSLite-connections."
