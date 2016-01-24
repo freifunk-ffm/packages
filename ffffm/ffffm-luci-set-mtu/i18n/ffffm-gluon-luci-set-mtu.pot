@@ -1,0 +1,17 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "MTU-Titel"
+msgstr ""
+
+msgid "MTU Block Size"
+msgstr ""
+
+msgid "MTU-Config-Text"
+msgstr ""
+"With this setting you can change the MTU Block Size. "
+"The default MTU Block Size works for all uplink types. <br />"
+"If you have e.g. a Cable-DS-Lite-Uplink like Unitymedia then you have to choose the default and save MTU Block Size. <br />"
+"Otherwise you can try the bigger MTU-Size. <br />" 
+"Please change the MTU Block Size only if you know what you are doing."
+
