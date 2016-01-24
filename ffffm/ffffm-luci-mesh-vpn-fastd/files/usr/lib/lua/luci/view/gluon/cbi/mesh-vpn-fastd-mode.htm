@@ -3,7 +3,7 @@
     <input class="cbi-input-radio" onclick="cbi_d_update(this.id)" onchange="cbi_d_update(this.id)" type="radio" value="1280"<%= attr("id", cbid..'1') .. attr("name", cbid) .. ifattr((self:cfgvalue(section) or self.default) == "1280", "checked", "checked") %> />
   </div>
   <div class="cbi-value-field-long">
-    <label<%= attr("for", cbid..'1') %> class="cbi-value-title"><%:MTU 1280%></label>
+    <label<%= attr("for", cbid..'1') %> class="cbi-value-title"><%:Security mode%></label>
     <br />
     <%= translate(
         'This setting will result in usage of a smaller MTU. This setting works on any Uplink but has reduced throughput.'
@@ -18,7 +18,7 @@
     <input class="cbi-input-radio" onclick="cbi_d_update(this.id)" onchange="cbi_d_update(this.id)" type="radio" value="1426"<%= attr("id", cbid..'2') .. attr("name", cbid) .. ifattr((self:cfgvalue(section) or self.default) == "1426", "checked", "checked") %> />
   </div>
   <div class="cbi-value-field-long">
-    <label<%= attr("for", cbid..'2') %> class="cbi-value-title"><%:MTU 1426%></label>
+    <label<%= attr("for", cbid..'2') %> class="cbi-value-title"><%:Performance mode%></label>
     <br />
     <%= translate(
         'This setting allows for a larger MTU and therefore better throughput. This setting will not work on DSLite-connections.'
