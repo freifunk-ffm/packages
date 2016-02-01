@@ -1,19 +1,19 @@
 #!/usr/bin/lua
 
--- Alles was in der Site.conf steht, wird uebernommen.
+-- Alles was in der Datei site.conf steht, wird uebernommen.
 -- Leider sind da auch die verwendeten WLAN-Kanaele dabei.
 -- Falls Kanal-Optimierungen innerhalb einer Freifunkinstallation
--- duchgefuehrt wurden, so sollten diese jedoch uebernommen werden
+-- duchgefuehrt wurden, so sollten diese jedoch nach einem Upgrade
+-- uebernommen werden
 --
--- Durch dieses Skript werden die alten Kanaele-Einstellungen
--- nach einem Upgradejedoch wieder hergestellt.
--- Unabhaengig, vom Inhalt von site.conf.
+-- Durch dieses Skript wird sichergestellt, dass nach einem Sysupgrade
+-- alle alten Radio-Kanal-Einstellungen wieder hergestellt werden.
+-- Unabhaengig, vom Inhalt der site.conf.
 --
 -- Nach einem Upgrade werden automatisch Skripte von Gluon abgearbeitet.
 -- (siehe http://gluon.readthedocs.org/en/latest/dev/upgrade.html )
 -- Das neue Skript 110-backup-wireless-channel sicher die Kanal-Einstellungen.
 -- Das neue Skript 201-restore-wireless-channel stellt sie wieder her.
-
 
 local uci = require('luci.model.uci').cursor()
 
