@@ -1,5 +1,5 @@
-#!/usr/bin/lua                                                                  
-                                                                                
+#!/usr/bin/lua
+
 -- Alles was in der Datei site.conf steht ist nicht Upgrade-fest!
 -- Leider sind da auch die verwendeten WLAN-Kanaele (2,4MHz u. 5MHz) mit dabei.
 --
@@ -19,31 +19,38 @@
 -- Das Skript 110-backup-wireless-channel sicher alte Kanal-Einstellungen.
 -- Das Skript 201-restore-wireless-channel stellt sie wieder her.
 
-local uci = require('luci.model.uci').cursor()                                  
-                                                                                
-local ch0                                                                       
-local ch1                                                                       
-                                                                                
--- Falls noch nicht vorhanden,                                                  
--- so wird die Datei /etc/config/keep_settings erzeugt                          
-file = io.open("/etc/config/keep_settings", "a")                                
-file:close()                                                                    
-                                                                                
--- Falls noch nicht vorhanden, so wird die notwendige Section erzeugt.          
-uci:set('keep_settings', 'wireless', 'before_upgrade')                          
-                                                                                
--- Auslesen und merken des Radio0 Kanals vor dem Sysupgrade                     
-ch0 = uci:get('wireless', 'radio0', 'channel')                                  
-if ch0 then                                                                     
-    uci:set('keep_settings', 'wireless', 'radio0_channel', ch0)                 
-end                                                                             
-                                                                                
--- Auslesen und merken des Radio1 Kanals vor dem Sysupgrade                     
-ch1 = uci:get('wireless', 'radio1', 'channel')                                  
-if ch1 then                                                                     
-    uci:set('keep_settings', 'wireless', 'radio1_channel', ch1)                 
-end                                                                             
-                                                                                
--- Sichern der 'keep_settings' Sektion                                              
-uci:commit('keep_settings')
+local uci = require('luci.model.uci').cursor()
+local sysconfig = require 'gluon.sysconfig'
 
+local ch0
+local ch1
+
+-- Falls noch nicht vorhanden, so wird die Datei /etc/config/keep_settings erzeugt
+file = io.open("/etc/config/keep_settings", "a")
+file:close()
+
+-- Falls noch nicht vorhanden, so wird die notwendige Section erzeugt.
+uci:set('keep_settings', 'wireless', 'before_upgrade')
+
+-- Falls die Section bereits vorhanden war, trotzdem erstmal alles relevate loeschen.
+uci:delete('keep_settings', 'wireless', 'radio0_channel')
+uci:delete('keep_settings', 'wireless', 'radio1_channel')
+
+-- Nur bei einem Sysupgrade mit Konfig-Uebernahme die Kanaele sichern.
+if sysconfig.gluon_version then
+
+    -- Auslesen und merken des Radio0 Kanals vor dem Sysupgrade
+    ch0 = uci:get('wireless', 'radio0', 'channel')
+    if ch0 then
+        uci:set('keep_settings', 'wireless', 'radio0_channel', ch0)
+    end
+
+    -- Auslesen und merken des Radio1 Kanals vor dem Sysupgrade
+    ch1 = uci:get('wireless', 'radio1', 'channel')
+    if ch1 then
+        uci:set('keep_settings', 'wireless', 'radio1_channel', ch1)
+    end
+end
+
+-- Sichern der 'keep_settings' Sektion
+uci:commit('keep_settings')
