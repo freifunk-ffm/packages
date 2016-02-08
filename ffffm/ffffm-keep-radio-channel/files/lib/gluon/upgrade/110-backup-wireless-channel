@@ -53,4 +53,6 @@ if sysconfig.gluon_version then
 end
 
 -- Sichern der 'keep_settings' Sektion
+uci:save('keep_settings')
 uci:commit('keep_settings')
+

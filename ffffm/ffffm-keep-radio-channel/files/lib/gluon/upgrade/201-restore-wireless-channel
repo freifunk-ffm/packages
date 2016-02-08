@@ -42,4 +42,6 @@ if sysconfig.gluon_version then
 end
 
 -- Sichern der alten Einstellungen
+uci:save('wireless')
 uci:commit('wireless')
+
