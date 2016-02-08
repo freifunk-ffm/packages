@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffffm-luci-set-mtu
-PKG_VERSION:=0.1
+PKG_VERSION:=1
 PKG_RELEASE:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
@@ -11,10 +11,13 @@ include $(GLUONDIR)/include/package.mk
 PKG_CONFIG_DEPENDS += $(GLUON_I18N_CONFIG)
 
 define Package/ffffm-luci-set-mtu
-  SECTION:=gluon
+  SECTION:=ffffm
   CATEGORY:=Gluon
-  DEPENDS:=+gluon-luci-admin +gluon-mesh-vpn-fastd
-  TITLE:=UI for specifying MTU settings
+  DEPENDS:=+gluon-luci-admin +gluon-mesh-vpn-fastd +ffffm-fastd-auto-mtu
+  TITLE:=GUI for specifying MTU settings
+  MAINTAINER:=Freifunk Frankfurt <admin@ffm.freifunk.net>
+  URL:=https://github.com/freifunk-gluon/packages
+  SOURCE:=https://github.com/freifunk-gluon/packages
 endef
 
 define Build/Prepare
