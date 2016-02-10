@@ -12,7 +12,7 @@ define Package/ffffm-fastd-auto-mtu
   SECTION:=ffffm
   CATEGORY:=Gluon
   TITLE:=Auto-select the mtu for mesh-vpn based on local Internet uplink
-  DEPENDS:=+gluon-core +gluon-mesh-vpn-fastd
+  DEPENDS:=+gluon-core +gluon-mesh-vpn-fastd +iputils-ping
   MAINTAINER:=Freifunk Frankfurt <admin@ffm.freifunk.net>
   URL:=https://github.com/freifunk-gluon/packages
   SOURCE:=https://github.com/freifunk-gluon/packages
