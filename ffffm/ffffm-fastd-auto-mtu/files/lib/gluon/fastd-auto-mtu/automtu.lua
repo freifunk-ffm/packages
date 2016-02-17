@@ -7,6 +7,8 @@ local DSL_mtu_high = '1492' - '28'
 local ptarget = '8.8.8.8'
 
 local result = fastd_mtu_low
+local wan_if = 'br-wan'
+local x86_delay = '10'
 local mtu
 
 if not (uci:get('fastd','mesh_vpn','enabled') == '1') then
@@ -35,8 +37,17 @@ function setMTU ( x )
 end
 
 
-local f = io.popen('/usr/bin/ping -M do -s ' .. DSL_mtu_high .. ' -c 5 ' .. ptarget)
+local f = io.popen('/sbin/ifconfig ' .. wan_if)
 local o = f:read('*all')
+f:close()
+
+if not o:find('inet addr:') then
+  os.execute('sleep ' .. x86_delay)
+end
+
+
+f = io.popen('/usr/bin/ping -M do -s ' .. DSL_mtu_high .. ' -c 5 ' .. ptarget)
+o = f:read('*all')
 f:close()
 
 if o:find('5 packets transmitted') then
@@ -61,3 +72,4 @@ end
 
 print ('fastd MTU = ' .. mtu .. ' Byte')
 os.execute('logger automtu: fastd MTU = ' .. mtu .. ' Byte')
+
