@@ -28,7 +28,7 @@ endef
 define Build/Compile
 endef
 
-define Package/ffffm-autoupdater-use-site-conf-branch
+define Package/ffffm-autoupdater-use-site-conf-branch/install
 	$(CP) ./files/* $(1)/
 endef
 
