@@ -1,0 +1,8 @@
+#!/usr/bin/lua
+
+local site = require 'gluon.site_config'
+local uci = require('luci.model.uci').cursor()
+
+uci:set('autoupdater', 'settings', 'branch', site.autoupdater.branch)
+uci:save('autoupdater')
+uci:commit('autoupdater')
