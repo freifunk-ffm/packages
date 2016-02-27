@@ -68,11 +68,11 @@ end
 --
 if result == fastd_mtu_high then
   if not (mtu == fastd_mtu_high) then
-    mtu = setMTU (fastd_mtu_high, uplink)
+    mtu = setMTU (fastd_mtu_high)
   end
 else
   if not (mtu == fastd_mtu_low) then
-    mtu = setMTU (fastd_mtu_low, uplink)
+    mtu = setMTU (fastd_mtu_low)
   end
 end
 
