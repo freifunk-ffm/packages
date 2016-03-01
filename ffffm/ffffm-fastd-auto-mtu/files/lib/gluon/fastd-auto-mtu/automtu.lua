@@ -17,16 +17,14 @@ local o
 
 -- 
 function setMTU ( x )
-  os.execute('logger automtu: new fastd MTU saved')
+  os.execute('logger automtu: fastd MTU-Size changed')
   uci:set('fastd', 'mesh_vpn', 'mtu', x)
   uci:save('fastd')
   uci:commit('fastd')
-  os.execute('logger automtu: please reboot your device to activate the new MTU-Size...')
+  os.execute('logger automtu: restart the network...')
+  os.execute('/etc/init.d/network restart')
   return x
 end
-
---
-print('Fuer eine Ausgabe bitte "logread -f" auf einer anderen Konsole starten.')
 
 -- 
 if not (uci:get('fastd','mesh_vpn','enabled') == '1') then
