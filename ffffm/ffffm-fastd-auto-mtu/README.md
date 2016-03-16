@@ -10,11 +10,13 @@ Hat sich die detektierte MTU-Größe verändert, so wird die neue MTU-Größe in
 <br>
 
 **Einschalten** (default)
+
 ```
 fastd.mesh_vpn.auto_mtu_enabled='1'
 ```
 <br>
 **Ausschalten**
+
 ```
 fastd.mesh_vpn.auto_mtu_enabled='0'
 ```
