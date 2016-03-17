@@ -1,16 +1,21 @@
-echo " autoupdater -f                    // Firmware-Update erzwingen
- logread      // logread -f        // syslog Ausgabe auf Konsole
- ping 8.8.8.8                      // google-DNS wenn IPv4 lokal 
- ip a s                            // alle IPs anzeigen
- ip r s t all                      // gesamte Routingtabelle
- traceroute -n 10.155.0.254        // Traceroute via IP zu einem gateway
- batctl gwl                        // batman-gateways inkl. Gewaehltes
- batctl -m bat0 tr 10.155.0.254    // Traceroute via batman-adv
- batctl o                          // batman Domain-Nachbarn anzeigen
- batctl tl |grep W |wc -l          // batman Clients zählen
- batctl if                         // baman interfaces anzeigen
- brctl show                        // alle bridges anzeigen
- iwinfo                            // wlan-paramter anzeigen
- iw dev client0 station dump       // WLAN Nachbarn mit Details
- nodeinfo                          // diverse infos ausgegeben
- v4up                              // ipv4 holen, wenn kein vpnuplink"
+echo "
+ Doku: https://github.com/freifunk-gluon/gluon/wiki/Commandline-administration
+
+ autoupdater -f                      // Firmware-Update erzwingen
+ logread      // logread -f          // syslog Ausgabe auf Konsole
+ ping 8.8.8.8                        // Google-DNS wenn IPv4 lokal 
+ ip a s                              // alle IPs anzeigen
+ ip r s t all                        // gesamte Routingtabelle
+ traceroute -n 10.126.0.1            // Traceroute via IP zu einem Gateway
+ batctl gwl                          // batman-gateways inkl. Gewaehltes
+ batctl -m bat0 tr 02:ff:0f:10:7d:01 // Traceroute via batman-adv
+ batctl o                            // batman Domain-Nachbarn anzeigen
+ batctl tl |grep W |wc -l            // batman Clients zaehlen
+ batctl if                           // batman Interfaces anzeigen
+ brctl show                          // alle Bridges anzeigen
+ iwinfo                              // WLAN-Paramter anzeigen
+ iw dev client0 station dump         // WLAN-Nachbarn mit Details
+ iw dev client0 scan                 // WLAN-Umgebung scannen
+ nodeinfo                            // diverse Infos ausgegeben
+ v4up                                // IPv4 holen, wenn kein VPN-Uplink
+ "
