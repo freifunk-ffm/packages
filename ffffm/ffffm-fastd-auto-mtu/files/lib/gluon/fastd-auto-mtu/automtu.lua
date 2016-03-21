@@ -41,7 +41,7 @@ end
 --
 mtu = uci:get('fastd', 'mesh_vpn', 'mtu')
 os.execute('logger automtu: Current fastd MTU = ' .. mtu .. ' Byte')
-print ("mtu = " .. mtu .. type(mtu))
+print ("mtu = " .. mtu)
 
 --
 os.execute('logger automtu: Check Up-Link...')

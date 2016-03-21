@@ -32,6 +32,11 @@ endef
 define Build/Compile
 endef
 
+define Package/ffffm-fastd-auto-mtu/postinst
+#!/bin/sh
+$(call GluonCheckSite,check_site.lua)
+endef
+
 define Package/ffffm-fastd-auto-mtu/install
 	$(CP) ./files/* $(1)/
 endef
