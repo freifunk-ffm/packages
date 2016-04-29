@@ -28,7 +28,7 @@ echo "### BatGateways"
 batctl gwl
 echo "### Location:"
 echo " Geo?: $(uci show|grep .share_location=|cut -d= -f2)"
-echo " Lat: $(uci show|grep .longitude=|cut -d= -f2)"
+echo " Lat: $(uci show|grep .latitude=|cut -d= -f2)"
 echo " Lon: $(uci show|grep .longitude=|cut -d= -f2)"
 echo " Contact: $(uci show|grep contact|cut -d= -f2)"
 echo 
