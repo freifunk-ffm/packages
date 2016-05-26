@@ -1,0 +1,4 @@
+local wififive = uci:get('wireless', 'radio1', 'channel')
+if wififive ~= '' then
+        return wififive
+end
