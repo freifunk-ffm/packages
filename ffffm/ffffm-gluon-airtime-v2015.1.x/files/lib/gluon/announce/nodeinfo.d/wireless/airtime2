@@ -8,12 +8,11 @@ function file_exists(name)
  end
 end
 
-if (file_exists('/tmp/act2')) then
+if (file_exists('/tmp/active2')) then
   local n = 0
-  local act = util.trim(fs.readfile('/tmp/act2'))
-  n = tonumber(act)
-  local bus = util.trim(fs.readfile('/tmp/bus2'))
-  m = tonumber(bus)
-  string.format("%.2f", m / m)
-  return (n / m)
+  local active = util.trim(fs.readfile('/tmp/active2'))
+  n = tonumber(active)
+  local busy = util.trim(fs.readfile('/tmp/busy2'))
+  m = tonumber(busy)
+  return (m / n)
 end
