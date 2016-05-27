@@ -1,4 +1,4 @@
-ffffm-gluon-airtime-v2015.1.x
+ffffm-airtime-v2015.1.x
 =============
 
 Based on https://forum.freifunk.net/t/airtime-in-fluechtlingsunterkuenften/12333/9
