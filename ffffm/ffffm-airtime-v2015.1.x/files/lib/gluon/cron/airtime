@@ -1,1 +1,1 @@
-*/5 * * * * /root/airtime.sh
+*/5 * * * * /lib/gluon/airtime/airtime.sh
