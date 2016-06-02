@@ -8,6 +8,7 @@
 #include "ffffm.h"
 
 const unsigned int FFFFM_INVALID_CHANNEL = 0;
+const unsigned int FFFFM_INVALID_TXPOWER = 0;
 
 static const char const *wifi_24_dev = "radio0";
 static const char const *wifi_50_dev = "radio1";
@@ -22,29 +23,33 @@ static inline const char *lookup_option_value(
 	return uci_lookup_option_string(ctx, s, option_name);
 }
 
-static inline unsigned char parse_channel(const char *s) {
+static inline unsigned char parse_option(const char *s, unsigned char invalid) {
 	char *endptr = NULL;
 	long int result;
 
         if (!s)
-		return FFFFM_INVALID_CHANNEL;
+		return invalid;
 
         result = strtol(s, &endptr, 10);
 
         if (!endptr)
-		return FFFFM_INVALID_CHANNEL;
+		return invalid;
 	if ('\0' != *endptr)
-		return FFFFM_INVALID_CHANNEL;
+		return invalid;
 	if (result > UCHAR_MAX)
-		return FFFFM_INVALID_CHANNEL;
+		return invalid;
 	if (result < 0)
-		return FFFFM_INVALID_CHANNEL;
+		return invalid;
 	
 	return (unsigned char)(result % UCHAR_MAX);
 }
 
+static inline unsigned char parse_channel(const char *s) {
+        return parse_option(s, FFFFM_INVALID_CHANNEL);
+}
+
 static inline unsigned char parse_txpower(const char *s) {
-        return parse_channel(s);
+        return parse_option(s, FFFFM_INVALID_TXPOWER);
 }
 
 struct ffffm_wifi_info *ffffm_get_wifi_info(void) {

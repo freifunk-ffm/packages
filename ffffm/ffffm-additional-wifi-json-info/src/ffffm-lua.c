@@ -27,6 +27,18 @@ static inline void add_table_entry(lua_State *L, const char *name, double value,
 	}
 }
 
+static inline void add_channel(lua_State *L, const char *name, double value) {
+	add_table_entry(L, name, value, FFFFM_INVALID_CHANNEL);
+}
+
+static inline void add_txpower(lua_State *L, const char *name, double value) {
+	add_table_entry(L, name, value, FFFFM_INVALID_TXPOWER);
+}
+
+static inline void add_airtime(lua_State *L, const char *name, double value) {
+	add_table_entry(L, name, value, FFFFM_INVALID_AIRTIME);
+}
+
 static int get_wifi_info(lua_State *L) {
 	struct ffffm_wifi_info *i = ffffm_get_wifi_info();
 
@@ -34,10 +46,10 @@ static int get_wifi_info(lua_State *L) {
 		return 0;
 
 	lua_newtable(L);
-	add_table_entry(L, "chan2", i->c24, FFFFM_INVALID_CHANNEL);
-	add_table_entry(L, "chan5", i->c50, FFFFM_INVALID_CHANNEL);
-	add_table_entry(L, "txpower2", i->t24, FFFFM_INVALID_CHANNEL);
-	add_table_entry(L, "txpower5", i->t50, FFFFM_INVALID_CHANNEL);
+	add_channel(L, "chan2", i->c24);
+	add_channel(L, "chan5", i->c50);
+	add_txpower(L, "txpower2", i->t24);
+	add_txpower(L, "txpower5", i->t50);
 
 	return 1;
 }
@@ -48,8 +60,8 @@ static int get_airtime(lua_State *L) {
 		return 0;
 
 	lua_newtable(L);
-	add_table_entry(L, "airtime2", i->a24, FFFFM_INVALID_AIRTIME);
-	add_table_entry(L, "airtime5", i->a50, FFFFM_INVALID_AIRTIME);
+	add_airtime(L, "airtime2", i->a24);
+	add_airtime(L, "airtime5", i->a50);
 
 	return 1;
 }
@@ -62,11 +74,7 @@ static const luaL_Reg ffffmlib[] = {
 };
 
 LUALIB_API int luaopen_ffffm(lua_State *L) {
-#if LUA_VERSION_NUM > 501
-	luaL_newLib(L, ffffmlib);
-#else
 	luaL_register(L, "ffffm", ffffmlib);
-#endif
 	return 1;
 }
 

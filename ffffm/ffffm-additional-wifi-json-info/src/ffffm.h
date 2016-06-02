@@ -1,6 +1,7 @@
 #pragma once
 
 extern const unsigned int FFFFM_INVALID_CHANNEL;
+extern const unsigned int FFFFM_INVALID_TXPOWER;
 extern const double FFFFM_INVALID_AIRTIME;
 
 struct ffffm_wifi_info {

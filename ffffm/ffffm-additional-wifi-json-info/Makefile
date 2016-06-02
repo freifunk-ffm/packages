@@ -32,15 +32,15 @@ define Package/ffffm-additional-wifi-json-info/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_DIR) $(1)/usr/lib/lua
-	$(INSTALL_DIR) $(1)/usr/lib/gluon/respondd
+	$(INSTALL_DIR) $(1)/lib/gluon/respondd
 	$(INSTALL_DIR) $(1)/lib/gluon/announce/statistics.d/
 	$(INSTALL_DIR) $(1)/lib/gluon/announce/nodeinfo.d/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/libffffm.so $(1)/usr/lib/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ffffm-test $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ffffm-respondd-test $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/lua/ffffm.so $(1)/usr/lib/lua/
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/gluon/respondd/wireless.so $(1)/usr/lib/gluon/respondd/
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/gluon/respondd/nexthop.so $(1)/usr/lib/gluon/respondd/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/gluon/respondd/wireless.so $(1)/lib/gluon/respondd/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/gluon/respondd/nexthop.so $(1)/lib/gluon/respondd/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/gluon/announce/nodeinfo.d/wireless $(1)/lib/gluon/announce/nodeinfo.d/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/gluon/announce/statistics.d/wireless $(1)/lib/gluon/announce/statistics.d/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/gluon/announce/statistics.d/nexthop $(1)/lib/gluon/announce/statistics.d/

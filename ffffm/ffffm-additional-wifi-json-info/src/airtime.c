@@ -11,8 +11,8 @@
 
 const double FFFFM_INVALID_AIRTIME = -1;
 
-static const char const *wifi_24_dev = "mesh0";
-static const char const *wifi_50_dev = "mesh1";
+static const char const *wifi_24_dev = "client0";
+static const char const *wifi_50_dev = "client1";
 
 struct airtime_result {
         uint32_t frequency;
