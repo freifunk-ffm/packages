@@ -1,4 +1,0 @@
-local wifitwo = uci:get('wireless', 'radio0', 'channel')
-if wifitwo ~= '' then
-        return wifitwo
-end
