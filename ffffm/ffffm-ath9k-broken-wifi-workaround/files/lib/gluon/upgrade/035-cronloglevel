@@ -1,0 +1,9 @@
+#!/usr/bin/lua
+
+local uci = require 'luci.model.uci'.cursor()
+
+local system = uci:get_first('system', 'system')
+
+uci:set('system', system, 'cronloglevel', 9)
+
+uci:save('system')
