@@ -62,7 +62,7 @@ else
 	done < $PIPE
 	rm $PIPE
 fi
-TMPFILE="/tmp/wifi-connections-active"
+TMPFILE="/tmp/log/wifi-connections-active"
 # restart wifi only, if there were connections after the last wifi restart or reboot and they vanished again
 if [ ! -f "$TMPFILE" ] && [ "$WIFICONNECTIONS" -eq 1 ]; then
 	echo "there are connections again after a previous boot or wifi restart, creating tempfile."
@@ -70,7 +70,7 @@ if [ ! -f "$TMPFILE" ] && [ "$WIFICONNECTIONS" -eq 1 ]; then
 elif [ -f "$TMPFILE" ] && [ "$WIFICONNECTIONS" -eq 0 ] && [ "$PROBLEMS" -eq 1 ]; then
 	# there were connections before, but there are none at the moment and there are problem indicators
 	wifi
-	echo "$(date +%Y-%m-%d:%H:%M:%S)" > /tmp/wifi-last-restart-reasons-calib${CALIBERRORS}-queue${STOPPEDQUEUE}-tph${TXPATHHANG}
+	echo "$(date +%Y-%m-%d:%H:%M:%S)" > /tmp/log/wifi-last-restart-reasons-calib${CALIBERRORS}-queue${STOPPEDQUEUE}-tph${TXPATHHANG}
 	echo "there were connections before, but they vanished. restarted wifi and deleting tempfile."
 	rm $TMPFILE
 else
