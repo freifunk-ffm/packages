@@ -7,6 +7,11 @@ Siehe:
 
 Dieses Package identifiziert einen hängenden ath9k WLAN-Treiber und startet ihn neu durch.
 
+##### Achtung:
+##### Dieses Package entfernt nicht die Ursached des Problems. 
+##### Es verhindert lediglich, dass sich WLAN-meshende Router nicht dauerhaft vom Netz trennen. 
+
+
 ##### Quelle
 Dieses Package würde von Freifunk Altendorf übernommen.<br>
 Siehe https://github.com/tecff/gluon-packages/tree/master/tecff-ath9k-broken-wifi-workaround
