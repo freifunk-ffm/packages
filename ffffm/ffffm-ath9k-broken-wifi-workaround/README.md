@@ -1,5 +1,5 @@
 ##### Das Package
-Der ath9k WLAN-Treiber macht Probleme (stand 06/2016).<br>
+Der ath9k WLAN-Treiber macht Probleme (Stand 06/2016).<br>
 Siehe:
 
 * https://github.com/freifunk-gluon/gluon/issues/130
