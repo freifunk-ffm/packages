@@ -72,6 +72,7 @@ elif [ -f "$TMPFILE" ] && [ "$WIFICONNECTIONS" -eq 0 ] && [ "$PROBLEMS" -eq 1 ];
 	wifi
 	echo "$(date +%Y-%m-%d:%H:%M:%S)" > /tmp/log/wifi-last-restart-reasons-calib${CALIBERRORS}-queue${STOPPEDQUEUE}-tph${TXPATHHANG}
 	echo "there were connections before, but they vanished. restarted wifi and deleting tempfile."
+	logger "ath9k-broken-wifi-workaround: restart wifi - reasons-calib${CALIBERRORS}-queue${STOPPEDQUEUE}-tph${TXPATHHANG}"
 	rm $TMPFILE
 else
 	echo "everything seems to be ok."
