@@ -106,7 +106,7 @@ rm $PIPE
 
 
 # Remember if there were client connections after the last wifi restart or reboot
-CLIENTFILE="/tmp/log/wifi-client-connection-active"
+CLIENTFILE="/tmp/log/wifi-connection-active"
 if [ ! -f "$CLIENTFILE" ] && [ "$CLIENTCONNECTIONS" -eq 1 ]; then
 	logg "There are connections again after a previous boot or wifi restart."
 	touch $CLIENTFILE
@@ -169,7 +169,7 @@ fi
 # No pingable default gateway.
 if [ $GWCONNECTION -eq 0 ]; then
 	WIFIRESTART=1
-	to_wifilog "$(date +%Y-%m-%d:%H:%M)" "/tmp/log/wifi-last-restart-reasons-gateway-ping"
+	to_wifilog "/tmp/log/wifi-last-restart-reasons-gateway-ping"
 	logg "No connection to the default gateway."
 fi 
  
