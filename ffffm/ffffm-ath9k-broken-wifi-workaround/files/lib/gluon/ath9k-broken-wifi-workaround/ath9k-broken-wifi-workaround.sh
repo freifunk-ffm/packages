@@ -1,31 +1,31 @@
 #!/bin/sh
 
 ################################################################################
-#
+# 
 # Merke: Lieber ein "wifi" mehr als einmal weniger :o)
-#
+# 
 ################################################################################
-#
+# 
 # Alle Kommentare und Leerzeilen werden durch das Makefile des Packages geloescht
 # sed -i '/^# /d' ath9k-broken-wifi-workaround.sh
-# sed -i '/^## /d' ath9k-broken-wifi-workaround.sh
+# sed -i '/^##/d' ath9k-broken-wifi-workaround.sh
 # sed -i /^$/d ath9k-broken-wifi-workaround.sh
-#
+# 
 ################################################################################
 
 
-LPREFIX="ath9k-broken-wifi-workaround:"
+LPREFIX="ath9k-broken-wifi-workaround"
 
 ################################################################################
-# Locale Function
+# Locale functions
 ################################################################################
 
 DEBBUG=1 
 
 logg() {
 if [ $DEBBUG -eq 1 ]; then
-	echo "$LPREFIX $1"
-	logger "$LPREFIX $1"
+	echo "$LPREFIX: $1"
+	logger "$LPREFIX: $1"
 fi
 }
 
@@ -37,7 +37,7 @@ echo $(date) >> $1
 tail -n $MAX_LINES $1 > $RING
 cp $RING $1
 rm -rf $RING
-logger "$LPREFIX Wifi will restart - Reasons see $1"
+logger "$LPREFIX: Wifi will restart - Reasons see $1"
 }
 
 
@@ -46,16 +46,23 @@ logger "$LPREFIX Wifi will restart - Reasons see $1"
 ################################################################################
 
 # Wait a few minutes after boot
-UPTIME=$(cat /proc/uptime | awk -F'[.]' '{print $1}')
-SECWAIT="300"
-if [ $UPTIME -lt $SECWAIT ]; then
-	logg "Device startup time not finished yet, exit."
-	logg "Uptime: $UPTIME"
-	exit
+# UPTIME=$(cat /proc/uptime | awk -F'[.]' '{print $1}')
+# SECWAIT="300"
+# if [ $UPTIME -lt $SECWAIT ]; then
+# 	logg "Device startup time not finished yet, exit."
+# 	logg "Uptime: $UPTIME"
+# 	exit
+# fi
+
+RUNFILE="/tmp/wifi-workaround-activ"
+WAITFILE="/tmp/wifi-workaround-standby"
+
+# After first script run or after a wifi restart wait a few minutes 
+if [ ! -f "$RUNFILE" ]; then 
+	touch $RUNFILE
+	touch $WAITFILE
 fi
 
-# Wait a few minutes after a wifi restart
-WAITFILE="/tmp/wifi-workaround-standby"
 if [ -f "$WAITFILE" ]; then 
 	mv $WAITFILE $WAITFILE-1 
 	exit
@@ -65,8 +72,9 @@ elif [ -f "$WAITFILE-1" ]; then
 elif [ -f "$WAITFILE-2" ]; then 
 	mv $WAITFILE-2 $WAITFILE-3
 	exit
-else
-	rm -rf $WAITFILE-* 
+elif [ -f "$WAITFILE-3" ]; then 
+	rm $WAITFILE-3
+    exit
 fi
 
 # Check autoupdater 
@@ -109,7 +117,7 @@ if [ "$(grep "TX Path Hang" /sys/kernel/debug/ieee80211/phy0/ath9k/reset | cut -
 	logg "Observed a TX Path Hang, continuing."
 fi
 
-# Combine all
+# Combine 
 PROBLEMS=1
 if [ "$STOPPEDQUEUE" -eq 0 ] && [ "$TXPATHHANG" -eq 0 ]; then
 	PROBLEMS=0
@@ -227,7 +235,7 @@ fi
 
 if [ $WIFIRESTART -eq 1 ]; then    
 	echo "Wifi restarted."
-	logger "$LPREFIX Wifi restarted."
+	logger "$LPREFIX: Wifi restarted."
 	rm -rf $MESHFILE
 	rm -rf $CLIENTFILE
 	rm -rf $GWFILE
