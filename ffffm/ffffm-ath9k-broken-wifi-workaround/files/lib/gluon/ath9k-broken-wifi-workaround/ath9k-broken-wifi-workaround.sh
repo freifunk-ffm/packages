@@ -1,44 +1,79 @@
 #!/bin/sh
 
-###
-# Merke: 
-# Lieber eine "wifi" mehr als einmal weniger :o)
-###
+################################################################################
+#
+# Merke: Lieber ein "wifi" mehr als einmal weniger :o)
+#
+################################################################################
+#
+# Alle Kommentare und Leerzeilen werden durch das Makefile des Packages geloescht
+# sed -i '/^# /d' ath9k-broken-wifi-workaround.sh
+# sed -i '/^## /d' ath9k-broken-wifi-workaround.sh
+# sed -i /^$/d ath9k-broken-wifi-workaround.sh
+#
+################################################################################
 
-# Local functions START
 
 LPREFIX="ath9k-broken-wifi-workaround:"
 
-# Debbug helper 
+################################################################################
+# Locale Function
+################################################################################
+
+DEBBUG=1 
+
 logg() {
-DEBBUG=1
 if [ $DEBBUG -eq 1 ]; then
 	echo "$LPREFIX $1"
 	logger "$LPREFIX $1"
 fi
 }
 
-# Ringbuffer
+# Ringbuffer, limit file to MAX_LINES lines
 to_wifilog() {
 MAX_LINES=20
 RING=$(mktemp -t wifi-tmp-XXXXXX)
-echo "$(date +%Y-%m-%d  %H:%M)" >> $1
+echo $(date) >> $1
 tail -n $MAX_LINES $1 > $RING
 cp $RING $1
 rm -rf $RING
-logger "$LPREFIX Wifi will restart - Reasons see /tmp/log/"
+logger "$LPREFIX Wifi will restart - Reasons see $1"
 }
 
-# Local functions END
 
+################################################################################
+# Check test start conditions
+################################################################################
 
-# Just test after a few minutes
+# Wait a few minutes after boot
 UPTIME=$(cat /proc/uptime | awk -F'[.]' '{print $1}')
 SECWAIT="300"
 if [ $UPTIME -lt $SECWAIT ]; then
-    logg "Device startup time not finished yet, exit."
-    logg "Uptime: $UPTIME"
-    exit
+	logg "Device startup time not finished yet, exit."
+	logg "Uptime: $UPTIME"
+	exit
+fi
+
+# Wait a few minutes after a wifi restart
+WAITFILE="/tmp/wifi-workaround-standby"
+if [ -f "$WAITFILE" ]; then 
+	mv $WAITFILE $WAITFILE-1 
+	exit
+elif [ -f "$WAITFILE-1" ]; then 
+	mv $WAITFILE-1 $WAITFILE-2
+	exit
+elif [ -f "$WAITFILE-2" ]; then 
+	mv $WAITFILE-2 $WAITFILE-3
+	exit
+else
+	rm -rf $WAITFILE-* 
+fi
+
+# Check autoupdater 
+pgrep autoupdater >/dev/null
+if [ "$?" == "0" ]; then
+	logg "Autoupdater is running, aborting."
+	exit
 fi
 
 # Check if node has wifi
@@ -55,14 +90,10 @@ if ! expr "$(readlink /sys/class/ieee80211/phy0/device/driver)" : ".*/ath9k" >/d
 	fi
 fi
 
-# Check autoupdater 
-pgrep autoupdater >/dev/null
-if [ "$?" == "0" ]; then
-	logg "Autoupdater is running, aborting."
-	exit
-fi
 
-
+################################################################################
+# Observe ath9k driver problem indicators. Needed for the client lost check.
+################################################################################
 
 # Check if the TX queue is stopped
 STOPPEDQUEUE=0
@@ -71,7 +102,6 @@ if [ "$(grep BE /sys/kernel/debug/ieee80211/phy0/ath9k/queues | cut -d":" -f7 | 
 	logg "Observed a stopped queue, continuing."
 fi
 
-
 # Check TX Path Hangs
 TXPATHHANG=0
 if [ "$(grep "TX Path Hang" /sys/kernel/debug/ieee80211/phy0/ath9k/reset | cut -d":" -f2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
@@ -79,14 +109,17 @@ if [ "$(grep "TX Path Hang" /sys/kernel/debug/ieee80211/phy0/ath9k/reset | cut -
 	logg "Observed a TX Path Hang, continuing."
 fi
 
-
-# Compine all
+# Combine all
 PROBLEMS=1
 if [ "$STOPPEDQUEUE" -eq 0 ] && [ "$TXPATHHANG" -eq 0 ]; then
 	PROBLEMS=0
 	logg "No problem indicators observed."
 fi
 
+
+################################################################################
+# Check client connections (client lost)
+################################################################################
 
 # Check if there are connected clients to this node
 CLIENTCONNECTIONS=0
@@ -106,12 +139,15 @@ rm $PIPE
 
 
 # Remember if there were client connections after the last wifi restart or reboot
-CLIENTFILE="/tmp/log/wifi-connection-active"
+CLIENTFILE="/tmp/wifi-connection-active"
 if [ ! -f "$CLIENTFILE" ] && [ "$CLIENTCONNECTIONS" -eq 1 ]; then
-	logg "There are connections again after a previous boot or wifi restart."
+	logg "There are wifi connections after a previous boot or wifi restart."
 	touch $CLIENTFILE
 fi
 
+################################################################################
+# Check mesh connection (mesh lost)
+################################################################################
 
 # Check for an active ibss0 mesh
 MESHCONNECTIONS=0
@@ -122,11 +158,15 @@ then
 fi
 
 # Remember if there were mesh connections after the last wifi restart or reboot
-MESHFILE="/tmp/log/wifi-mesh-connections-active"
+MESHFILE="/tmp/wifi-mesh-connections-active"
 if [ ! -f "$MESHFILE" ] && [ "$MESHCONNECTIONS" -eq 1 ]; then
-	logg "There are mesh connections again after a previous boot or wifi restart."
+	logg "There are mesh connections after a previous boot or wifi restart."
 	touch $MESHFILE
 fi
+
+################################################################################
+# Check gateway connection (uplink lost)
+################################################################################
 
 # Try to ping the default gateway (mainly for wifi mesh only nodes needed)
 GWCONNECTION=0
@@ -143,40 +183,55 @@ else
 	logg "Default gateway not found."
 fi
 
+# Remember if the defaultgatewy was pingable after the last wifi restart or reboot
+# Important for only mesh clowd networking 
+GWFILE="/tmp/gateway-connections-active"
+if [ ! -f "$GWFILE" ] && [ "$GWCONNECTION" -eq 1 ]; then
+	logg "There are default gateway connections after a previous boot or wifi restart."
+	touch $GWFILE
+fi
 
+################################################################################
+# Main wifi restart logik
+################################################################################
 
-# Main wifi restart logik  
 WIFIRESTART=0
 
 # Client & Errors (hier ist die Logik noch irgendwie unstimmig)
 if [ -f "$CLIENTFILE" ] && [ "$CLIENTCONNECTIONS" -eq 0 ] && [ "$PROBLEMS" -eq 1 ]; then
 	# There were lient connections before, but there are none at the moment and there are problem indicators.
 	WIFIRESTART=1
-	to_wifilog "/tmp/log/wifi-last-restart-reason-client-queue${STOPPEDQUEUE}-tph${TXPATHHANG}"
+	to_wifilog "/tmp/log/wifi-restart-reason-client-queue${STOPPEDQUEUE}-tph${TXPATHHANG}"
 	logg "There were client connections before, but they vanished."
-	rm -rf $CLIENTFILE
 fi
 
 # Mesh 
 if [ -f "$MESHFILE" ] && [ "$MESHCONNECTIONS" -eq 0 ]; then
 	# There were mesh connections before, but there are none at the moment.
 	WIFIRESTART=1
-	to_wifilog "/tmp/log/wifi-last-restart-reason-mesh"
+	to_wifilog "/tmp/log/wifi-restart-reason-mesh"
 	logg "There were mesh connections before, but they vanished."
-	rm -rf $MESHFILE
 fi
 
 # No pingable default gateway.
-if [ $GWCONNECTION -eq 0 ]; then
+if [ -f "$GWFILE" ] && [ $GWCONNECTION -eq 0 ]; then
 	WIFIRESTART=1
-	to_wifilog "/tmp/log/wifi-last-restart-reasons-gateway-ping"
+	to_wifilog "/tmp/log/wifi-restart-reasons-gateway-ping"
 	logg "No connection to the default gateway."
 fi 
- 
+
+
+################################################################################
 # Should I really do it?
+################################################################################
+
 if [ $WIFIRESTART -eq 1 ]; then    
 	echo "Wifi restarted."
-    logger "Wifi restarted."
+	logger "$LPREFIX Wifi restarted."
+	rm -rf $MESHFILE
+	rm -rf $CLIENTFILE
+	rm -rf $GWFILE
+	touch $WAITFILE
 	/sbin/wifi
 else
 	logg "Everything seems to be ok."
