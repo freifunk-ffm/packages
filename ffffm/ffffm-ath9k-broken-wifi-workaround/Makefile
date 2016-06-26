@@ -2,17 +2,17 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffffm-ath9k-broken-wifi-workaround
 PKG_VERSION:=1
-PKG_RELEASE:=2
+PKG_RELEASE:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/ffffm-ath9k-broken-wifi-workaround
-  SECTION:=ffffm
-  CATEGORY:=Customization
-  TITLE:=ath9k broken wifi workaround
-  DEPENDS:=+gluon-core +micrond
+	SECTION:=ffffm
+	CATEGORY:=Customization
+	TITLE:=ath9k broken wifi workaround
+	DEPENDS:=+gluon-core +micrond
 endef
 
 define Package/gluon-legacy/description
@@ -20,7 +20,9 @@ define Package/gluon-legacy/description
 endef
 
 define Build/Prepare
-        mkdir -p $(PKG_BUILD_DIR)
+	mkdir -p $(PKG_BUILD_DIR)
+	sed -i '/^# /d' ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
+	sed -i '/^##/d' ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 endef
 
 define Build/Configure
@@ -30,7 +32,7 @@ define Build/Compile
 endef
 
 define Package/ffffm-ath9k-broken-wifi-workaround/install
-        $(CP) ./files/* $(1)/
+	CP) ./files/* $(1)/
 endef
 
 $(eval $(call BuildPackage,ffffm-ath9k-broken-wifi-workaround))

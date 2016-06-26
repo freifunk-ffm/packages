@@ -38,10 +38,9 @@
 
 
 ###################################################################################### 
-# Alle Kommentarzeilen und Leerzeilen werden durch das Makefile des Packages geloescht
+# Alle Kommentarzeilen werden durch das Makefile des Packages entfernt
 # sed -i '/^# /d' ath9k-broken-wifi-workaround.sh
 # sed -i '/^##/d' ath9k-broken-wifi-workaround.sh
-# sed -i /^$/d ath9k-broken-wifi-workaround.sh
 # 
 ######################################################################################
 
