@@ -32,7 +32,7 @@ define Build/Compile
 endef
 
 define Package/ffffm-ath9k-broken-wifi-workaround/install
-	CP) ./files/* $(1)/
+	$(CP) ./files/* $(1)/
 endef
 
 $(eval $(call BuildPackage,ffffm-ath9k-broken-wifi-workaround))
