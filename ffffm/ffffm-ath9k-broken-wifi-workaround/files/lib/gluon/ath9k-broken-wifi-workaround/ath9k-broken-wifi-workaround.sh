@@ -2,10 +2,42 @@
 
 ######################################################################################
 # 
-# Merke: Lieber ein "wifi" mehr als einmal weniger :o)
+# Dateiname:
+# ath9k-broken-wifi-workaround.sh
 # 
+# Aufruf:
+# /lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
+# (keine Uebergabeparameter)
+# 
+# Cronjob:
+# Dieses Skript muss zyklisch aufgerufen werden. 
+# Z.z. ueber /usr/lib/micron.d/ath9k-broken-wifi-workaround alle 2 Minuten.
+# 
+# Funktion:
+# 1) Nach einem Reboot oder einem Wifi-Restart wird fuer XY Skript-Aufrufe pausiert. 
+# 2) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/soll.
+# 3) Sammeln aller Indikatoren für eine Client Lost Detektierung.
+# 4) Ueberpruefen, ob Clients verbunden sind und dieses merken.
+# 5) Ueberpruefen, ob mit einem Mesh verbunden und dieses merken.
+# 6) Ueberpruefen ob eine Gateway/UpLink Verbindung vorhanden ist und dieses merken.
+# 7) Auswerten von Client-Lost, Mesh-Lost, Gateway/UpLink-Lost.
+# 8) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
+# 
+# Ausgabe:
+# Es werden Ereignisse in die eigens definierte Logdatei /tmp/log/wifi-problem-timestamps
+# und in den Systemlog eingetragen.
+# 
+###################################################################################### 
+
+
 ######################################################################################
 # 
+# Zum Debuggen und selber Rumbasteln einfach die "#" vor allen "systemlog XYZ" entfernen
+# 
+######################################################################################
+
+
+###################################################################################### 
 # Alle Kommentarzeilen und Leerzeilen werden durch das Makefile des Packages geloescht
 # sed -i '/^# /d' ath9k-broken-wifi-workaround.sh
 # sed -i '/^##/d' ath9k-broken-wifi-workaround.sh
@@ -13,9 +45,11 @@
 # 
 ######################################################################################
 
+
 ######################################################################################
 # 
-# Zum Debuggen und selber Rumbasteln einfach die "#" vor allen "systemlog XYZ" entfernen
+# Devise: 
+# Lieber einmal mehr als einmal weniger :o)
 # 
 ######################################################################################
 
@@ -25,8 +59,8 @@
 # Locale functions
 ######################################################################################
 
-LPREFIX="ath9k-broken-wifi-workaround"
 LOGFILE="/tmp/log/wifi-problem-timestamps"
+LPREFIX="ath9k-broken-wifi-workaround"
 
 # Writes to the system log file
 systemlog() {
@@ -68,7 +102,6 @@ elif [ -f "$WAITFILE-1" ]; then
 	exit
 elif [ -f "$WAITFILE-2" ]; then 
 	rm $WAITFILE-2
-	exit
 fi
 
 # Check autoupdater 
@@ -186,7 +219,7 @@ else
 fi
 
 # Remember if the defaultgatewy was pingable after the last wifi restart or reboot
-# Important for only mesh clowd networking 
+# Important for mesh clowd networking only 
 GWFILE="/tmp/gateway-connection-active"
 if [ ! -f "$GWFILE" ] && [ "$GWCONNECTION" -eq 1 ]; then
 # 	systemlog "There are default gateway connections after a previous boot or wifi restart."
@@ -203,7 +236,7 @@ WIFIRESTART=0
 if [ -f "$CLIENTFILE" ] && [ "$CLIENTCONNECTIONS" -eq 0 ] && [ "$PROBLEMS" -eq 1 ]; then
 # There were lient connections before, but there are none at the moment and there are problem indicators.
 	WIFIRESTART=1
-	multilog "Client lost, TX queue stopped=$STOPPEDQUEUE, TX path hang=$TXPATHHANG"
+	multilog "Client lost"
 fi
 
 # Mesh 
