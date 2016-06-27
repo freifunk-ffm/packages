@@ -14,14 +14,13 @@
 # Z.z. ueber /usr/lib/micron.d/ath9k-broken-wifi-workaround alle 2 Minuten.
 # 
 # Funktion:
-# 1) Nach einem Reboot oder einem Wifi-Restart wird fuer XY Skript-Aufrufe pausiert. 
-# 2) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/soll.
-# 3) Sammeln aller Indikatoren für eine Client Lost Detektierung.
-# 4) Ueberpruefen, ob Clients verbunden sind und dieses merken.
-# 5) Ueberpruefen, ob mit einem Mesh verbunden und dieses merken.
-# 6) Ueberpruefen ob eine Gateway/UpLink Verbindung vorhanden ist und dieses merken.
-# 7) Auswerten von Client-Lost, Mesh-Lost, Gateway/UpLink-Lost.
-# 8) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
+# 1) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/soll.
+# 2) Sammeln aller Indikatoren für eine Client Lost Detektierung.
+# 3) Ueberpruefen, ob Clients verbunden sind und dieses merken.
+# 4) Ueberpruefen, ob mit einem Mesh verbunden und dieses merken.
+# 5) Ueberpruefen ob eine Gateway/UpLink Verbindung vorhanden ist und dieses merken.
+# 6) Auswerten von Client-Lost, Mesh-Lost, Gateway/UpLink-Lost.
+# 7) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
 # 
 # Ausgabe:
 # Es werden Ereignisse in die eigens definierte Logdatei /tmp/log/wifi-problem-timestamps
@@ -83,25 +82,6 @@ systemlog "$1"
 ######################################################################################
 # Check test start conditions
 ######################################################################################
-
-RUNFILE="/tmp/wifi-workaround-active"
-WAITFILE="/tmp/wifi-workaround-standby"
-
-# After the very first script run or after a wifi restart wait a few minutes 
-if [ ! -f "$RUNFILE" ]; then 
-	touch $RUNFILE
-	touch $WAITFILE
-fi
-
-if [ -f "$WAITFILE" ]; then 
-	mv $WAITFILE $WAITFILE-1 
-	exit
-elif [ -f "$WAITFILE-1" ]; then 
-	mv $WAITFILE-1 $WAITFILE-2
-	exit
-elif [ -f "$WAITFILE-2" ]; then 
-	rm $WAITFILE-2
-fi
 
 # Check autoupdater 
 pgrep autoupdater >/dev/null
@@ -266,7 +246,6 @@ elif [ $WIFIRESTART -eq 1 ]; then
 	rm -rf $CLIENTFILE
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
-	touch $WAITFILE
 	/sbin/wifi
 else
 # 	systemlog "Everything seems to be ok"
