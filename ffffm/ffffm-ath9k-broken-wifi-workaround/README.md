@@ -14,6 +14,6 @@ Dieses Package identifiziert einen hängenden ath9k WLAN-Treiber und startet ihn
 <br>
 <br>
 ##### Quelle
-Dieses Package würde von Freifunk Altendorf übernommen.<br>
+Dieses Package wurde von Freifunk Altdorf übernommen.<br>
 Siehe https://github.com/tecff/gluon-packages/tree/master/tecff-ath9k-broken-wifi-workaround
 
