@@ -160,7 +160,7 @@ CLIENTCONNECTIONS=0
 PIPE=$(mktemp -u -t workaround-pipe-XXXXXX)
 # check for clients on each wifi device
 mkfifo $PIPE
-iw dev | grep Interface | cut -d" " -f2 > $PIPE &
+iw dev | grep Interface | cut -d" " -f2 | grep client > $PIPE &
 while read wifidev; do
 	iw dev $wifidev station dump 2>/dev/null | grep -q Station
 	if [ $? -eq 0 ]; then
@@ -248,7 +248,7 @@ fi
 # No pingable default gateway.
 if [ -f "$GWFILE" ] && [ $GWCONNECTION -eq 0 ]; then
 	WIFIRESTART=1
-	multilog "No path to the default gateway"
+	multilog "No path to the default gateway $GATEWAY"
 fi 
 
 
