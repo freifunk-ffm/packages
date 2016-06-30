@@ -1,4 +1,0 @@
-#!/usr/bin/lua5.1
-
-f = require('libffffm-lua')
-print(f.get_airtime())

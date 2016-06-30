@@ -27,7 +27,7 @@ static struct json_object *respondd_provider_statistics(void) {
 
 	nexthop = get_nexthop();
 	if (nexthop)
-		json_object_object_add(ret, "nexthop", nexthop);
+		json_object_object_add(ret, "gateway_nexthop", nexthop);
 
 	return ret;
 }
