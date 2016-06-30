@@ -23,6 +23,7 @@ define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)
 	sed -i '/^# /d' ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 	sed -i '/^##/d' ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
+	sed -i /^$$$$/d ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 endef
 
 define Build/Configure
