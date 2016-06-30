@@ -16,10 +16,10 @@
 # Funktion:
 # 1) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/soll.
 # 2) Sammeln aller Indikatoren für eine Client Lost Detektierung.
-# 3) Ueberpruefen, ob Clients verbunden sind und dieses merken.
-# 4) Ueberpruefen, ob mit einem Mesh verbunden und dieses merken.
-# 5) Ueberpruefen ob eine Gateway/UpLink Verbindung vorhanden ist und dieses merken.
-# 6) Auswerten von Client-Lost, Mesh-Lost, Gateway/UpLink-Lost.
+# 3) Ueberpruefen, ob WLAN-Konnektivitaet vorhanden ist und dieses merken.
+# 4) Ueberpruefen, ob ein Mesh aktiv ist und dieses merken.
+# 5) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
+# 6) Auswerten ueber die Zeit von WLAN Konnektivitaet, aktivem Mesh, Gateway/UpLink.
 # 7) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
 # 
 # Ausgabe:
@@ -86,95 +86,94 @@ systemlog "$1"
 # Check autoupdater 
 pgrep autoupdater >/dev/null
 if [ "$?" == "0" ]; then
-# 	systemlog "Autoupdater is running, aborting."
+# 	systemlog "Autoupdater is running, aborting"
 	exit
 fi
 
 # Check if node has wifi
 if [ ! -L /sys/class/ieee80211/phy0/device/driver ] && [ ! -L /sys/class/ieee80211/phy1/device/driver ]; then
-# 	systemlog "Node has no wifi, aborting."
+# 	systemlog "Node has no wifi, aborting"
 	exit
 fi
 
 # Check if node uses ath9k wifi driver
 if ! expr "$(readlink /sys/class/ieee80211/phy0/device/driver)" : ".*/ath9k" >/dev/null; then
 	if ! expr "$(readlink /sys/class/ieee80211/phy1/device/driver)" : ".*/ath9k" >/dev/null; then
-# 		systemlog "Node doesn't use the ath9k wifi driver, aborting."
+# 		systemlog "Node doesn't use the ath9k wifi driver, aborting"
 		exit
 	fi
 fi
 
 
-######################################################################################
-# Observe ath9k driver problem indicators. Needed for the client lost check.
-######################################################################################
+#######################################################################################
+# Observe ath9k driver problem indicators. Needed for the wifi connectivity lost check.
+#######################################################################################
 
 # Check if the TX queue is stopped
 STOPPEDQUEUE=0
 if [ "$(grep BE /sys/kernel/debug/ieee80211/phy0/ath9k/queues | cut -d":" -f7 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
 	STOPPEDQUEUE=1
-# 	systemlog "Observed a stopped queue, continuing."
+# 	systemlog "Observed a stopped queue, continuing"
 fi
 
 # Check TX Path Hangs
 TXPATHHANG=0
 if [ "$(grep "TX Path Hang" /sys/kernel/debug/ieee80211/phy0/ath9k/reset | cut -d":" -f2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
 	TXPATHHANG=1
-#	systemlog "Observed a TX Path Hang, continuing."
+#	systemlog "Observed a TX Path Hang, continuing"
 fi
 
 # Combine 
 PROBLEMS=1
 if [ "$STOPPEDQUEUE" -eq 0 ] && [ "$TXPATHHANG" -eq 0 ]; then
 	PROBLEMS=0
-# 	systemlog "No problem indicators observed."
+# 	systemlog "No problem indicators observed"
 fi
 
 
 ######################################################################################
-# Check client connections (client lost)
+# Check client/mesh wifi connectivity (wifi connectivity lost)
 ######################################################################################
 
-# Check if there are connected clients to this node
-CLIENTCONNECTIONS=0
+# Check if there are wifi connectivity to this node
+CONNECTIVITY=0
 PIPE=$(mktemp -u -t workaround-pipe-XXXXXX)
-# check for clients on each wifi device
+# check for connectivity on each wifi device (client and mesh)
 mkfifo $PIPE
 iw dev | grep Interface | cut -d" " -f2 | grep client > $PIPE &
 while read wifidev; do
 	iw dev $wifidev station dump 2>/dev/null | grep -q Station
 	if [ $? -eq 0 ]; then
-		CLIENTCONNECTIONS=1
-# 		systemlog "Found wifi clients."
+		CONNECTIVITY=1
+# 		systemlog "Found wifi connectivity (client or mesh)"
 		break
 	fi
 done < $PIPE
 rm $PIPE
 
-
-# Remember if there were client connections after the last wifi restart or reboot
-CLIENTFILE="/tmp/wifi-connection-active"
-if [ ! -f "$CLIENTFILE" ] && [ "$CLIENTCONNECTIONS" -eq 1 ]; then
-# 	systemlog "There are wifi connections after a previous boot or wifi restart."
-	touch $CLIENTFILE
+# Remember if there were wifi connectivity after the last wifi restart or reboot
+CONNECTIVITYFILE="/tmp/wifi-connectivity-active"
+if [ ! -f "$CONNECTIVITYFILE" ] && [ "$CONNECTIVITY" -eq 1 ]; then
+# 	systemlog "There are wifi connectivity after a previous boot or wifi restart"
+	touch $CONNECTIVITYFILE
 fi
 
 ######################################################################################
-# Check mesh connection (mesh lost)
+# Check ibss0 mesh connection (mesh lost)
 ######################################################################################
 
 # Check for an active ibss0 mesh
-MESHCONNECTIONS=0
+MESHCONNECTION=0
 if iw dev ibss0 station dump | grep Station 2>&1
 then
-	MESHCONNECTIONS=1
-# 	systemlog "Found a wifi mesh."
+	MESHCONNECTION=1
+# 	systemlog "Found a mesh"
 fi
 
 # Remember if there were mesh connections after the last wifi restart or reboot
 MESHFILE="/tmp/wifi-mesh-connection-active"
-if [ ! -f "$MESHFILE" ] && [ "$MESHCONNECTIONS" -eq 1 ]; then
-# 	systemlog "There are mesh connections after a previous boot or wifi restart."
+if [ ! -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 1 ]; then
+# 	systemlog "There are ibss0 mesh connections after a previous boot or wifi restart"
 	touch $MESHFILE
 fi
 
@@ -201,7 +200,7 @@ fi
 # Important for mesh clowd networking only 
 GWFILE="/tmp/gateway-connection-active"
 if [ ! -f "$GWFILE" ] && [ "$GWCONNECTION" -eq 1 ]; then
-# 	systemlog "There are default gateway connections after a previous boot or wifi restart."
+# 	systemlog "There are default gateway connections after a previous boot or wifi restart"
 	touch $GWFILE
 fi
 
@@ -212,14 +211,14 @@ fi
 WIFIRESTART=0
 
 # Client & Errors (hier ist die Logik noch irgendwie unstimmig)
-if [ -f "$CLIENTFILE" ] && [ "$CLIENTCONNECTIONS" -eq 0 ] && [ "$PROBLEMS" -eq 1 ]; then
-# There were lient connections before, but there are none at the moment and there are problem indicators.
+if [ -f "$CONNECTIVITYFILE" ] && [ "$CONNECTIVITY" -eq 0 ] && [ "$PROBLEMS" -eq 1 ]; then
+# There were client or mesh connections before, but there are none at the moment and there are problem indicators.
 	WIFIRESTART=1
-	multilog "Client lost"
+	multilog "Wifi connectivity (client or mesh) lost"
 fi
 
 # Mesh 
-if [ -f "$MESHFILE" ] && [ "$MESHCONNECTIONS" -eq 0 ]; then
+if [ -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 0 ]; then
 # There were mesh connections before, but there are none at the moment.
 	WIFIRESTART=1
 	multilog "Mesh lost"
@@ -242,8 +241,8 @@ if [ ! -f "$RESTARTFILE" ] && [ "$WIFIRESTART" -eq 1 ]; then
 	multilog "Wifi restart is pending"
 elif [ $WIFIRESTART -eq 1 ]; then
 	multilog "*** Wifi restarted ***"
+	rm -rf $CONNECTIVITYFILE
 	rm -rf $MESHFILE
-	rm -rf $CLIENTFILE
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
 	/sbin/wifi
