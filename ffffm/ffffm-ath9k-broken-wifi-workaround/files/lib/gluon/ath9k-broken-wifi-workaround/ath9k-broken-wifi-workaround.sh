@@ -140,7 +140,7 @@ CONNECTIVITY=0
 PIPE=$(mktemp -u -t workaround-pipe-XXXXXX)
 # check for connectivity on each wifi device (client and mesh)
 mkfifo $PIPE
-iw dev | grep Interface | cut -d" " -f2 | grep client > $PIPE &
+iw dev | grep Interface | cut -d" " -f2 > $PIPE &
 while read wifidev; do
 	iw dev $wifidev station dump 2>/dev/null | grep -q Station
 	if [ $? -eq 0 ]; then
