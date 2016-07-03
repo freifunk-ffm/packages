@@ -51,19 +51,19 @@
 ######################################################################################
 
 
-CLIENTFILE="/tmp/wifi-ath9k-client-connect"
-PRIVATEFILE="/tmp/wifi-ath9k-private-connect"
-MESHFILE="/tmp/wifi-ath9k-mesh-connect"
-GWFILE="/tmp/gateway-ath9k-connect"
+CLIENTFILE="/tmp/ath9k-wifi-client-connect"
+PRIVATEFILE="/tmp/ath9k-wifi-private-connect"
+MESHFILE="/tmp/ath9k-wifi-mesh-connect"
+GWFILE="/tmp/ath9k-wifi-gateway-connect"
 
-RESTARTFILE="/tmp/wifi-restart-pending"
+RESTARTFILE="/tmp/ath9k-wifi-restart-pending"
 
 
 ######################################################################################
 # Locale functions
 ######################################################################################
 
-LOGFILE="/tmp/log/wifi-problem-timestamps"
+LOGFILE="/tmp/log/ath9k-wifi-problem-timestamps"
 LPREFIX="ath9k-broken-wifi-workaround"
 
 # Writes to the system log file
