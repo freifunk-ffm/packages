@@ -51,6 +51,12 @@
 ######################################################################################
 
 
+CONNECTIVITYFILE="/tmp/wifi-connectivity-active"
+MESHFILE="/tmp/wifi-mesh-connection-active"
+GWFILE="/tmp/gateway-connection-active"
+
+RESTARTFILE="/tmp/wifi-restart-pending"
+
 
 ######################################################################################
 # Locale functions
@@ -190,7 +196,6 @@ fi
 # Should I really do it?
 ######################################################################################
 
-RESTARTFILE="/tmp/wifi-restart-pending"
 if [ ! -f "$RESTARTFILE" ] && [ "$WIFIRESTART" -eq 1 ]; then
 	touch $RESTARTFILE
 	multilog "Wifi restart is pending"
