@@ -65,7 +65,7 @@ echo "$LPREFIX: $1"
 logger "$LPREFIX: $1"
 }
 
-# Writes to an own log file in /tmp/log and to the systemlog
+# Writes to an own log file in /tmp/log and to the systemlog as well
 # Ringbuffer, limit own log file to MAX_LINES
 multilog() {
 MAX_LINES=25
@@ -117,18 +117,12 @@ while read wifidev; do
 	iw dev $wifidev station dump 2>/dev/null | grep -q Station
 	if [ $? -eq 0 ]; then
 		CONNECTIVITY=1
+		touch $CONNECTIVITYFILE
 # 		systemlog "Found wifi connectivity (client or mesh)"
 		break
 	fi
 done < $PIPE
 rm $PIPE
-
-# Remember if there were wifi connectivity after the last wifi restart or reboot
-CONNECTIVITYFILE="/tmp/wifi-connectivity-active"
-if [ ! -f "$CONNECTIVITYFILE" ] && [ "$CONNECTIVITY" -eq 1 ]; then
-# 	systemlog "There are wifi connectivity after a previous boot or wifi restart"
-	touch $CONNECTIVITYFILE
-fi
 
 ######################################################################################
 # Check ibss0 mesh connection (mesh lost)
@@ -139,14 +133,8 @@ MESHCONNECTION=0
 if iw dev ibss0 station dump | grep Station 2>&1
 then
 	MESHCONNECTION=1
-# 	systemlog "Found a mesh"
-fi
-
-# Remember if there were mesh connections after the last wifi restart or reboot
-MESHFILE="/tmp/wifi-mesh-connection-active"
-if [ ! -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 1 ]; then
-# 	systemlog "There are ibss0 mesh connections after a previous boot or wifi restart"
 	touch $MESHFILE
+# 	systemlog "Found a mesh"
 fi
 
 ######################################################################################
@@ -162,6 +150,7 @@ if [ $GATEWAY ]; then
 	batctl ping -c 5 $GATEWAY > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		GWCONNECTION=1
+		touch $GWFILE
 # 		systemlog "Ping default gateway $GATEWAY ... Okay!"
 	else
 		systemlog "Can't ping default gateway $GATEWAY"
@@ -170,23 +159,15 @@ else
 	systemlog "No default gateway defined"
 fi
 
-# Remember if the defaultgatewy was pingable after the last wifi restart or reboot
-# Important for mesh clowd networking only 
-GWFILE="/tmp/gateway-connection-active"
-if [ ! -f "$GWFILE" ] && [ "$GWCONNECTION" -eq 1 ]; then
-# 	systemlog "There are default gateway connections after a previous boot or wifi restart"
-	touch $GWFILE
-fi
-
 ######################################################################################
 # Main wifi restart logik
 ######################################################################################
 
 WIFIRESTART=0
 
-# Client & Errors (hier ist die Logik noch irgendwie unstimmig)
+# Client/Mesh wifi connectivity lost
 if [ -f "$CONNECTIVITYFILE" ] && [ "$CONNECTIVITY" -eq 0 ]; then
-# There were client or mesh connections before, but there are none at the moment and there are problem indicators.
+# There were client or mesh connections before, but there are none at the moment.
 	WIFIRESTART=1
 	multilog "Wifi connectivity (client or mesh) lost"
 fi
