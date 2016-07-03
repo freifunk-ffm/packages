@@ -20,11 +20,11 @@ define Package/gluon-legacy/description
 endef
 
 define Build/Prepare
-	mkdir -p $(PKG_BUILD_DIR)
-	cp ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh.before
-	sed -i '/^# /d' ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
-	sed -i '/^##/d' ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
-	sed -i /^$$$$/d ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
+	mkdir -p $(PKG_BUILD_DIR)/files
+	cp -r ./files/* $(PKG_BUILD_DIR)/files
+	sed -i '/^# /d' $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
+	sed -i '/^##/d' $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
+	sed -i /^$$$$/d $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 endef
 
 define Build/Configure
@@ -34,14 +34,8 @@ define Build/Compile
 endef
 
 define Package/ffffm-ath9k-broken-wifi-workaround/install
-	$(CP) ./files/* $(1)/
-	
-	# Remove not needed temporary files
-	rm $(1)/lib/gluon/gluon/ath9k-broken-wifi-workaround/gluon/ath9k-broken-wifi-workaround.sh.before
-	
-	# Clean up the private package git directory. 
-	rm ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
-	mv ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh.before ./files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
+	$(CP) $(PKG_BUILD_DIR)/files/* $(1)/
+
 endef
 
 $(eval $(call BuildPackage,ffffm-ath9k-broken-wifi-workaround))
