@@ -15,10 +15,10 @@
 # 
 # Funktion:
 # 1) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/soll.
-# 2) Ueberpruefen, ob WLAN-Konnektivitaet vorhanden ist und dieses merken.
-# 3) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
-# 4) Auswerten ueber die Zeit von WLAN Konnektivitaet, Gateway/UpLink.
-# 5) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
+# 2) Ueberpruefen, welche WLAN-Konnektivitaet vorhanden ist und dieses merken.
+# 4) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
+# 5) Auswerten ueber die Zeit von WLAN Konnektivitaet, aktivem Mesh, Gateway/UpLink.
+# 6) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
 # 
 # Ausgabe:
 # Es werden Ereignisse in die eigens definierte Logdatei /tmp/log/wifi-problem-timestamps
@@ -50,8 +50,10 @@
 ######################################################################################
 
 
-CONNECTIVITYFILE="/tmp/wifi-connectivity-active"
-GWFILE="/tmp/gateway-connection-active"
+CLIENTFILE="/tmp/wifi-ath9k-client-connect"
+PRIVATEFILE="/tmp/wifi-ath9k-private-connect"
+MESHFILE="/tmp/wifi-ath9k-mesh-connect"
+GWFILE="/tmp/gateway-ath9k-connect"
 
 RESTARTFILE="/tmp/wifi-restart-pending"
 
@@ -108,32 +110,51 @@ if ! expr "$(readlink /sys/class/ieee80211/phy0/device/driver)" : ".*/ath9k" >/d
 fi
 
 ######################################################################################
-# Check connectivity for all wifi interfaces (wifi connectivity lost)
+# Check client wifi connectivity (client lost)
 ######################################################################################
 
-# Check if there are wifi connectivity to this node
-CONNECTIVITY=0
-PIPE=$(mktemp -u -t workaround-pipe-XXXXXX)
-# check for connectivity on each wifi device (client/mesh/private)
-mkfifo $PIPE
-iw dev | grep Interface | cut -d" " -f2 > $PIPE &
-while read wifidev; do
-	iw dev $wifidev station dump 2>/dev/null | grep -q Station
-	if [ $? -eq 0 ]; then
-		CONNECTIVITY=1
-		touch $CONNECTIVITYFILE
-# 		systemlog "Found wifi connectivity (client, mesh or private)"
-		break
-	fi
-done < $PIPE
-rm $PIPE
+# Check if there are client connectivity to this node
+CLIENTCONNECTION=0
 
+if iw dev client0 station dump | grep Station 2>&1
+then
+	CLIENTCONNECTION=1
+	touch $CLIENTFILE
+# 	systemlog "Found client connectivity"
+fi
+
+######################################################################################
+# Check private wifi connectivity (private wifi lost)
+######################################################################################
+
+# Check if there are privat wifi connectivity to this node
+PRIVATECONNECTION=0
+
+if iw dev wlan0-1 station dump | grep Station 2>&1
+then
+	PRIVATECONNECTION=1
+	touch $PRIVATEFILE
+# 	systemlog "Found private device connectivity"
+fi
+
+######################################################################################
+# Check ibss0 mesh connection (mesh lost)
+######################################################################################
+
+# Check for an active ibss0 mesh
+MESHCONNECTION=0
+if iw dev ibss0 station dump | grep Station 2>&1
+then
+	MESHCONNECTION=1
+	touch $MESHFILE
+# 	systemlog "Found a mesh"
+fi
 
 ######################################################################################
 # Check gateway connection (uplink lost)
 ######################################################################################
 
-# Try to ping the default gateway (mainly usefull for wifi mesh only nodes)
+# Try to ping the default gateway (needed mainly for wifi mesh only nodes)
 GWCONNECTION=0
 GATEWAY=$(batctl gwl | grep "^=>" | awk -F'[ ]' '{print $2}')
 if [ $GATEWAY ]; then
@@ -157,11 +178,21 @@ fi
 
 WIFIRESTART=0
 
-# Client/Mesh/Private wifi connectivity lost
-if [ -f "$CONNECTIVITYFILE" ] && [ "$CONNECTIVITY" -eq 0 ]; then
-# There were client, mesh or private wifi connections before, but there are none at the moment.
+# All wifi connectivity lost
+if [ "$CLIENTCONNECTION" -eq 0 ] && [ "$MESHCONNECTION" -eq 0 ] && [ "$PRIVATECONNECTION" -eq 0 ]; then
+	# There were wifi connectivity before, but there are none at the moment.
+	if [ -f "$CLIENTFILE" ] || [ -f "$MESHFILE" ] || [ -f "$PRIVATEFILE" ]; then
+		# There were client or mesh connectivity before, but there are none at the moment.
+		WIFIRESTART=1
+		multilog "All wifi connectivity (client/mesh/private) lost"
+	fi
+fi
+
+# Mesh lost. This double check is just for safety reasons.		
+if [ -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 0 ]; then		
+	# There were mesh connections before, but there are none at the moment.		
 	WIFIRESTART=1
-	multilog "All wifi connectivity (client/mesh/privat) lost"
+	multilog "Mesh lost"
 fi
 
 # No pingable default gateway.
@@ -180,7 +211,9 @@ if [ ! -f "$RESTARTFILE" ] && [ "$WIFIRESTART" -eq 1 ]; then
 	multilog "Wifi restart is pending"
 elif [ $WIFIRESTART -eq 1 ]; then
 	multilog "*** Wifi restarted ***"
-	rm -rf $CONNECTIVITYFILE
+	rm -rf $CLIENTFILE
+	rm -rf $MESHFILE
+	rm -rf $PRIVATEFILE
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
 	/sbin/wifi
