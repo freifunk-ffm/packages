@@ -52,7 +52,6 @@
 
 
 CONNECTIVITYFILE="/tmp/wifi-connectivity-active"
-MESHFILE="/tmp/wifi-mesh-connection-active"
 GWFILE="/tmp/gateway-connection-active"
 
 RESTARTFILE="/tmp/wifi-restart-pending"
@@ -110,13 +109,13 @@ if ! expr "$(readlink /sys/class/ieee80211/phy0/device/driver)" : ".*/ath9k" >/d
 fi
 
 ######################################################################################
-# Check client/mesh wifi connectivity (wifi connectivity lost)
+# Check connectivity for all wifi interfaces (wifi connectivity lost)
 ######################################################################################
 
 # Check if there are wifi connectivity to this node
 CONNECTIVITY=0
 PIPE=$(mktemp -u -t workaround-pipe-XXXXXX)
-# check for connectivity on each wifi device (client and mesh)
+# check for connectivity on each wifi device (client/mesh/private)
 mkfifo $PIPE
 iw dev | grep Interface | cut -d" " -f2 > $PIPE &
 while read wifidev; do
@@ -124,30 +123,18 @@ while read wifidev; do
 	if [ $? -eq 0 ]; then
 		CONNECTIVITY=1
 		touch $CONNECTIVITYFILE
-# 		systemlog "Found wifi connectivity (client or mesh)"
+# 		systemlog "Found wifi connectivity (client, mesh or private)"
 		break
 	fi
 done < $PIPE
 rm $PIPE
 
-######################################################################################
-# Check ibss0 mesh connection (mesh lost)
-######################################################################################
-
-# Check for an active ibss0 mesh
-MESHCONNECTION=0
-if iw dev ibss0 station dump | grep Station 2>&1
-then
-	MESHCONNECTION=1
-	touch $MESHFILE
-# 	systemlog "Found a mesh"
-fi
 
 ######################################################################################
 # Check gateway connection (uplink lost)
 ######################################################################################
 
-# Try to ping the default gateway (mainly for wifi mesh only nodes needed)
+# Try to ping the default gateway (mainly usefull for wifi mesh only nodes)
 GWCONNECTION=0
 GATEWAY=$(batctl gwl | grep "^=>" | awk -F'[ ]' '{print $2}')
 if [ $GATEWAY ]; then
@@ -171,18 +158,11 @@ fi
 
 WIFIRESTART=0
 
-# Client/Mesh wifi connectivity lost
+# Client/Mesh/Private wifi connectivity lost
 if [ -f "$CONNECTIVITYFILE" ] && [ "$CONNECTIVITY" -eq 0 ]; then
-# There were client or mesh connections before, but there are none at the moment.
+# There were client, mesh or private wifi connections before, but there are none at the moment.
 	WIFIRESTART=1
-	multilog "Wifi connectivity (client or mesh) lost"
-fi
-
-# Mesh 
-if [ -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 0 ]; then
-# There were mesh connections before, but there are none at the moment.
-	WIFIRESTART=1
-	multilog "Mesh lost"
+	multilog "All wifi connectivity (client/mesh/privat) lost"
 fi
 
 # No pingable default gateway.
@@ -202,7 +182,6 @@ if [ ! -f "$RESTARTFILE" ] && [ "$WIFIRESTART" -eq 1 ]; then
 elif [ $WIFIRESTART -eq 1 ]; then
 	multilog "*** Wifi restarted ***"
 	rm -rf $CONNECTIVITYFILE
-	rm -rf $MESHFILE
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
 	/sbin/wifi
