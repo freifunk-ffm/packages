@@ -16,10 +16,9 @@
 # Funktion:
 # 1) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/soll.
 # 2) Ueberpruefen, ob WLAN-Konnektivitaet vorhanden ist und dieses merken.
-# 3) Ueberpruefen, ob ein Mesh aktiv ist und dieses merken.
-# 4) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
-# 5) Auswerten ueber die Zeit von WLAN Konnektivitaet, aktivem Mesh, Gateway/UpLink.
-# 6) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
+# 3) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
+# 4) Auswerten ueber die Zeit von WLAN Konnektivitaet, Gateway/UpLink.
+# 5) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
 # 
 # Ausgabe:
 # Es werden Ereignisse in die eigens definierte Logdatei /tmp/log/wifi-problem-timestamps
