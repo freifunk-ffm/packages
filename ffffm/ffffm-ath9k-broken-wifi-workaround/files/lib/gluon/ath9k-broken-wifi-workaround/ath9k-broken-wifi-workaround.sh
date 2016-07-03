@@ -15,7 +15,8 @@
 # 
 # Funktion:
 # 1) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/soll.
-# 2) Ueberpruefen, welche WLAN-Konnektivitaet vorhanden ist und dieses merken.
+# 2) Auswertung von ath9k Treiber-Flags. Ist wahrscheinlich Schlangenoil !?!
+# 3) Ueberpruefen, welche WLAN-Konnektivitaet vorhanden ist und dieses merken.
 # 4) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
 # 5) Auswerten ueber die Zeit von WLAN Konnektivitaet, aktivem Mesh, Gateway/UpLink.
 # 6) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
@@ -109,6 +110,31 @@ if ! expr "$(readlink /sys/class/ieee80211/phy0/device/driver)" : ".*/ath9k" >/d
 	fi
 fi
 
+#######################################################################################
+# Observe ath9k driver problem indicators. Probably snake oil!
+#######################################################################################
+
+# Check if the TX queue is stopped
+STOPPEDQUEUE=0
+if [ "$(grep BE /sys/kernel/debug/ieee80211/phy0/ath9k/queues | cut -d":" -f7 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
+	STOPPEDQUEUE=1
+# 	systemlog "Observed a stopped queue, continuing"
+fi
+
+# Check TX Path Hangs
+TXPATHHANG=0
+if [ "$(grep "TX Path Hang" /sys/kernel/debug/ieee80211/phy0/ath9k/reset | cut -d":" -f2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
+	TXPATHHANG=1
+#	systemlog "Observed a TX Path Hang, continuing"
+fi
+
+# Combine 
+PROBLEMS=0
+if [ "$STOPPEDQUEUE" -eq 1 ] && [ "$TXPATHHANG" -eq 1 ]; then
+	PROBLEMS=1
+# 	systemlog "No problem indicators observed"
+fi
+
 ######################################################################################
 # Check client wifi connectivity (client lost)
 ######################################################################################
@@ -200,6 +226,12 @@ if [ -f "$GWFILE" ] && [ $GWCONNECTION -eq 0 ]; then
 	WIFIRESTART=1
 	multilog "No path to the default gateway $GATEWAY"
 fi 
+
+# Some ath9k chipset problems have occurred. Probably snake oil!
+if [ $PROBLEMS -eq 1 ]; then                                                      
+        WIFIRESTART=1                                                             
+        multilog "TX queue is stopped $STOPPEDQUEUE and TX path hangs $TXPATHHANG"
+fi  
 
 
 ######################################################################################
