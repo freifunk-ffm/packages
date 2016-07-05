@@ -1,11 +1,11 @@
 ##### Hintergrund
 Es wird versucht, die Anzahl der kleinen Datenpakete vom Router zum Supernode zu minimieren.  
-Hierfür ist u.a. geplant die DNS-Anfragen vom Router zum Supernode zu reduzieren.
+Hierfür ist u.a. geplant die DNS-Anfragen der Clients zu den Supernodes zu reduzieren.
 
 <br>
 
 ##### Das Packages
-Durch dieses Package wird der Cache der Router-dnsmasq-Instanze, welche auf Port 53 horcht, vergrößert.  
+Durch dieses Package wird der Cache der Router-dnsmasq-Instanz, welche auf Port 53 horcht, vergrößert.  
 Nach einer Supernode-DHCP-Anpassung fungieren die FF-Router dann als DNS-Proxy.
 
 
