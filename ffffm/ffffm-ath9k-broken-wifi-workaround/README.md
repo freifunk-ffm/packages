@@ -17,7 +17,7 @@ Die Devise des Workaround lautet: **"Lieber einmal mehr als einmal weniger."**
 ### Kleine Funktionsbeschreibung:
 
 1) Überprüfen, ob überhaupt ein Problemtest durchgeführt werden kann/soll.  
-2) Auswertung von einigen ath9k Treiber-Flags. Ist wahrscheinlich Schlangenoil !?!  
+2) Auswertung von einigen ath9k Treiber-Flags. Prophylaktisch und wahrscheinlich Schlangenoil !?!  
 3) Überprüfen, welche Art von WLAN-Konnektivitaet (Mesh/Client/privat) vorhanden ist und dieses merken.  
 4) Überprüfen ob eine Gateway/UpLink Verbindung besteht und dieses merken.  
 5) Auswerten über die Zeit von WLAN Konnektivität, aktivem Mesh, Gateway/UpLink.  
