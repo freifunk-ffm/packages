@@ -18,9 +18,9 @@ Die Devise des Workaround lautet: **"Lieber einmal mehr als einmal weniger."**
 
 1) Überprüfen, ob überhaupt ein Problemtest durchgeführt werden kann/soll.  
 2) Auswertung von einigen ath9k Treiber-Flags. Ist wahrscheinlich Schlangenoil !?!  
-3) Überprüfen, welche WLAN-Konnektivitaet vorhanden ist und dieses merken.  
+3) Überprüfen, welche Art von WLAN-Konnektivitaet (Mesh/Client/privat) vorhanden ist und dieses merken.  
 4) Überprüfen ob eine Gateway/UpLink Verbindung besteht und dieses merken.  
-5) Auswerten über die Zeit von WLAN Konnektivitaet, aktivem Mesh, Gateway/UpLink.  
+5) Auswerten über die Zeit von WLAN Konnektivität, aktivem Mesh, Gateway/UpLink.  
 6) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.  
 
 <br>
