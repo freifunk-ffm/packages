@@ -14,6 +14,17 @@ Detektiert das Skript in zwei aufeinanderfolgenden Aufrufen ein Problem, so wird
 Die Devise des Workaround lautet: **"Lieber einmal mehr als einmal weniger."**
 
 <br>
+### Kleine Funktionsbeschreibung:
+
+1) Überprüfen, ob überhaupt ein Problemtest durchgeführt werden kann/soll.  
+2) Auswertung von einigen ath9k Treiber-Flags. Ist wahrscheinlich Schlangenoil !?!  
+3) Überprüfen, welche WLAN-Konnektivitaet vorhanden ist und dieses merken.  
+4) Überprüfen ob eine Gateway/UpLink Verbindung besteht und dieses merken.  
+5) Auswerten über die Zeit von WLAN Konnektivitaet, aktivem Mesh, Gateway/UpLink.  
+6) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.  
+
+<br>
+
 ### Logging
 Aktivitäten des Workarounds werden in der Datei `/tmp/log/ath9k-wifi-problem-timestamps` aufgezeichnet. 
 
@@ -30,12 +41,12 @@ Einer Problembeschreibung schliesst sich immer eine der folgenden Meldungen an:
 * \*\*\* Wifi restarted \*\*\*
 
 <br>
-### Achtung:
+## Achtung:
 ##### Dieses Package entfernt nicht die Ursached des Problems. 
 ##### Es verhindert lediglich, dass sich WLAN-meshende Router nicht dauerhaft vom Netz trennen. 
 <br>
 <br>
 ##### Quelle
-Basis ist ein Package von Freifunk Altdorf.<br>
+Basis ist eine frühe Version des Packages von Freifunk Altdorf.<br>
 Siehe https://github.com/tecff/gluon-packages/tree/master/tecff-ath9k-broken-wifi-workaround
 
