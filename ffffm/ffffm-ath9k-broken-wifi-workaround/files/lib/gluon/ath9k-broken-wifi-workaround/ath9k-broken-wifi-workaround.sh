@@ -132,7 +132,7 @@ fi
 PROBLEMS=0
 if [ "$STOPPEDQUEUE" -eq 1 ] && [ "$TXPATHHANG" -eq 1 ]; then
 	PROBLEMS=1
-# 	systemlog "No problem indicators observed"
+# 	systemlog "An problem indicators observed"
 fi
 
 ######################################################################################
