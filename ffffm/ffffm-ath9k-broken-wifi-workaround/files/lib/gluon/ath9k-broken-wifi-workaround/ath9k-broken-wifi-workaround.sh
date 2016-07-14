@@ -214,7 +214,7 @@ if [ "$CLIENTCONNECTION" -eq 0 ] && [ "$MESHCONNECTION" -eq 0 ] && [ "$PRIVATECO
 	fi
 fi
 
-# Mesh lost. This double check is just for safety reasons.
+# Mesh lost. This separated check is just for safety reasons ( I saw a node with a broken ibss but with active clients).
 if [ -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 0 ]; then
 	# There were mesh connections before, but there are none at the moment.
 	WIFIRESTART=1
