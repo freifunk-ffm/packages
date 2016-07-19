@@ -229,8 +229,8 @@ fi
 
 # Some ath9k chipset problems have occurred. Probably snake oil!
 if [ $PROBLEMS -eq 1 ]; then
-        WIFIRESTART=1
-        multilog "TX queue is stopped and TX path hangs"
+#Yes, it is snaik oil        WIFIRESTART=1
+        multilog "Just an info: TX queue is stopped and TX path hangs"
 fi  
 
 
