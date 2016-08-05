@@ -1,4 +1,5 @@
 #!/bin/sh
 if [ -f /etc/banner.ffm ] ; then
-  /bin/mv /etc/banner.ffm /etc/banner 
+	rm -rf /etc/banner
+	/bin/ln -s /etc/banner.ffm /etc/banner 
 fi
