@@ -20,13 +20,13 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 include $(INCLUDE_DIR)/package.mk
 
 define Package/babeldev
-  SECTION:=net
-  CATEGORY:=Network
-  SUBMENU:=Routing and Redirection
-  TITLE:=A loop-free distance-vector routing protocol
-  URL:=http://www.pps.univ-paris-diderot.fr/~jch/software/babel/
-  MAINTAINER:=Gabriel Kerneis <gabriel@kerneis.info>
-  DEPENDS:=@IPV6
+	SECTION:=net
+	CATEGORY:=Network
+	SUBMENU:=Routing and Redirection
+	TITLE:=A loop-free distance-vector routing protocol
+	URL:=http://www.pps.univ-paris-diderot.fr/~jch/software/babel/
+	MAINTAINER:=Gabriel Kerneis <gabriel@kerneis.info>
+	DEPENDS:=@IPV6
 endef
 
 define Package/babeldev/description
@@ -44,8 +44,8 @@ MAKE_FLAGS+= \
         LDLIBS="" \
 
 define Package/babeldev/install
-        $(INSTALL_DIR) $(1)/usr/sbin
-        $(INSTALL_BIN) $(PKG_BUILD_DIR)/babeld $(1)/usr/sbin/
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/babeld $(1)/usr/sbin/
 endef
 
 $(eval $(call BuildPackage,babeldev))

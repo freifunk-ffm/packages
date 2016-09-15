@@ -19,8 +19,9 @@ define Package/mmfd
   SECTION:=net
   CATEGORY:=Network
   TITLE:=mesh multicast forwarding daemon
-#  DEPENDS:=libnl-tiny
+  DEPENDS:=
 endef
+#  DEPENDS:=libnl-tiny
 
 define Package/mmfd/install
 	$(INSTALL_DIR) $(1)/usr/sbin
