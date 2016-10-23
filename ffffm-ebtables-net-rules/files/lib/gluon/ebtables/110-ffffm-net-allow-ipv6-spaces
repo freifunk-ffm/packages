@@ -13,6 +13,7 @@ end
 rule ('FFFFM_NET_ONLY -p IPv6 --ip6-src fe80::/10 -j RETURN')
 rule ('FFFFM_NET_ONLY -p IPv6 --ip6-dst ff00::/8 -j RETURN')
 rule ('FFFFM_NET_ONLY -p IPv6 --ip6-src ' .. siteConfig.prefix6 .. ' -j RETURN')
+rule ('FFFFM_NET_ONLY -p IPv6 --ip6-dst 2000::/3 -j RETURN')
 
 if siteConfig.additional_prefix6 then
   for prefix in list_iter(siteConfig.additional_prefix6) do
