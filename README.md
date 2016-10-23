@@ -10,6 +10,3 @@ In **ffffm-ReadyForDelete** sind Altlasten abgelegt.
 *** DO NOT USE BRANCHES ***
 ============================
 Branches WILL NOT WORK WITH THE GLUON BUILD SYSTEM. DO NOT USE BRANCHES
-
-
-ICH WILL MEHR KEKSE
