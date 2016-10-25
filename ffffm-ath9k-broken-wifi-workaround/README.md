@@ -11,8 +11,6 @@ Durch dieses Package wird zyklisch, alle 2 Minuten, [das Skript `/lib/gluon/ath9
 
 Detektiert das Skript in zwei aufeinanderfolgenden Aufrufen ein Problem, so wird der Wifi-Treiber mit dem Befehl `'wifi'` resetet.  
 
-Die Devise des Workaround lautet: **"Lieber einmal mehr als einmal weniger."**
-
 <br>
 ### Kleine Funktionsbeschreibung:
 
@@ -27,18 +25,22 @@ Die Devise des Workaround lautet: **"Lieber einmal mehr als einmal weniger."**
 
 ### Logging
 Aktivitäten des Workarounds werden in der Datei `/tmp/log/ath9k-wifi-problem-timestamps` aufgezeichnet. 
+<br>
+**Es werden max. 25 Einträge in der rotierenden Logdatei vorgehalten!**
 
 Folgende Probleme werden detektiert und mit Zeitstempel aufgezeichnet:
 
 * All wifi connectivity (client/mesh/private) lost
 * Mesh lost
 * No path to the default gateway xx:yy::zz
-* TX queue is stopped and TX path hangs
+* Just an info: TX queue is stopped and TX path hangs   (-> Schlangenöl, daher wird es vom Workaround ignoriert!)  
 
 Einer Problembeschreibung schliesst sich immer eine der folgenden Meldungen an:
  
 * Wifi restart is pending
 * \*\*\* Wifi restarted \*\*\*
+
+An der/den Meldungen ist zu sehen, ob gerade mittles 'wifi' der Ath9k-Treiber neu gestrartet wurde oder werden soll.
 
 <br>
 ## Achtung:
