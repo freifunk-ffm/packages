@@ -26,7 +26,7 @@ Detektiert das Skript in zwei aufeinanderfolgenden Aufrufen ein Problem, so wird
 ### Logging
 Aktivitäten des Workarounds werden in der Datei `/tmp/log/ath9k-wifi-problem-timestamps` aufgezeichnet. 
 <br>
-**Es werden max. 25 Einträge in der rotierenden Logdatei vorgehalten!**
+**Es werden nur die letzten 25 Einträge in der Logdatei vorgehalten!**
 
 Folgende Probleme werden detektiert und mit Zeitstempel aufgezeichnet:
 
