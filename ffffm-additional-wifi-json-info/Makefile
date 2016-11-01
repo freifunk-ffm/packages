@@ -9,7 +9,7 @@ include $(INCLUDE_DIR)/cmake.mk
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
-CMAKE_OPTIONS:=-DINSTALL_TESTS=ON
+CMAKE_OPTIONS:=-DINSTALL_TESTS=OFF
 
 define Package/ffffm-additional-wifi-json-info
 	TITLE:=$(PKG_NAME)
@@ -33,8 +33,6 @@ define Package/ffffm-additional-wifi-json-info/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_DIR) $(1)/lib/gluon/respondd
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/libffffm.so $(1)/usr/lib/
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ffffm-test $(1)/usr/bin/
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ffffm-respondd-test $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/gluon/respondd/wireless.so $(1)/lib/gluon/respondd/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/gluon/respondd/nexthop.so $(1)/lib/gluon/respondd/
 endef
