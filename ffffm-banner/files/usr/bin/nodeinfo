@@ -1,4 +1,12 @@
 #!/bin/sh
+echo "### Radio-Networks acitve:"
+iwinfo
+echo "### Router IPs:"
+ifconfig |head|tail -n1
+ip r s t all
+echo "### BatGateways:"
+batctl gwl
+echo "### BatMode: " $(batctl gw)
 echo -n "### Hardware: "
 cat /tmp/sysinfo/model
 echo -n "### Firmware: "
@@ -7,26 +15,18 @@ echo -n "### Uptime:"
 uptime
 echo -n "### Connected clients: "
 batctl tl |grep W |wc -l
+echo -n "### Number of total clients: "
+batctl tg |grep W |wc -l
+echo "### BatIFs:"
+batctl if
 echo "### Mesh:"
 echo " MoL : $(uci show|grep mesh_lan.auto|cut -d= -f2)"
 echo " MoW : $(uci show|grep mesh_wan.auto|cut -d= -f2)"
 echo " Fastd : $(uci show|grep fastd.mesh_vpn.enabled|cut -d= -f2)"
-echo "### BatIFs:"
-batctl if
 echo "### Location:"
 echo " Geo?: $(uci show|grep .share_location=|cut -d= -f2)"
 echo " Lat: $(uci show|grep .latitude=|cut -d= -f2)"
 echo " Lon: $(uci show|grep .longitude=|cut -d= -f2)"
 echo "### Contact: $(uci show|grep contact|cut -d= -f2)"
-echo "### From ssh: "$SSH_CONNECTION
-echo "### IP:"
-ifconfig |head|tail -n1
-ip r s t all
-echo "### Radio-Networks acitve:"
-iwinfo
-echo "### BatMode: " $(batctl gw)
-echo "### BatGateways:"
-batctl gwl
-echo -n "### Number of total clients: "
-batctl tg |grep W |wc -l
-echo 
+echo "### SSH connection information: "$SSH_CONNECTION
+echo
