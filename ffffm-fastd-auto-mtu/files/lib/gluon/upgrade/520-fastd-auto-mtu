@@ -7,7 +7,6 @@ local enabled = uci:get('fastd', 'mesh_vpn', 'auto_mtu_enabled')
 if not enabled then
   uci:set('fastd', 'mesh_vpn', 'auto_mtu_enabled','1')
   uci:save('fastd')
-  uci:commit('fastd')
 
 end
 
