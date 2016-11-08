@@ -9,18 +9,15 @@ SERVICE_PID_FILE=/var/run/gluon-dnscache-dnsmasq.pid
 
 PORT=53
 CONFIGFILE=/tmp/gluon-dnscache.conf
-RESOLV_CONF_DIR=/var/gluon/wan-dnsmasq
-RESOLV_CONF=$RESOLV_CONF_DIR/resolv.conf
 
 
 start() {
-	mkdir -p $RESOLV_CONF_DIR
-	/lib/gluon/ffffm-dnscache/genconfig.lua $CONFIGFILE
-	service_start /usr/sbin/dnsmasq -x $SERVICE_PID_FILE -u root -i
-br-client -p $PORT -h -r $RESOLV_CONF -C $CONFIGFILE
+  mkdir -p $(dirname $CONFIGFILE)
+  /lib/gluon/ffffm-dnscache/genconfig.lua $CONFIGFILE
+  service_start /usr/sbin/dnsmasq -x $SERVICE_PID_FILE -u root -i br-client -p $PORT -h -r $RESOLV_CONF -C $CONFIGFILE
 }
 
 stop() {
-	service_stop /usr/sbin/dnsmasq
+  service_stop /usr/sbin/dnsmasq
 }
 

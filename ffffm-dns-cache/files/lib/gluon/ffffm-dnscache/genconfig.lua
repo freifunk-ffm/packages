@@ -15,7 +15,7 @@ file:write("local-service\n")
 file:write("cache-size=" .. site.dns.cacheentries .. "\n")
 for _, server in ipairs(site.dns.servers)
 do
-  file:write("server=/" .. server .. "\n")
+  file:write("server=" .. server .. "\n")
 end
 file:write("resolv-file=/tmp/resolv.conf.auto\n")
 file:write("addn-hosts=/tmp/hosts\n")
