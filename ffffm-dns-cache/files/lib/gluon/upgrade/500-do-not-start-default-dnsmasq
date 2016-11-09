@@ -1,2 +1,2 @@
 #!/bin/sh
-rm /etc/rc.d/S60dnsmasq
+mv /etc/init.d/dnsmasq /etc/init.d/.dnsmasq

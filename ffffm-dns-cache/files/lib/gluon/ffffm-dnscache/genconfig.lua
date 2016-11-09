@@ -4,8 +4,8 @@ local dnsmasqconf = arg[1]
 
 file = io.open(dnsmasqconf, "w")
 file:write("# auto-generated config file from site.conf\n")
-file:write("conf-file=/etc/dnsmasq.conf\n")
-file:write("domain-needed\n")
+--file:write("conf-file=/etc/dnsmasq.conf\n")
+--file:write("domain-needed\n")
 file:write("localise-queries\n")
 file:write("read-ethers\n")
 file:write("bogus-priv\n")
@@ -17,6 +17,8 @@ for _, server in ipairs(site.dns.servers)
 do
   file:write("server=" .. server .. "\n")
 end
+file:write("address=/nextnode/nextnode.lan/nextnode.local" .. site.next_node.ip6 .. "\n")
+file:write("address=/nextnode/nextnode.lan/nextnode.local" .. site.next_node.ip4 .. "\n")
 file:write("resolv-file=/tmp/resolv.conf.auto\n")
 file:write("addn-hosts=/tmp/hosts\n")
 file:write("stop-dns-rebind\n")

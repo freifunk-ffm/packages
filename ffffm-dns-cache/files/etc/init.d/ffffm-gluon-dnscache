@@ -14,7 +14,7 @@ CONFIGFILE=/tmp/gluon-dnscache.conf
 start() {
   mkdir -p $(dirname $CONFIGFILE)
   /lib/gluon/ffffm-dnscache/genconfig.lua $CONFIGFILE
-  service_start /usr/sbin/dnsmasq -x $SERVICE_PID_FILE -u root -i br-client -p $PORT -h -r $RESOLV_CONF -C $CONFIGFILE
+  service_start /usr/sbin/dnsmasq -x $SERVICE_PID_FILE -u root -i br-client -p $PORT -h -C $CONFIGFILE
 }
 
 stop() {
