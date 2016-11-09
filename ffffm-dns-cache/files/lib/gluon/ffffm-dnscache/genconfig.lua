@@ -17,8 +17,7 @@ for _, server in ipairs(site.dns.servers)
 do
   file:write("server=" .. server .. "\n")
 end
-file:write("address=/nextnode/nextnode.lan/nextnode.local" .. site.next_node.ip6 .. "\n")
-file:write("address=/nextnode/nextnode.lan/nextnode.local" .. site.next_node.ip4 .. "\n")
+file:write("host-record=nextnode,nextnode.lan,nextnode.local," .. site.next_node.ip6 .. "\n")
 file:write("resolv-file=/tmp/resolv.conf.auto\n")
 file:write("addn-hosts=/tmp/hosts\n")
 file:write("stop-dns-rebind\n")
