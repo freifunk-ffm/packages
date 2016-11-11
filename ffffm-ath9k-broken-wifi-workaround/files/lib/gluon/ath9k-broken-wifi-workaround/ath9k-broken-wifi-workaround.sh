@@ -182,7 +182,7 @@ fi
 
 # Try to ping the default gateway (needed mainly for wifi mesh only nodes)
 GWCONNECTION=0
-GATEWAY=$(batctl gwl | grep "^=>" | awk -F'[ ]' '{print $2}')
+GATEWAY=$(batctl gwl | grep -e "^=>" -e "^\*" | awk -F'[ ]' '{print $2}')
 if [ $GATEWAY ]; then
 	RANDOM=$(awk 'BEGIN { srand(); printf("%d\n",rand()*25) }')
 	sleep $RANDOM
