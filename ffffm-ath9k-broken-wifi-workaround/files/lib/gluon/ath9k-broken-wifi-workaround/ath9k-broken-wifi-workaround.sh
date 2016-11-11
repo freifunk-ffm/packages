@@ -182,7 +182,7 @@ fi
 
 # Try to ping the default gateway (needed mainly for wifi mesh only nodes)
 GWCONNECTION=0
-GATEWAY=$(batctl gwl | grep "^=>" | awk -F'[ ]' '{print $2}')
+GATEWAY=$(batctl gwl | grep -e "^=>" -e "^\*" | awk -F'[ ]' '{print $2}')
 if [ $GATEWAY ]; then
 	RANDOM=$(awk 'BEGIN { srand(); printf("%d\n",rand()*25) }')
 	sleep $RANDOM
@@ -228,10 +228,10 @@ if [ -f "$GWFILE" ] && [ $GWCONNECTION -eq 0 ]; then
 fi 
 
 # Some ath9k chipset problems have occurred. Probably snake oil!
-if [ $PROBLEMS -eq 1 ]; then
-#Yes, it is snaik oil        WIFIRESTART=1
-        multilog "Just an info: TX queue is stopped and TX path hangs"
-fi  
+# if [ $PROBLEMS -eq 1 ]; then
+# Yes, it is snaik oil        WIFIRESTART=1
+#        multilog "Just an info: TX queue is stopped and TX path hangs"
+# fi  
 
 
 ######################################################################################

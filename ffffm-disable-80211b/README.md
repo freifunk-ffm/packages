@@ -1,3 +1,4 @@
+# Dieses Package ist seit Gluon 2016.2.x Obsolet!
 ### Hintergrund
 
 Bei **2,4GHz** Geräten kann einiges an Airtime gespart werden, wenn 802.11b deaktiviert wird.
