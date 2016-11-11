@@ -228,10 +228,10 @@ if [ -f "$GWFILE" ] && [ $GWCONNECTION -eq 0 ]; then
 fi 
 
 # Some ath9k chipset problems have occurred. Probably snake oil!
-if [ $PROBLEMS -eq 1 ]; then
-#Yes, it is snaik oil        WIFIRESTART=1
-        multilog "Just an info: TX queue is stopped and TX path hangs"
-fi  
+# if [ $PROBLEMS -eq 1 ]; then
+# Yes, it is snaik oil        WIFIRESTART=1
+#        multilog "Just an info: TX queue is stopped and TX path hangs"
+# fi  
 
 
 ######################################################################################
