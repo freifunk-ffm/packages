@@ -19,7 +19,7 @@ Detektiert das Skript in zwei aufeinanderfolgenden Aufrufen ein Problem, so wird
 3) Überprüfen, welche Art von WLAN-Konnektivitaet (Mesh/Client/privat) vorhanden ist und dieses merken.  
 4) Überprüfen ob eine Gateway/UpLink Verbindung besteht und dieses merken.  
 5) Auswerten über die Zeit von WLAN Konnektivität, aktivem Mesh, Gateway/UpLink.  
-6) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.  
+6) Tratten innerhalb von zwei Skript-Aufrufzyklen negativ wirkende Veränderungen auf, dann -> Wifi-Restart.  
 
 <br>
 
