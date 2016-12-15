@@ -6,9 +6,6 @@ PKG_VERSION:=1
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/tcatm/l3roamd.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-# this is master from april 14th
-#PKG_SOURCE_VERSION:=14e87caa275be2432ae0fcc7242742946851d327
-
 # this is master from may 6th
 PKG_SOURCE_VERSION:=9d474a9329e307a5e71fd55d53491d93d34dda13
 
@@ -26,7 +23,7 @@ define Package/l3roamd
   SECTION:=net
   CATEGORY:=Network
   TITLE:=The layer 3 roaming daemon
-  DEPENDS:=+libnl-tiny +kmod-cfg80211
+  DEPENDS:=+libnl-tiny +kmod-tun +librt +kmod-cfg80211
 endef
 
 define Package/l3roamd/install
