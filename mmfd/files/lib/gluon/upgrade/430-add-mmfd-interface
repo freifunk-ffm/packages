@@ -9,4 +9,4 @@ uci:section('network', 'interface', 'mmfd', {
 	ip6addr = 'fe80::1/64'
 }
 )
-uci:save()
+uci:save('network')
