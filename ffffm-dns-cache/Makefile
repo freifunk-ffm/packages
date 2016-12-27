@@ -11,7 +11,7 @@ define Package/ffffm-dns-cache
   SECTION:=gluon
   CATEGORY:=Gluon
   TITLE:=Use Node as DNS cache, configure using site.conf
-  DEPENDS:=+gluon-core +dnsmasq
+  DEPENDS:=+gluon-core
 endef
 
 define Package/gluon-legacy/description
