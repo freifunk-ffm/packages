@@ -21,20 +21,20 @@ Die Konfiguration erfolgt per site.conf mit folgenden Parametern:
 ```
 dns = {
       cacheentries = 5000,
-      servers = { '2a06:8187:fb00:53::53' , } ,
+      servers = { '2a06:8187:fb00:53::53', },
       internaldomain = 'ffffm',
 }
 ```
 
-***cacheentries*** ist die Anzahl der Einträge, die der Cache haben soll. Je 
-Eintrag werden ca 90 Byte RAM benötigt. Der Speicher für alle Einträge wird 
-als Block beim Systemstart reserviert. 
-
-***servers*** ist eine Liste von Servern, die bei Cache-Misses angefragt werden.
+*  ***cacheentries*** ist die Anzahl der Einträge, die der Cache aufnehmen soll.  
+Je Eintrag werden ca 90 Byte RAM benötigt. Der Speicher für alle Einträge wird 
+als Block beim Systemstart reserviert.  
+* ***servers*** ist eine Names-Liste von Servern, welche bei Cache-Misses angefragt werden.
+* ***internaldomain*** ist ...
 
 ---
 
-Siehe auch:
+Siehe auch:  
 https://wiki.openwrt.org/doc/uci/dhcp  
 http://flux242.blogspot.de/2012/06/dnsmasq-cache-size-tuning.html
 
