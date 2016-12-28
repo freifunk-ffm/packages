@@ -18,16 +18,21 @@ ausgelesen.
 
 #### Konfiguration
 Die Konfiguration erfolgt per site.conf mit folgenden Parametern:
-  dns = {
-    cacheentries = 5000,
-    servers = { '2a06:8187:fb00:53::53' , } ,
-  }
+```
+dns = {
+      cacheentries = 5000,
+      servers = { '2a06:8187:fb00:53::53' , } ,
+      internaldomain = 'ffffm',
+}
+```
 
-cacheentries ist die Anzahl der Einträge, die der Cache haben soll. Je 
-Eintrag werden ca 90 Byte Ram benötigt. Der Ram für alle Einträge wird 
+***cacheentries*** ist die Anzahl der Einträge, die der Cache haben soll. Je 
+Eintrag werden ca 90 Byte RAM benötigt. Der Speicher für alle Einträge wird 
 als Block beim Systemstart reserviert. 
 
-servers ist eine Liste von servern, die bei Cache-misses angefragt werden.
+***servers*** ist eine Liste von Servern, die bei Cache-Misses angefragt werden.
+
+---
 
 Siehe auch:
 https://wiki.openwrt.org/doc/uci/dhcp  
