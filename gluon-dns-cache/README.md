@@ -23,7 +23,7 @@ dns = {
       cacheentries = 5000,
       servers = { '2a06:8187:fb00:53::53', },
       internaldomain = 'ffffm',
-}
+},
 ```
 
 *  ***cacheentries*** ist die Anzahl der Einträge, die der Cache aufnehmen soll.  
