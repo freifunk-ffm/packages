@@ -29,7 +29,7 @@ dns = {
 *  ***cacheentries*** ist die Anzahl der Einträge, die der Cache aufnehmen soll.  
 Je Eintrag werden ca 90 Byte RAM benötigt. Der Speicher für alle Einträge wird 
 als Block beim Systemstart reserviert.  
-* ***servers*** ist eine Names-Liste von Servern, welche bei Cache-Misses angefragt werden.
+* ***servers*** ist eine Namens-Liste von Servern, welche bei Cache-Misses angefragt werden.
 * ***internaldomain*** ist ...
 
 ---
