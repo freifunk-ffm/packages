@@ -9,13 +9,13 @@ Andernfalls wird die fastd-MTU-Größe auf z.B. 1280 Byte zurückgesetzt.<br>
 Hat sich die detektierte MTU-Größe verändert, so wird die neue MTU-Größe in 'fastd.fastd_mesh_vpn.mtu' gespeichert und fastd wird neu gestartet.<br>
 <br>
 
-**Einschalten** (default)
+#### Einschalten (default)
 
 ```
 fastd.mesh_vpn.auto_mtu_enabled='1'
 ```
 <br>
-**Ausschalten**
+#### Ausschalten
 
 ```
 fastd.mesh_vpn.auto_mtu_enabled='0'
@@ -48,6 +48,6 @@ Wie mann feststellen kann, entsprechen diese Werte nicht den weit verbreiteten W
 
 ---
 
-##### Abhängigkeiten
+#### Abhängigkeiten
 Dieses Package ist abhängig von folgenden Packages:<br>
  - iputils-ping
