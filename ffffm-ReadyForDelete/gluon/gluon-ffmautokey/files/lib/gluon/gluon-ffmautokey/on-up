@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/lib/gluon/gluon-ffmautokey/upload_keys &
+exit 0
+
