@@ -1,6 +1,0 @@
-#!/usr/bin/lua
-local file = '/etc/crontabs/collectd-restart'
-local f = io.open(file, 'w')
-
-f:write('* */2 * * * root /etc/init.d/collectd restart')
-

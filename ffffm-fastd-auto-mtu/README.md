@@ -9,13 +9,13 @@ Andernfalls wird die fastd-MTU-Größe auf z.B. 1280 Byte zurückgesetzt.<br>
 Hat sich die detektierte MTU-Größe verändert, so wird die neue MTU-Größe in 'fastd.fastd_mesh_vpn.mtu' gespeichert und fastd wird neu gestartet.<br>
 <br>
 
-**Einschalten** (default)
+#### Einschalten (default)
 
 ```
 fastd.mesh_vpn.auto_mtu_enabled='1'
 ```
 <br>
-**Ausschalten**
+#### Ausschalten
 
 ```
 fastd.mesh_vpn.auto_mtu_enabled='0'
@@ -36,9 +36,18 @@ In der **site.conf** muss eine Sektion **fastd_auto_mtu** mit folgenden Paramter
   },
 ...
 ```
-
 <br>
 
-##### Abhängigkeiten
+---
+
+Folgende Grafik ist hilfreich zur Bestimmung einer optimalen fastd MTU Size.  
+Die in der Grafik aufgezeigten Werte sind so kalkuliert, dass keine Fragmentierung innerhalb des Batman-Payloads stattfindet (für IPv6 mind. 1280 Byte).
+Wie mann feststellen kann, entsprechen diese Werte nicht den weit verbreiteten Werten innerhalb der Freifunkwelt. In Frankfurt testen wir gerade diese Werte (seit Ende 2016) .  
+
+![image](https://camo.githubusercontent.com/101dc476455d2eae69f958544993670cfba65289/68747470733a2f2f66666d2e6672656966756e6b2e6e65742f77702d636f6e74656e742f75706c6f6164732f323031362f31312f422e412e542e4d2e412e4e2d4d54552d63616c63756c6174696f6e2d68656c7065722d73686565742e706e67)
+
+---
+
+#### Abhängigkeiten
 Dieses Package ist abhängig von folgenden Packages:<br>
  - iputils-ping
