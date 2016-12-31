@@ -248,6 +248,9 @@ elif [ $WIFIRESTART -eq 1 ]; then
 	rm -rf $PRIVATEFILE
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
+# Jetzt ein Wifi-Treiber-Restart
+# Doppeltgemoppelt haelt besser. Daher erst ein 'iw scan' gefolgt von einem 'wifi'
+	/usr/sbin/iw dev ibss0 scan
 	/sbin/wifi
 else
 # 	systemlog "Everything seems to be ok"
