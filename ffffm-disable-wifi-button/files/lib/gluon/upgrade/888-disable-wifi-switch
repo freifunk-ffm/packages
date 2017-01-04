@@ -1,0 +1,14 @@
+#!/bin/sh
+mv /etc/rc.button/rfkill /etc/rc.button/rfkill_org
+
+cat <<EOF > /etc/rc.button/rfkill
+#!/bin/sh
+[ "${ACTION}" = "released" -o -n "${TYPE}" ] || exit 0
+logger -t rfkill "WiFi On/Off pressed. Doing nothing."
+exit 0
+EOF
+
+chmod a+x /etc/rc.button/rfkill
+uci set wireless.radio0.disabled=0
+uci set wireless.radio1.disabled=0
+
