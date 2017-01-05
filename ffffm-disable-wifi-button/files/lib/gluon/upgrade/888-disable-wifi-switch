@@ -4,7 +4,11 @@ mv /etc/rc.button/rfkill /etc/rc.button/rfkill_org
 cat <<EOF > /etc/rc.button/rfkill
 #!/bin/sh
 [ "${ACTION}" = "released" -o -n "${TYPE}" ] || exit 0
-logger -t rfkill "WiFi On/Off pressed. Doing nothing."
+logger -t rfkill "WiFi/WDS button pressed. Doing nothing."
+# Just a save Wifi restart
+/usr/sbin/iw dev ibss0 scan
+/usr/sbin/iw dev client0 scan
+/sbin/wifi
 exit 0
 EOF
 
