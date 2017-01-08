@@ -3,7 +3,7 @@ mv /etc/rc.button/rfkill /etc/rc.button/rfkill_org
 
 cat <<EOF > /etc/rc.button/rfkill
 #!/bin/sh
-[ "${ACTION}" = "released" -o -n "${TYPE}" ] || exit 0
+[ "\${ACTION}" = "released" -o -n "\${TYPE}" ] || exit 0
 logger -t rfkill "WiFi/WDS button pressed. Doing nothing."
 # Just a safe Wifi restart
 /usr/sbin/iw dev ibss0 scan
