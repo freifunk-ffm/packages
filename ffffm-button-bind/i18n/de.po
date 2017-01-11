@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2017-01-10 00:00+0200\n"
+"Last-Translator: Jürgen S.\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "button-bind:Titel"
+msgstr "Taster"
+
+msgid "button-bind:Text"
+msgstr ""
+"Hier können einzelnen Router-Tastern unterschiedliche Funktionalitäten zugeordnet werden."
+
+msgid "button-bind:WiFi-on-off"
+msgstr "Wifi ON/OFF"
+
+msgid "button-bind:fct_0"
+msgstr "Taster schaltet das WLAN an/aus (z.Z. noch Grundeinstellung)."
+
+msgid "button-bind:fct_1"
+msgstr "Taster hat keine Funktion."
+
+msgid "button-bind:fct_2"
+msgstr "Taster führt einen WLAN-Reset aus."
+
+msgid "button-bind:fct_3"
+msgstr "Während der Tasterbetätigung werden in diesem Modus die dann generell abgeschalteten Status-LED zugeschaltet. Nach der Tasterbetätigung werden die Status-LED wieder abgeschaltet."

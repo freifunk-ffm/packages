@@ -1,0 +1,37 @@
+#!/bin/sh
+
+led_brt() {
+find /sys/devices/ -type f -name brightness | while read; do echo ${BRIGHT} >$REPLY; done
+}
+
+BIND=$(uci get button-bind.wifi.function)
+
+case "$BIND" in
+1) # nix machen    
+;;
+2) # WLAN Reset 
+if [ "${ACTION}" = "pressed" ]
+then
+	/usr/sbin/iw dev ibss0 scan
+	/usr/sbin/iw dev client0 scan 
+	/sbin/wifi
+fi
+;;
+3) # LEDs zuschalten
+ if [ "${ACTION}" = "pressed" ] 
+then 
+	BRIGHT=255
+	led_brt
+	/etc/init.d/led start
+	/etc/init.d/led start
+else	
+	BRIGHT=0
+	led_brt
+	/etc/init.d/led stop
+fi
+;;
+*) # Default, WLAN an/aus
+/etc/rc.button/rfkill.owrt 
+;;
+esac
+exit 0

@@ -1,0 +1,24 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "button-bind:Titel"
+msgstr "Button"
+
+msgid "button-bind:Text"
+msgstr ""
+"Assign button functionalities."
+
+msgid "button-bind:WiFi-on-off"
+msgstr "Wifi ON/OFF"
+
+msgid "button-bind:fct_0"
+msgstr "Turn Wifi on/off."
+
+msgid "button-bind:fct_1"
+msgstr "Without a function."
+
+msgid "button-bind:fct_2"
+msgstr "Wifi reset."
+
+msgid "button-bind:fct_3"
+msgstr "Turn on the status LED."
