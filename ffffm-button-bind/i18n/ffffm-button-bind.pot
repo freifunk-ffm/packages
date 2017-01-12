@@ -1,12 +1,14 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+msgid "Button Bind"
+msgstr "Button"
+
 msgid "button-bind:Titel"
 msgstr "Button"
 
 msgid "button-bind:Text"
-msgstr ""
-"Assign button functionalities."
+msgstr "Assign button functionalities."
 
 msgid "button-bind:WiFi-on-off"
 msgstr "Wifi ON/OFF"

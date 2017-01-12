@@ -7,6 +7,8 @@ PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
+PKG_CONFIG_DEPENDS += $(GLUON_I18N_CONFIG)
+
 define Package/$(PKG_NAME)
   SECTION:=gluon
   CATEGORY:=Gluon
@@ -27,10 +29,12 @@ define Build/Configure
 endef
 
 define Build/Compile
+	$(call GluonBuildI18N,ffffm-button-bind,i18n)
 endef
 
 define Package/$(PKG_NAME)/install
 	$(CP) ./files/* $(1)/
+	$(call GluonInstallI18N,ffffm-button-bind,$(1))
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
