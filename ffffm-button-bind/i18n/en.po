@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2017-01-10 00:00+0200\n"
+"PO-Revision-Date: 2017-01-12 00:00+0200\n"
 "Last-Translator: Jürgen S.\n"
 "Language-Team: English\n"
 "Language: de\n"
@@ -13,24 +13,24 @@ msgstr ""
 msgid "Button Bind"
 msgstr "Button"
 
-msgid "button-bind:Titel"
+msgid "Titel"
 msgstr "Button"
 
-msgid "button-bind:Text"
+msgid "Text"
 msgstr ""
 "Assign button functionalities."
 
-msgid "button-bind:WiFi-on-off"
+msgid "WiFi-on-off"
 msgstr "Wifi ON/OFF"
 
-msgid "button-bind:fct_0"
+msgid "fct_0"
 msgstr "Turn Wifi on/off."
 
-msgid "button-bind:fct_1"
+msgid "fct_1"
 msgstr "Without a function."
 
-msgid "button-bind:fct_2"
+msgid "fct_2"
 msgstr "Wifi reset."
 
-msgid "button-bind:fct_3"
+msgid "fct_3"
 msgstr "Turn on the status LED."
