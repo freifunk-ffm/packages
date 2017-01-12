@@ -2,12 +2,11 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffffm-button-bind
 PKG_VERSION:=1
+PKG_RELEASE:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
-
-PKG_CONFIG_DEPENDS += $(GLUON_I18N_CONFIG)
 
 define Package/$(PKG_NAME)
   SECTION:=gluon
@@ -29,12 +28,12 @@ define Build/Configure
 endef
 
 define Build/Compile
-	$(call GluonBuildI18N,ffffm-button-bind,i18n)
+	$(call GluonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 
 define Package/$(PKG_NAME)/install
 	$(CP) ./files/* $(1)/
-	$(call GluonInstallI18N,ffffm-button-bind,$(1))
+	$(call GluonInstallI18N,$(PKG_NAME),$(1))
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
