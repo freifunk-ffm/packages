@@ -1,3 +1,5 @@
+local uci = luci.model.uci.cursor()
+
 local f, s, o, fct
 
 f = SimpleForm('button-bind', "Taster")
@@ -15,7 +17,7 @@ o.widget = "radio"
 o.rmempty = false
 o:value('0', "Taster schaltet das WLAN an/aus (z.Z. noch Grundeinstellung).")
 o:value('1', "Taster hat keine Funktion.")
-o:value('2', "Taster führt einen WLAN-Reset aus."
+o:value('2', "Taster führt einen WLAN-Reset aus.")
 o:value('3', "Während der Tasterbetätigung werden in diesem Modus die dann generell abgeschalteten Status-LED zugeschaltet. Nach der Tasterbetätigung werden die Status-LED wieder abgeschaltet.")
 function f.handle(self, state, data)
 	if state == FORM_VALID then
