@@ -4,7 +4,7 @@ Mit diesem Package können im Konfigurationsmodus den Router-Tastern eigene Funk
 
 Alternativ kann dieses auch per 'uci' durchgeführt werden.
 
-Das Package passt das Skript `/etc/rc.button/rfkill` an.
+Das Package passt z.Z. nur den Wifi-Taster über das Skript `/etc/rc.button/rfkill` an.
 
 Zur Zeit stehen folgende Tasterfunktionalitäten zur Verfügung:
 
