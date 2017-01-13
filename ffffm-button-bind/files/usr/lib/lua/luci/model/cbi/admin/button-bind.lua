@@ -9,15 +9,18 @@ s = f:section(SimpleSection, nil, "Hier können einzelnen Router-Tastern untersc
 -- Sollen mehrere Taser konfiguriert werden, dann einfach folgendes Schemata vervielfaeltigen:
 fct = uci:get('button-bind', 'wifi', 'function')
 if not fct then
-fct='0'
+	fct='0'
+	uci:set('button-bind', 'wifi', 'button')
+	uci:set('button-bind', 'wifi', 'function', fct)
+	uci:commit('button-bind')
 end
-o = s:option(ListValue, "wifi", "Wifi ON/OFF")
+o = s:option(ListValue, "wifi", "Wifi ON/OFF Taster")
 o.default = fct
 o.widget = "radio"
 o.rmempty = false
-o:value('0', "Taster schaltet das WLAN an/aus (z.Z. noch Grundeinstellung).")
-o:value('1', "Taster hat keine Funktion.")
-o:value('2', "Taster führt einen WLAN-Reset aus.")
+o:value('0', "Wifi an/aus (z.Z. noch Grundeinstellung)")
+o:value('1', "Funktionslos")
+o:value('2', "Wifi-Reset")
 o:value('3', "Während der Tasterbetätigung werden in diesem Modus die dann generell abgeschalteten Status-LED zugeschaltet. Nach der Tasterbetätigung werden die Status-LED wieder abgeschaltet.")
 function f.handle(self, state, data)
 	if state == FORM_VALID then
