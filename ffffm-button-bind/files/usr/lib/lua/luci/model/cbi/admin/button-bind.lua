@@ -22,6 +22,8 @@ o:value('0', "Wifi an/aus (z.Z. noch Grundeinstellung)")
 o:value('1', "Funktionslos")
 o:value('2', "Wifi-Reset")
 o:value('3', "Während der Tasterbetätigung werden in diesem Modus die dann generell abgeschalteten Status-LED zugeschaltet. Nach der Tasterbetätigung werden die Status-LED wieder abgeschaltet.")
+-- Schemata Ende
+
 function f.handle(self, state, data)
 	if state == FORM_VALID then
 		uci:set('button-bind', 'wifi', 'function', data.wifi)
