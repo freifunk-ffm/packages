@@ -44,7 +44,8 @@ Folgende Grafik ist hilfreich zur Bestimmung einer optimalen fastd MTU Size.
 Die in der Grafik aufgezeigten Werte sind so kalkuliert, dass keine Fragmentierung innerhalb des Batman-Payloads stattfindet (für IPv6 mind. 1280 Byte).
 Wie mann feststellen kann, entsprechen diese Werte nicht den weit verbreiteten Werten innerhalb der Freifunkwelt. In Frankfurt testen wir gerade diese Werte (seit Ende 2016) .  
 
-![image](https://camo.githubusercontent.com/101dc476455d2eae69f958544993670cfba65289/68747470733a2f2f66666d2e6672656966756e6b2e6e65742f77702d636f6e74656e742f75706c6f6164732f323031362f31312f422e412e542e4d2e412e4e2d4d54552d63616c63756c6174696f6e2d68656c7065722d73686565742e706e67)
+![image]
+(https://cloud.githubusercontent.com/assets/1434390/21966433/4f32fad8-db73-11e6-9863-908fd7edd130.png)
 
 ---
 
