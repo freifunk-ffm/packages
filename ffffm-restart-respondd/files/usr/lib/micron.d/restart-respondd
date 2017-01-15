@@ -1,1 +1,1 @@
-0 */2 * * * COUNT=$(ps | grep respondd | wc -l); if [ $COUNT -eq "1" ]; then /etc/init.d/gluon-respondd restart ; fi
+0 */2 * * * if ! [ $(pgrep autoupdater) ] ; then if ! [ $(pgrep respondd) ]; then /etc/init.d/gluon-respondd restart ;fi; fi
