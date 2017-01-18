@@ -21,7 +21,7 @@ o.rmempty = false
 o:value('0', "Wifi an/aus (z.Z. noch Grundeinstellung)")
 o:value('1', "Funktionslos")
 o:value('2', "Wifi-Reset")
-o:value('3', "Während der Tasterbetätigung werden in diesem Modus die dann generell abgeschalteten Status-LED zugeschaltet. Nach der Tasterbetätigung werden die Status-LED wieder abgeschaltet.")
+o:value('3', "In diesem Modus sind die Status-LEDs generell deaktiviert. Während der Tasterbetätigung werden die Status-LEDs temporär aktiviert.")
 -- Schemata Ende
 
 function f.handle(self, state, data)
