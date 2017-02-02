@@ -1,12 +1,11 @@
 #!/bin/sh /etc/rc.common
-
 START=97
 
 boot() {
 FUNCTION=$(uci get button-bind.wifi.function)
 if [ "${FUNCTION}" = 3 ]
 then
-	find /sys/devices/ -type f -name brightness | while read; do echo 0 >$REPLY; done
-	etc/init.d/led stop
+	for i in /sys/class/leds/* ; do echo 0 > "$i"/brightness ; done
 fi
 }
+exit 0
