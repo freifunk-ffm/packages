@@ -20,13 +20,14 @@ batctl tg |grep W |wc -l
 echo "### BatIFs:"
 batctl if
 echo "### Mesh:"
-echo " MoL : $(uci show|grep mesh_lan.auto|cut -d= -f2)"
-echo " MoW : $(uci show|grep mesh_wan.auto|cut -d= -f2)"
-echo " Fastd : $(uci show|grep fastd.mesh_vpn.enabled|cut -d= -f2)"
+echo " MoL : $(uci -q get network.mesh_lan.auto)"
+echo " MoW : $(uci -q get network.mesh_wan.auto)"
+echo " Fastd : $(uci -q get fastd.mesh_vpn.enabled)"
+echo " MTU: $(uci -q get fastd.mesh_vpn.mtu)"
 echo "### Location:"
-echo " Geo?: $(uci show|grep .share_location=|cut -d= -f2)"
-echo " Lat: $(uci show|grep .latitude=|cut -d= -f2)"
-echo " Lon: $(uci show|grep .longitude=|cut -d= -f2)"
-echo "### Contact: $(uci show|grep contact|cut -d= -f2)"
-echo "### SSH connection information: "$SSH_CONNECTION
+echo " Aktiv: $(uci get -q gluon-node-info.@location[0].share_location)"
+echo " Lat: $(uci get -q gluon-node-info.@location[0].latitude)"
+echo " Lon: $(uci show|uci get -q gluon-node-info.@location[0].longitude)"
+echo "### Contact: $(uci get -q gluon-node-info.@owner[0].contact)"
+echo "### SSH connection from/to : "$SSH_CONNECTION
 echo
