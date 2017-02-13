@@ -115,24 +115,33 @@ fi
 #######################################################################################
 
 # Check if the TX queue is stopped
-STOPPEDQUEUE=0
-if [ "$(grep BE /sys/kernel/debug/ieee80211/phy0/ath9k/queues | cut -d":" -f7 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
-	STOPPEDQUEUE=1
+# STOPPEDQUEUE=0
+# if [ "$(grep BE /sys/kernel/debug/ieee80211/phy0/ath9k/queues | cut -d":" -f7 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
+# 	STOPPEDQUEUE=1
 # 	systemlog "Observed a stopped queue, continuing"
-fi
+# fi
 
 # Check TX Path Hangs
-TXPATHHANG=0
-if [ "$(grep "TX Path Hang" /sys/kernel/debug/ieee80211/phy0/ath9k/reset | cut -d":" -f2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
-	TXPATHHANG=1
-#	systemlog "Observed a TX Path Hang, continuing"
-fi
+# TXPATHHANG=0
+# if [ "$(grep "TX Path Hang" /sys/kernel/debug/ieee80211/phy0/ath9k/reset | cut -d":" -f2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')" -ne 0 ]; then
+# 	TXPATHHANG=1
+# 	systemlog "Observed a TX Path Hang, continuing"
+# fi
 
 # Combine 
-PROBLEMS=0
-if [ "$STOPPEDQUEUE" -eq 1 ] && [ "$TXPATHHANG" -eq 1 ]; then
-	PROBLEMS=1
+# PROBLEMS=0
+# if [ "$STOPPEDQUEUE" -eq 1 ] && [ "$TXPATHHANG" -eq 1 ]; then
+# 	PROBLEMS=1
 # 	systemlog "An problem indicators observed"
+# fi
+
+#######################################################################################
+# Observe the dmesg output
+#######################################################################################
+DMESG=0
+if dmesg | grep AR_PHY_AGC_CONTROL
+then
+	DMESG=1
 fi
 
 ######################################################################################
@@ -206,7 +215,7 @@ WIFIRESTART=0
 
 # All wifi connectivity lost
 if [ "$CLIENTCONNECTION" -eq 0 ] && [ "$MESHCONNECTION" -eq 0 ] && [ "$PRIVATECONNECTION" -eq 0 ]; then
-	# There were wifi connectivity before, but there are none at the moment.
+# There were wifi connectivity before, but there are none at the moment.
 	if [ -f "$CLIENTFILE" ] || [ -f "$MESHFILE" ] || [ -f "$PRIVATEFILE" ]; then
 		# There were client or mesh connectivity before, but there are none at the moment.
 		WIFIRESTART=1
@@ -216,7 +225,7 @@ fi
 
 # Mesh lost. This separated check is just for safety reasons ( I saw a node with a broken ibss but with active clients).
 if [ -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 0 ]; then
-	# There were mesh connections before, but there are none at the moment.
+# There were mesh connections before, but there are none at the moment.
 	WIFIRESTART=1
 	multilog "Mesh lost"
 fi
@@ -233,6 +242,13 @@ fi
 #        multilog "Just an info: TX queue is stopped and TX path hangs"
 # fi  
 
+# DMESG Problem
+if [ $DMESG -eq 1 ]; then
+	WIFIRESTART=1
+	multilog "Found a dmesg problem. Ring buffer cleared."
+# clear the dmesg ring buffer
+	dmesg -c
+fi
 
 ######################################################################################
 # Should I really do it?
