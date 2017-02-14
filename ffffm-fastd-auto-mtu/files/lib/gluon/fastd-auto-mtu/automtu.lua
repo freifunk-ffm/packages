@@ -24,6 +24,7 @@ function setMTU ( x )
   uci:commit('fastd')
   os.execute('logger automtu: Restart the network...')
   os.execute('/etc/init.d/network restart')
+  os.execute('/etc/init.d/fastd restart')
   return x
 end
 
