@@ -1,2 +1,0 @@
-#!/bin/sh
-mv /etc/init.d/dnsmasq /etc/init.d/.dnsmasq
