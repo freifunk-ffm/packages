@@ -9,5 +9,3 @@ if not enabled then
   uci:save('fastd')
 
 end
-
-os.execute('/etc/init.d/automtu enable')
