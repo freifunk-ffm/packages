@@ -10,7 +10,18 @@ Zur Zeit stehen folgende Tasterfunktionalitäten zur Verfügung:
 
 **Wifi ON/OFF Taster:**
 
-- Wifi an/aus (default) (`uci set button-bind.wifi.function=0`) 
-- Keine Funktion (`uci set button-bind.wifi.function=1`)
-- Wifi-Reset (`uci set button-bind.wifi.function=2`) 
-- Temporäres Aktivieren der Status-LEDs (`uci set button-bind.wifi.function=3`, Reboot notwendig)
+- Wifi an/aus (default) (`uci set button-bind.wifi.function=0; uci commit`) 
+- Keine Funktion (`uci set button-bind.wifi.function=1; uci commit`)
+- Wifi-Reset (`uci set button-bind.wifi.function=2; uci commit`) 
+- Temporäres Aktivieren der Status-LEDs (`uci set button-bind.wifi.function=3; uci commit; reboot`)
+
+
+**Hinweis:**
+
+Falls diese Funktion noch nie auf dem Router im Router-Konfigmodus konfiguriert wurde, so muss noch händisch eine Datei auf dem Router angepasst werden.
+
+Einfach folgenden Inhalt auf dem Router in die leere Datei `/etc/config/button-bind` einfügen: 
+```
+config button 'wifi'  
+	option function '1'
+```
