@@ -1,6 +1,6 @@
 ##ffffm-button-bind
 
-Mit diesem Package können im Konfigurationsmodus den Router-Tastern eigene Funktionalitäten zugeordnet werden.  
+Mit diesem Package können im Router-Konfigurationsmodus den Router-Tastern eigene Funktionalitäten zugeordnet werden.  
 
 Alternativ kann dieses auch per 'uci' durchgeführt werden.
 
@@ -18,7 +18,7 @@ Zur Zeit stehen folgende Tasterfunktionalitäten zur Verfügung:
 
 **Hinweis:**
 
-Falls diese Funktion noch nie auf dem Router im Router-Konfigmodus konfiguriert wurde, so muss noch händisch eine Datei auf dem Router angepasst werden.
+Falls diese Funktion noch nie auf dem Router im Router-Konfigurationsmodus konfiguriert wurde, so muss noch händisch eine Datei auf dem Router angepasst werden.
 
 Einfach folgenden Inhalt auf dem Router in die leere Datei `/etc/config/button-bind` einfügen: 
 ```
