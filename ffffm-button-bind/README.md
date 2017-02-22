@@ -2,6 +2,8 @@
 
 Mit diesem Package können im Router-Konfigurationsmodus den Router-Tastern eigene Funktionalitäten zugeordnet werden.  
 
+![](https://forum.freifunk.net/uploads/default/original/2X/e/e9944dcf6897939145e686bf56ec257106ac30b0.png)
+
 Alternativ kann dieses auch per 'uci' durchgeführt werden.
 
 Das Package passt z.Z. nur den Wifi-Taster über das Skript `/etc/rc.button/rfkill` an.
