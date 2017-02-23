@@ -1,22 +1,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mmfd
-PKG_VERSION:=1
-
+PKG_SOURCE_DATE:=2017-02-23
 PKG_SOURCE_PROTO:=git
-#PKG_SOURCE_URL=https://github.com/tcatm/mmfd.git
-# PKG_SOURCE_URL=https://github.com/lemoer/mmfd.git
-PKG_SOURCE_URL=https://github.com/christf/mmfd.git
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-# this is master from may 18th
-# PKG_SOURCE_VERSION:=a743dde200f08c7d93c0b8a061aee5e27ef7c7ab
-# this includes a hack fixing the broken ifup-startup and using babeld monitor
-# instead of dump
-# PKG_SOURCE_VERSION:=12ac284125ab3a97f3cf513988bbb989984f250f
-PKG_SOURCE_VERSION:=2aa515ec81efdbeccfd7543f0ee63232da09d399
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
-
-#PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_URL=https://github.com/freifunk-gluon/mmfd.git
+PKG_SOURCE_VERSION:=9f502ace1fc0353e025387f3f531c6ee4f35c00e
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
@@ -25,7 +13,7 @@ define Package/mmfd
   SECTION:=net
   CATEGORY:=Network
   TITLE:=mesh multicast forwarding daemon
-  DEPENDS:=
+  DEPENDS:= babeld
 endef
 
 define Package/mmfd/install
