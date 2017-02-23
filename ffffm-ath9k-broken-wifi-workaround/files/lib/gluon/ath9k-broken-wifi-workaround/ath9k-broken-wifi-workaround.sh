@@ -248,6 +248,8 @@ if [ $DMESG -eq 1 ]; then
 	multilog "Found a dmesg problem. Ring buffer cleared."
 # clear the dmesg ring buffer
 	dmesg -c
+# Bei diesem Problem das Wifi sofort neustarten lassen
+	touch $RESTARTFILE
 fi
 
 ######################################################################################
