@@ -16,7 +16,7 @@ Zur Zeit stehen folgende Tasterfunktionalitäten zur Verfügung:
 - Temporäres Aktivieren der Status-LEDs (`uci set button-bind.wifi.function=3; uci commit; reboot`)
 
 
-**Hinweis:**
+**Hinweis für uci Nutzung**
 
 Falls diese Funktion noch nie auf dem Router im Router-Konfigurationsmodus konfiguriert wurde, so muss noch händisch eine Datei auf dem Router angepasst werden.
 
