@@ -13,7 +13,7 @@ define Package/mmfd
   SECTION:=net
   CATEGORY:=Network
   TITLE:=mesh multicast forwarding daemon
-  DEPENDS:= babeld
+  DEPENDS:= +kmod-tun +babeld
 endef
 
 define Package/mmfd/install
