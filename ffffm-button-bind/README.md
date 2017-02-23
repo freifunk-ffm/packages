@@ -23,5 +23,5 @@ Falls diese Funktion noch nie auf dem Router im Router-Konfigurationsmodus konfi
 Einfach folgenden Inhalt auf dem Router in die leere Datei `/etc/config/button-bind` einfügen: 
 ```
 config button 'wifi'  
-	option function '1'
+	option function '0'
 ```
