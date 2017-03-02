@@ -263,12 +263,14 @@ fi
 
 # CUTHERE Problem
 if [ $CUTHERE -eq 1 ]; then
-	WIFIRESTART=1
-	multilog "Found a CUTHERE problem in dmesg. Ring buffer cleared."
+
+#WIFIRESTART=1
+# #multilog "Found a CUTHERE problem in dmesg. Ring buffer cleared."
 # clear the dmesg ring buffer
-	dmesg -c
+# #dmesg -c
 # Bei diesem Problem das Wifi sofort neustarten lassen
-	touch $RESTARTFILE
+# #touch $RESTARTFILE
+/sbin/reboot
 fi
 
 ######################################################################################
