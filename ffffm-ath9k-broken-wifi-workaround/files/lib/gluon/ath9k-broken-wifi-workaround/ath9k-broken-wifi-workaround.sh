@@ -144,6 +144,15 @@ then
 	DMESG=1
 fi
 
+#######################################################################################
+# Observe the dmesg [ cut here ] output
+#######################################################################################
+CUTHERE=0
+if dmesg | grep cut\ here
+then
+	CUTHERE=1
+fi
+
 ######################################################################################
 # Check client wifi connectivity (client lost)
 ######################################################################################
@@ -246,6 +255,16 @@ fi
 if [ $DMESG -eq 1 ]; then
 	WIFIRESTART=1
 	multilog "Found a dmesg problem. Ring buffer cleared."
+# clear the dmesg ring buffer
+	dmesg -c
+# Bei diesem Problem das Wifi sofort neustarten lassen
+	touch $RESTARTFILE
+fi
+
+# CUTHERE Problem
+if [ $CUTHERE -eq 1 ]; then
+	WIFIRESTART=1
+	multilog "Found a CUTHERE problem in dmesg. Ring buffer cleared."
 # clear the dmesg ring buffer
 	dmesg -c
 # Bei diesem Problem das Wifi sofort neustarten lassen
