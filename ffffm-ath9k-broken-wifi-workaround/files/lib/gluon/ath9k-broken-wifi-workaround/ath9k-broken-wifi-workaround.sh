@@ -1,18 +1,18 @@
 #!/bin/sh
 
 ######################################################################################
-# 
+#
 # Dateiname:
 # ath9k-broken-wifi-workaround.sh
-# 
+#
 # Aufruf:
 # /lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 # (keine Uebergabeparameter)
-# 
+#
 # Cronjob:
-# Dieses Skript muss zyklisch aufgerufen werden. 
+# Dieses Skript muss zyklisch aufgerufen werden.
 # Z.z. ueber /usr/lib/micron.d/ath9k-broken-wifi-workaround alle 2 Minuten.
-# 
+#
 # Funktion:
 # 1) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/soll.
 # 2) Auswertung von ath9k Treiber-Flags. Ist wahrscheinlich Schlangenoil !?!
@@ -20,34 +20,34 @@
 # 4) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
 # 5) Auswerten ueber die Zeit von WLAN Konnektivitaet, aktivem Mesh, Gateway/UpLink.
 # 6) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
-# 
+#
 # Ausgabe:
 # Es werden Ereignisse in die eigens definierte Logdatei /tmp/log/wifi-problem-timestamps
 # und in den Systemlog eingetragen.
-# 
-###################################################################################### 
+#
+######################################################################################
 
 
 ######################################################################################
-# 
+#
 # Zum Debuggen und selber Rumbasteln einfach die "#" vor allen "systemlog XYZ" entfernen
-# 
+#
 ######################################################################################
 
 
-###################################################################################### 
+######################################################################################
 # Alle Kommentarzeilen werden durch das Makefile des Packages entfernt
 # sed -i '/^# /d' ath9k-broken-wifi-workaround.sh
 # sed -i '/^##/d' ath9k-broken-wifi-workaround.sh
-# 
+#
 ######################################################################################
 
 
 ######################################################################################
-# 
-# Devise: 
+#
+# Devise:
 # Lieber einmal mehr als einmal weniger :o)
-# 
+#
 ######################################################################################
 
 
@@ -97,7 +97,7 @@ cleanup() {
 	exit
 }
 if [ ! -f "$LOCKFILE" ]; then
-	trap cleanup INT TERM
+	trap cleanup EXIT INT TERM
 	touch "$LOCKFILE"
 else
 	multilog "Another instance is still running, aborting."
@@ -105,7 +105,7 @@ else
 fi
 
 
-# Check autoupdater 
+# Check autoupdater
 pgrep autoupdater >/dev/null
 if [ "$?" == "0" ]; then
 # 	systemlog "Autoupdater is running, aborting"
@@ -144,7 +144,7 @@ fi
 # 	systemlog "Observed a TX Path Hang, continuing"
 # fi
 
-# Combine 
+# Combine
 # PROBLEMS=0
 # if [ "$STOPPEDQUEUE" -eq 1 ] && [ "$TXPATHHANG" -eq 1 ]; then
 # 	PROBLEMS=1
@@ -259,13 +259,13 @@ fi
 if [ -f "$GWFILE" ] && [ $GWCONNECTION -eq 0 ]; then
 	WIFIRESTART=1
 	multilog "No path to the default gateway $GATEWAY"
-fi 
+fi
 
 # Some ath9k chipset problems have occurred. Probably snake oil!
 # if [ $PROBLEMS -eq 1 ]; then
 # Yes, it is snaik oil        WIFIRESTART=1
 #        multilog "Just an info: TX queue is stopped and TX path hangs"
-# fi  
+# fi
 
 # DMESG Problem
 if [ $DMESG -eq 1 ]; then
