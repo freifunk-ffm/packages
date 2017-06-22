@@ -75,7 +75,7 @@ logger "$LPREFIX: $1"
 # Writes to an own log file in /tmp/log and to the systemlog as well
 # Ringbuffer, limit own log file to MAX_LINES
 multilog() {
-MAX_LINES=25
+MAX_LINES=35
 RINGFILE=$(mktemp -t wifi-tmp-XXXXXX)
 echo "$(date) - $1" >> $LOGFILE
 tail -n $MAX_LINES $LOGFILE > $RINGFILE
@@ -88,6 +88,22 @@ systemlog "$1"
 ######################################################################################
 # Check test start conditions
 ######################################################################################
+
+# Don't run this script if another instance is still running
+LOCKFILE="/var/lock/ath9k-broken-wifi-workaround.lock"
+cleanup() {
+#	systemlog "cleanup, removing lockfile: $LOCKFILE"
+	rm -f "$LOCKFILE"
+	exit
+}
+if [ ! -f "$LOCKFILE" ]; then
+	trap cleanup INT TERM
+	touch "$LOCKFILE"
+else
+	multilog "Another instance is still running, aborting."
+	exit
+fi
+
 
 # Check autoupdater 
 pgrep autoupdater >/dev/null
