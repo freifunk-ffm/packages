@@ -30,6 +30,18 @@ if [ "$ACTION" = "pressed" ]; then
 	fi
 fi
 ;;
+4) # Client on/off
+if [ "$ACTION" = "pressed" ]; then
+	DISABLED=$(uci get wireless.client_radio0.disabled)
+	if [ "$DISABLED" = "0" ]; then
+		uci set wireless.client_radio0.disabled=1
+	else
+		uci set wireless.client_radio0.disabled=0
+	fi
+	uci commit wireless
+	wifi
+fi
+;;
 *) # Default, WLAN on/off
 /etc/rc.button/rfkill.owrt 
 ;;

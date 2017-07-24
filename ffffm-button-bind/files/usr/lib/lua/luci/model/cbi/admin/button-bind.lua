@@ -21,6 +21,7 @@ o:value('0', "Wifi an/aus (default)")
 o:value('1', "Funktionslos")
 o:value('2', "Wifi-Reset")
 o:value('3', "alle Status-LEDs an/aus (Nachtmodus)")
+o:value('4', "Client-Netz an/aus")
 
 function f.handle(self, state, data)
 	if state == FORM_VALID then
