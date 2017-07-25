@@ -7,10 +7,7 @@ case "$BIND" in
 ;;
 2) # WLAN Reset 
 if [ "$ACTION" = "pressed" ]; then
-	DEV="$(iw dev|grep Interface|grep -e 'mesh0' -e 'ibss0'| awk '{ print $2 }'|head -1)"
-	iw dev $DEV scan
-	iw dev client0 scan 
-	wifi
+	/sbin/wifi
 fi
 ;;
 3) # LEDs on/off
