@@ -15,3 +15,13 @@ Es stehen folgende Tasterfunktionalitäten zur Verfügung:
 - Wifi-Reset (`uci set button-bind.wifi.function=2; uci commit`) 
 - alle Status-LEDs an/aus (`uci set button-bind.wifi.function=3; uci commit; reboot`)
 - Client-Netz an/aus (`uci set button-bind.wifi.function=4; uci commit`)
+
+**Hinweis für uci Nutzung**
+
+Bei älteren Versionen dieses Package wurde nicht immer die Datei `/etc/config/button-bind` angelegt.
+
+Wenn dieses der Fall sein sollte, dann einfach folgenden Inhalt auf dem Router in die leere Datei `/etc/config/button-bind` einfügen: 
+```
+config button 'wifi'  
+	option function '0'
+```
