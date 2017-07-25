@@ -2,32 +2,27 @@
 
 BIND=$(uci get button-bind.wifi.function)
 
-TMP=/tmp/wifi-button-status
-if [ ! -f $TMP ]; then echo 1>$TMP; fi
+LED_STATE=/tmp/wifi-button-status
 
 case "$BIND" in
 1) # no function
 ;;
 2) # WLAN Reset 
 if [ "$ACTION" = "pressed" ]; then
-	/usr/sbin/iw dev ibss0 scan
-	/usr/sbin/iw dev client0 scan 
 	/sbin/wifi
 fi
 ;;
-3) # LEDs on/off
+3) # LEDs on/off		
+if [ ! -f $LED_STATE ]; then touch $LED_STATE; fi	
 if [ "$ACTION" = "pressed" ]; then
-	STATUS="$(cat $TMP)"
-	if [ "$STATUS" = "0" ]; then
-		/etc/init.d/led start
-		echo "1">$TMP
-	else
-		for i in /sys/class/leds/*; do
-			echo 0 > "$i"/brightness
-		done
-		/etc/init.d/led stop
-		echo "0">$TMP
-	fi
+	/etc/init.d/led start
+	echo "1" > $LED_STATE
+else
+	for i in /sys/class/leds/*; do
+		echo 0 > "$i"/brightness
+	done
+	/etc/init.d/led stop
+	echo "0" > $LED_STATE
 fi
 ;;
 4) # Client on/off
