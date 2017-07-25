@@ -14,4 +14,4 @@ Es stehen folgende Tasterfunktionalitäten zur Verfügung:
 - Keine Funktion (`uci set button-bind.wifi.function=1; uci commit`)
 - Wifi-Reset (`uci set button-bind.wifi.function=2; uci commit`) 
 - alle Status-LEDs an/aus (`uci set button-bind.wifi.function=3; uci commit; reboot`)
-- Client-Netz an/aus
+- Client-Netz an/aus (`uci set button-bind.wifi.function=4; uci commit; reboot`)
