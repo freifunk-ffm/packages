@@ -1,6 +1,4 @@
 #!/bin/sh /etc/rc.common
-START=97
-
 
 FUNCTION=$(uci get button-bind.wifi.function)
 if [ "${FUNCTION}" = 3 ]

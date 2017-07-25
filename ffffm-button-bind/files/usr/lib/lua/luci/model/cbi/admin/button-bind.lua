@@ -4,9 +4,8 @@ local f, s, o, fct
 
 f = SimpleForm('button-bind', "Taster")
 f.template = 'admin/expertmode'
-s = f:section(SimpleSection, nil, "Hier können einzelnen Router-Tastern unterschiedliche Funktionalitäten zugeordnet werden.")
+s = f:section(SimpleSection, nil, "Hier können dem Router-Taster unterschiedliche Funktionalitäten zugeordnet werden.")
 
--- Sollen mehrere Taser konfiguriert werden, dann einfach folgendes Schemata vervielfaeltigen:
 fct = uci:get('button-bind', 'wifi', 'function')
 if not fct then
 	fct='0'
@@ -18,11 +17,11 @@ o = s:option(ListValue, "wifi", "Wifi ON/OFF Taster")
 o.default = fct
 o.widget = "radio"
 o.rmempty = false
-o:value('0', "Wifi an/aus (z.Z. noch Grundeinstellung)")
+o:value('0', "Wifi an/aus (default)")
 o:value('1', "Funktionslos")
 o:value('2', "Wifi-Reset")
-o:value('3', "In diesem Modus sind die Status-LEDs generell deaktiviert. Während der Tasterbetätigung werden die Status-LEDs aktiviert.")
--- Schemata Ende
+o:value('3', "alle Status-LEDs an/aus (Nachtmodus)")
+o:value('4', "Client-Netz an/aus")
 
 function f.handle(self, state, data)
 	if state == FORM_VALID then
