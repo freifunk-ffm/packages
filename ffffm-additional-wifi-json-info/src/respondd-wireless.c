@@ -26,13 +26,13 @@ static struct json_object *respondd_provider_statistics(void) {
 
         struct json_object *v;
 
-	if (a->a24 != FFFFM_INVALID_AIRTIME) {
+	if (a->a24 >= 0 ) {
 		v = json_object_new_double(a->a24);
 		if (!v)
 			goto end;
 		json_object_object_add(wireless, "airtime2", v);
 	}
-	if (a->a50 != FFFFM_INVALID_AIRTIME) {
+	if (a->a50 >= 0 ) {
 		v = json_object_new_double(a->a50);
 		if (!v)
 			goto end;
