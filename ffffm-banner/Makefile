@@ -5,9 +5,9 @@ PKG_VERSION:=1.0
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include $(INCLUDE_DIR)/package.mk
+include $(TOPDIR)/../package/gluon.mk
 
-define Package/ffffm-banner
+define Package/$(PKG_NAME)
   SECTION:=ffffm
   CATEGORY:=Customization
   TITLE:=Banner file replacement and a small help toolbox
@@ -32,8 +32,8 @@ define Build/Compile
 endef
 
 
-define Package/ffffm-banner/install
+define Package/$(PKG_NAME)/install
 	$(CP) ./files/* $(1)/
 endef
 
-$(eval $(call BuildPackage,ffffm-banner))
+$(eval $(call BuildPackage,$(PKG_NAME)))
