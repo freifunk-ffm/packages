@@ -35,5 +35,5 @@ define Package/$(PKG_NAME)/postinst
 $(call GluonCheckSite,check_site.lua)
 endef
 
-$(eval $(call BuildPackage,ffffm-keep-radio-channel))
+$(eval $(call BuildPackage,$(PKG_NAME)))
 
