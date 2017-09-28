@@ -1,4 +1,0 @@
-#!/bin/sh
-SIZE=5000
-uci set dhcp.@dnsmasq[0].cachesize=$SIZE
-exit 0
