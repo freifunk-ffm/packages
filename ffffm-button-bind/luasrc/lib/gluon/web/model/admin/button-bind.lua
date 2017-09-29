@@ -1,10 +1,9 @@
-local uci = luci.model.uci.cursor()
+local uci = require("simple-uci").cursor()
 
 local f, s, o, fct
 
-f = SimpleForm('button-bind', "Taster")
-f.template = 'admin/expertmode'
-s = f:section(SimpleSection, nil, "Hier können dem Router-Taster unterschiedliche Funktionalitäten zugeordnet werden.")
+f = Form('Taster')
+s = f:section(Section, nil, "Hier können dem Router-Taster unterschiedliche Funktionalitäten zugeordnet werden.")
 
 fct = uci:get('button-bind', 'wifi', 'function')
 if not fct then
