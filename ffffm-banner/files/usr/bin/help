@@ -21,4 +21,5 @@ echo "
  iwinfo client0 assoclist		// WLAN-Analyse Clients, einfach
  iw dev client0 station dump		// WLAN-Analyse Clients, detailliert
  nodeinfo				// Diverse Infos zum Knoten
+ v4up					// IPv4 beziehen, wenn kein VPN-Uplink
  "
