@@ -21,7 +21,7 @@ endef
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)/files
-	cp -r $(PKG_BUILD_DIR)/luadest/* $(PKG_BUILD_DIR)/files
+	cp -r ./files/* $(PKG_BUILD_DIR)/files
 	sed -i '/^# /d' $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 	sed -i '/^##/d' $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 	sed -i /^$$$$/d $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
@@ -31,7 +31,6 @@ define Build/Configure
 endef
 
 define Build/Compile
-	$(call GluonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 
 define Package/$(PKG_NAME)/install
