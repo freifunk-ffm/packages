@@ -6,9 +6,9 @@ PKG_RELEASE:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include $(INCLUDE_DIR)/package.mk
+include $(TOPDIR)/../package/gluon.mk
 
-define Package/ffffm-ath9k-broken-wifi-workaround
+define Package/$(PKG_NAME)
 	SECTION:=ffffm
 	CATEGORY:=Customization
 	TITLE:=ath9k broken wifi workaround
@@ -21,7 +21,7 @@ endef
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)/files
-	cp -r ./files/* $(PKG_BUILD_DIR)/files
+	cp -r $(PKG_BUILD_DIR)/luadest/* $(PKG_BUILD_DIR)/files
 	sed -i '/^# /d' $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 	sed -i '/^##/d' $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
 	sed -i /^$$$$/d $(PKG_BUILD_DIR)/files/lib/gluon/ath9k-broken-wifi-workaround/ath9k-broken-wifi-workaround.sh
@@ -31,11 +31,12 @@ define Build/Configure
 endef
 
 define Build/Compile
+	$(call GluonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 
-define Package/ffffm-ath9k-broken-wifi-workaround/install
+define Package/$(PKG_NAME)/install
 	$(CP) $(PKG_BUILD_DIR)/files/* $(1)/
 
 endef
 
-$(eval $(call BuildPackage,ffffm-ath9k-broken-wifi-workaround))
+$(eval $(call BuildPackage,$(PKG_NAME)))
