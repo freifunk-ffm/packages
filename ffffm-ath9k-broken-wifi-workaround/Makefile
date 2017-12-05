@@ -6,9 +6,9 @@ PKG_RELEASE:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include $(INCLUDE_DIR)/package.mk
+include $(TOPDIR)/../package/gluon.mk
 
-define Package/ffffm-ath9k-broken-wifi-workaround
+define Package/$(PKG_NAME)
 	SECTION:=ffffm
 	CATEGORY:=Customization
 	TITLE:=ath9k broken wifi workaround
@@ -33,9 +33,9 @@ endef
 define Build/Compile
 endef
 
-define Package/ffffm-ath9k-broken-wifi-workaround/install
+define Package/$(PKG_NAME)/install
 	$(CP) $(PKG_BUILD_DIR)/files/* $(1)/
 
 endef
 
-$(eval $(call BuildPackage,ffffm-ath9k-broken-wifi-workaround))
+$(eval $(call BuildPackage,$(PKG_NAME)))

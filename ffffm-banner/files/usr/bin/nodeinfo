@@ -11,6 +11,10 @@ echo -n "### Hardware: "
 cat /tmp/sysinfo/model
 echo -n "### Firmware: "
 cat /lib/gluon/release
+echo -n "### Gluon: "
+cat /lib/gluon/gluon-version
+echo -n "### Build Date: "
+ls -e -d /etc | awk '{print $8, $7, $10, $9;}'
 echo -n "### Uptime:"
 uptime
 echo -n "### Connected clients: "
@@ -25,9 +29,9 @@ echo " MoW : $(uci -q get network.mesh_wan.auto)"
 echo " Fastd : $(uci -q get fastd.mesh_vpn.enabled)"
 echo " MTU: $(uci -q get fastd.mesh_vpn.mtu)"
 echo "### Location:"
-echo " Aktiv: $(uci get -q gluon-node-info.@location[0].share_location)"
-echo " Lat: $(uci get -q gluon-node-info.@location[0].latitude)"
-echo " Lon: $(uci show|uci get -q gluon-node-info.@location[0].longitude)"
-echo "### Contact: $(uci get -q gluon-node-info.@owner[0].contact)"
+echo " Aktiv: $(uci -q get gluon-node-info.@location[0].share_location)"
+echo " Lat: $(uci -q get  gluon-node-info.@location[0].latitude)"
+echo " Lon: $(uci -q get gluon-node-info.@location[0].longitude)"
+echo "### Contact: $(uci -q get gluon-node-info.@owner[0].contact)"
 echo "### SSH connection from/to : "$SSH_CONNECTION
 echo

@@ -5,9 +5,9 @@ PKG_VERSION:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include $(GLUONDIR)/include/package.mk
+include $(TOPDIR)/../package/gluon.mk
 
-define Package/ffffm-keep-radio-channel
+define Package/$(PKG_NAME)
   SECTION:=gluon
   CATEGORY:=Gluon
   TITLE:=Keep Radio Channel after update script
@@ -22,20 +22,18 @@ define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)
 endef
 
-define Build/Configure
-endef
-
 define Build/Compile
+	$(call GluonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 
-define Package/ffffm-keep-radio-channel/install
-	$(CP) ./files/* $(1)/
+define Package/$(PKG_NAME)/install
+	$(CP) $(PKG_BUILD_DIR)/luadest/* $(1)/
 endef
 
-define Package/ffffm-keep-radio-channel/postinst
+define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 $(call GluonCheckSite,check_site.lua)
 endef
 
-$(eval $(call BuildPackage,ffffm-keep-radio-channel))
+$(eval $(call BuildPackage,$(PKG_NAME)))
 

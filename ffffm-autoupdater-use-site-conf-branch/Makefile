@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffffm-autoupdater-use-site-conf-branch
-PKG_VERSION:=1
+PKG_VERSION:=2
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include $(GLUONDIR)/include/package.mk
+include $(TOPDIR)/../package/gluon.mk
 
-define Package/ffffm-autoupdater-use-site-conf-branch
+define Package/$(PKG_NAME)
   SECTION:=gluon
   CATEGORY:=Gluon
   TITLE:=Use the update branch from site.conf instead of GLUON_BRANCH
@@ -22,20 +22,18 @@ define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)
 endef
 
-define Build/Configure
-endef
-
 define Build/Compile
+	$(call GluonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 
-define Package/ffffm-autoupdater-use-site-conf-branch/install
-	$(CP) ./files/* $(1)/
+define Package/$(PKG_NAME)/install
+	$(CP) $(PKG_BUILD_DIR)/luadest/* $(1)/
 endef
 
-define Package/ffffm-autoupdater-use-site-conf-branch/postinst
+define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 $(call GluonCheckSite,check_site.lua)
 endef
 
-$(eval $(call BuildPackage,ffffm-autoupdater-use-site-conf-branch))
+$(eval $(call BuildPackage,$(PKG_NAME)))
 
