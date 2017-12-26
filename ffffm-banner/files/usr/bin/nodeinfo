@@ -7,7 +7,7 @@ STATISTICS="$(mktemp -p /tmp)"
 gluon-neighbour-info -d ::1 -p 1001 -c 1 -r statistics > $STATISTICS
 
 
-echo "### Radio-Networks acitve:"
+echo "### Radio-Networks active:"
 iwinfo
 echo -n "### Router IP: "
 jsonfilter -i $NODEINFO -e '@.network.addresses.*'
