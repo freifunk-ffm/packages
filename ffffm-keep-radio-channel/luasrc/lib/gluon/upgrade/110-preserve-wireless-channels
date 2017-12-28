@@ -1,0 +1,2 @@
+#!/bin/sh
+uci set gluon-core.@wireless[0].preserve_channels='1'
