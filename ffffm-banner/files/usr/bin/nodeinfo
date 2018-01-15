@@ -24,6 +24,8 @@ echo -n "### Gluon: "
 cat /lib/gluon/gluon-version
 echo -n "### Build Date: "
 ls -e -d /etc | awk '{print $8, $7, $10, $9;}'
+echo "### Branch: $(uci -q get autoupdater.settings.branch)"
+echo "### Autoupdate: $(uci -q get autoupdater.settings.enabled)"
 echo -n "### Uptime:"
 uptime
 echo -n "### Connected clients 2.4GHz: "
