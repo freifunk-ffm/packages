@@ -1,0 +1,52 @@
+#!/bin/sh
+
+NODEINFO="$(mktemp -p /tmp)"
+gluon-neighbour-info -d ::1 -p 1001 -c 1 -r nodeinfo > $NODEINFO
+
+STATISTICS="$(mktemp -p /tmp)"
+gluon-neighbour-info -d ::1 -p 1001 -c 1 -r statistics > $STATISTICS
+
+
+echo "### Radio-Networks active:"
+iwinfo
+echo -n "### Router IP: "
+jsonfilter -i $NODEINFO -e '@.network.addresses.*'
+echo -n "### Router MAC: "
+jsonfilter -i $NODEINFO -e '@.network.mac'
+echo "### BatGateways:"
+batctl gwl
+echo "### BatMode: " $(batctl gw)
+
+echo -n "### Hardware: "
+cat /tmp/sysinfo/model
+echo -n "### Firmware: "
+cat /lib/gluon/release
+echo -n "### Gluon: "
+cat /lib/gluon/gluon-version
+echo -n "### Build Date: "
+ls -e -d /etc | awk '{print $8, $7, $10, $9;}'
+echo "### Branch: $(uci -q get autoupdater.settings.branch)"
+echo "### Autoupdate: $(uci -q get autoupdater.settings.enabled)"
+echo -n "### Uptime:"
+uptime
+echo -n "### Connected clients 2.4GHz: "
+jsonfilter -i $STATISTICS -e '$.clients.wifi24'
+echo -n "### Connected clients 5GHz: "
+jsonfilter -i $STATISTICS -e '$.clients.wifi5'
+echo "### Mesh:"
+echo " MoL : $(uci -q get network.mesh_lan.auto)"
+echo " MoW : $(uci -q get network.mesh_wan.auto)"
+echo " Fastd : $(uci -q get fastd.mesh_vpn.enabled)"
+echo " MTU: $(uci -q get fastd.mesh_vpn.mtu)"
+echo "### Location:"
+echo " Aktiv: $(uci -q get gluon-node-info.@location[0].share_location)"
+echo " Lat: $(uci -q get  gluon-node-info.@location[0].latitude)"
+echo " Lon: $(uci -q get gluon-node-info.@location[0].longitude)"
+echo "### Contact Information: $(uci -q get gluon-node-info.@owner[0].contact)"
+echo "### SSH connection from/to : "$SSH_CONNECTION
+echo
+
+#Aufraeumen
+rm $NODEINFO
+rm $STATISTICS
+

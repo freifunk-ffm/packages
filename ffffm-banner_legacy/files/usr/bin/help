@@ -1,0 +1,19 @@
+#!/bin/sh
+echo "
+ Doku: https://github.com/freifunk-gluon/gluon/wiki/Commandline-administration
+
+ autoupdater -f				// Firmware-Update erzwingen
+ logread     // logread -f		// syslog Ausgabe auf Konsole
+ ping 8.8.8.8				// ping, wenn lokale IPv4 vorhanden
+ ip a s					// Alle IPs anzeigen
+ ip r s t all				// Gesamte Routingtabelle
+ traceroute -n 10.126.0.1		// Traceroute via IPv4 zu einem Gateway
+ brctl show				// Alle Bridges anzeigen
+ iwinfo					// WLAN-Paramter anzeigen
+ iwinfo phy0 scan			// WLAN-Umgebung scannen
+ iwinfo ibss0 assoclist			// WLAN-Analyse Mesh, einfach
+ iw dev ibss0 station dump		// WLAN-Analyse Mesh, detailliert 
+ iwinfo client0 assoclist		// WLAN-Analyse Clients, einfach
+ iw dev client0 station dump		// WLAN-Analyse Clients, detailliert
+ nodeinfo				// Diverse Infos zum Knoten
+ "
