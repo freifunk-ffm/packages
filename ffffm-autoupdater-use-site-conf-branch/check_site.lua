@@ -1,1 +1,1 @@
-need_string 'autoupdater.branch'
+need_string({'autoupdater.branch'}, false)
