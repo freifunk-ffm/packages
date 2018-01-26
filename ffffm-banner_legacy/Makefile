@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=ffffm-banner
+PKG_NAME:=ffffm-banner_legacy
 PKG_VERSION:=1.0
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
@@ -17,7 +17,7 @@ define Package/$(PKG_NAME)
   SOURCE:=https://github.com/freifunk-gluon/packages
 endef
 
-define Package/ffffm-banner/description
+define Package/$(PKG_NAME)/description
 	Banner file replacement and a small help toolbox
 endef
 
