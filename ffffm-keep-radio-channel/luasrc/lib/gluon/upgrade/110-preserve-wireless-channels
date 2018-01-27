@@ -1,2 +1,17 @@
-#!/bin/sh
-uci set gluon-core.@wireless[0].preserve_channels='1'
+#!/usr/bin/lua                                                                                                               
+                                                                                                                             
+local util = require 'gluon.util'                                                                                            
+local site = require 'gluon.site_config'                                                                                     
+local sysconfig = require 'gluon.sysconfig'                                                                                  
+local uci = require('simple-uci').cursor()                                                                                   
+                                                                                                                             
+-- Bei einem Sysupgrade 'ohne' Uebernahme der Einstellungen die Channels                                                     
+-- der site.conf verwendet.                                                                                                  
+--                                                                                                                           
+-- Bei einem normalem Sysupgrade immer die 'alten' Channels verwenden.                                                       
+                                                                                                                             
+if sysconfig.gluon_version then                                                                                              
+        os.execute("uci set gluon-core.@wireless[0].preserve_channels=1")                                                    
+end                                                                                                                          
+                                                                                                                             
+uci:save('gluon-core')
