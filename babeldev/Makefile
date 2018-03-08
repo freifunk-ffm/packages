@@ -6,8 +6,7 @@ PKG_VERSION:=1
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/jech/babeld.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-# this is master from jul 31 2016
-PKG_SOURCE_VERSION:=556af3c2667f8802f243a46067d45b7430bf943b
+PKG_SOURCE_VERSION:=98ce829827e8c349830bcb3375f9c3ff4107b60f
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 
 #
@@ -23,6 +22,7 @@ define Package/babeldev
 	SECTION:=net
 	CATEGORY:=Network
 	SUBMENU:=Routing and Redirection
+	PROVIDES:=babeld
 	TITLE:=A loop-free distance-vector routing protocol
 	URL:=http://www.pps.univ-paris-diderot.fr/~jch/software/babel/
 	MAINTAINER:=Gabriel Kerneis <gabriel@kerneis.info>
