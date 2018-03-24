@@ -27,6 +27,7 @@ define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/install
+	$(CP) ./files/* $(1)/
 	$(CP) $(PKG_BUILD_DIR)/luadest/* $(1)/
 endef
 
