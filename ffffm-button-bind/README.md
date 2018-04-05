@@ -1,4 +1,4 @@
-##ffffm-button-bind
+## ffffm-button-bind
 
 Mit diesem Package können im Router-Konfigurationsmodus dem Router-Wifi-Taster eigene Funktionalitäten zugeordnet werden. (Alternativ kann dieses auch per `uci` durchgeführt werden.)
 
