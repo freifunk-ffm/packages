@@ -2,41 +2,27 @@
 
 BIND=$(uci get button-bind.wifi.function)
 
-LED_STATE=/tmp/wifi-button-status
-
 case "$BIND" in
 1) # no function
 ;;
+
 2) # WLAN Reset 
 if [ "$ACTION" = "pressed" ]; then
-	/sbin/wifi
+	wifi
 fi
 ;;
+
 3) # LEDs on/off		
-if [ ! -f $LED_STATE ]; then touch $LED_STATE; fi	
 if [ "$ACTION" = "pressed" ]; then
 	/etc/init.d/led start
-	echo "1" > $LED_STATE
 else
 	for i in /sys/class/leds/*; do
 		echo 0 > "$i"/brightness
 	done
 	/etc/init.d/led stop
-	echo "0" > $LED_STATE
 fi
 ;;
-4) # Client on/off
-if [ "$ACTION" = "pressed" ]; then
-	DISABLED=$(uci get wireless.client_radio0.disabled)
-	if [ "$DISABLED" = "0" ]; then
-		uci set wireless.client_radio0.disabled=1
-	else
-		uci set wireless.client_radio0.disabled=0
-	fi
-	uci commit wireless
-	wifi
-fi
-;;
+
 *) # Default, WLAN on/off
 /etc/rc.button/rfkill.owrt 
 ;;
