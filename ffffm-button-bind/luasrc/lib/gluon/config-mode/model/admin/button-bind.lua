@@ -18,7 +18,7 @@ o.default = fct
 o:value('0', "Wifi an/aus (default)")
 o:value('1', "Funktionslos")
 o:value('2', "Wifi-Reset")
-o:value('3', "Nachtmodus - LEDs aus, an bei Betätigung")
+o:value('3', "Nachtmodus - LEDs aus, aber während Taster-Betätigung an")
 
 function o:write(data)
 	uci:set('button-bind', 'wifi', 'function', data)
