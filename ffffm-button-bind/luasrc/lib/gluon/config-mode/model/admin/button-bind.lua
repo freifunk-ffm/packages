@@ -1,10 +1,7 @@
 local uci = require("simple-uci").cursor()
 
-local f = Form('Taster')
-local s = f:section(Section, nil, "Hat der Router eine Wifi-Taste, so können dieser Taste unterschiedliche Funktionalitäten zugeordnet werden.")
-
-
--- Sollen mehrere Taster konfiguriert werden, dann einfach folgendes Schemata vervielfaeltigen:
+local f = Form('Wifi-Taster')
+local s = f:section(Section, nil, "Hier kann dem Wifi-Taster am Router die gewünschte Funktion zugeordnet werden.")
 
 local fct = uci:get('button-bind', 'wifi', 'function')
 if not fct then
@@ -18,7 +15,10 @@ o.default = fct
 o:value('0', "Wifi an/aus")
 o:value('1', "Funktionslos (default)")
 o:value('2', "Wifi-Reset")
-o:value('3', "Nachtmodus - LEDs aus, aber während Taster-Betätigung an")
+o:value('3', "Nachtmodus 1: alle Status-LEDs an/aus")
+o:value('4', "Nachtmodus 2: LEDs aus, aber während Taster-Betätigung an")
+o:value('5', "Client-Netz an/aus")
+o:value('6', "Mesh-VPN aus für 5 Stunden")
 
 function o:write(data)
 	uci:set('button-bind', 'wifi', 'function', data)
@@ -29,5 +29,3 @@ function f:write()
 end
 
 return f
-
-
