@@ -16,7 +16,7 @@ end
 local o = s:option(ListValue, "wifi", "Wifi ON/OFF Taster")
 o.default = fct
 o:value('0', "Wifi an/aus (default)")
-o:value('1', "Funktionslos")
+o:value('1', "funktionslos")
 o:value('2', "Wifi-Reset")
 o:value('3', "Nachtmodus - LEDs aus, aber während Taster-Betätigung an")
 
