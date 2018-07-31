@@ -1,9 +1,12 @@
 #!/bin/sh /etc/rc.common
 
-FUNCTION=$(uci get button-bind.wifi.function)
-if [ "${FUNCTION}" = 3 ]
-then
-	for i in /sys/class/leds/* ; do echo 0 > "$i"/brightness ; done
-fi
+START=97
 
-exit 0
+start() {
+		FUNCTION=$(uci get button-bind.wifi.function)
+		if [ "${FUNCTION}" = 3 ]
+		then
+			for i in /sys/class/leds/* ; do echo 0 > "$i"/brightness ; done
+		fi
+}
+
