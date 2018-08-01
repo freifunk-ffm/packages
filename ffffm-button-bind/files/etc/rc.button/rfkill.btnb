@@ -2,6 +2,13 @@
 
 BIND=$(uci -q get button-bind.wifi.function)
 
+ledoff() {
+	for i in /sys/class/leds/*; do
+		echo 0 > "$i"/brightness
+	done
+	/etc/init.d/led stop
+}
+
 case "$BIND" in
 1) # no function
 ;;
@@ -18,10 +25,7 @@ if [ "$ACTION" = "pressed" ]; then
 		/etc/init.d/led start
 		echo "1">$LED_STATE
 	else
-		for i in /sys/class/leds/*; do
-			echo 0 > "$i"/brightness
-		done
-		/etc/init.d/led stop
+		ledoff
 		echo "0">$LED_STATE
 	fi
 fi
@@ -30,10 +34,7 @@ fi
 if [ "$ACTION" = "pressed" ]; then
 	/etc/init.d/led start
 else
-	for i in /sys/class/leds/*; do
-		echo 0 > "$i"/brightness
-	done
-	/etc/init.d/led stop
+	ledoff
 fi
 ;;
 5) # Client ON/OFF
