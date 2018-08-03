@@ -4,7 +4,7 @@ Mit diesem Package können im Router-Konfigurationsmodus dem Router-Wifi-Taster 
 
 ![](https://forum.freifunk.net/uploads/default/original/2X/e/e9944dcf6897939145e686bf56ec257106ac30b0.png)
 
-Das Package passt den Wifi-Taster über das Skript `/etc/rc.button/rfkill` an.
+Das Paket passt den Wifi-Taster über das Skript `/etc/rc.button/rfkill` an.
 
 Es stehen folgende Tasterfunktionalitäten zur Verfügung:
 
@@ -18,10 +18,10 @@ Es stehen folgende Tasterfunktionalitäten zur Verfügung:
 
 **Hinweis zur uci-Nutzung**
 
-Bei älteren Versionen dieses Package wurde nicht immer die Datei `/etc/config/button-bind` angelegt.
+Bei älteren Versionen dieses Pakets wurde nicht immer die Datei `/etc/config/button-bind` angelegt.
 
 Wenn dieses der Fall sein sollte, dann einfach folgenden Inhalt auf dem Router in die leere Datei `/etc/config/button-bind` einfügen: 
 ```
 config button 'wifi'  
-	option function '0'
+	option function '1'
 ```
