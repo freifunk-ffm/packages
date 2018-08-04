@@ -1,7 +1,7 @@
 local uci = require("simple-uci").cursor()
 
 local f = Form('Wifi-Taster')
-local s = f:section(Section, nil, "Hat der Router eine Wifi-Taste, so können dieser Taste unterschiedliche Funktionalitäten zugeordnet werden.")
+local s = f:section(Section, nil, "Hat der Router einen Wifi-Taster, so kann diesem hier eine Funktion zugeordnet werden:")
 
 local fct = uci:get('button-bind', 'wifi', 'function')
 if not fct then
