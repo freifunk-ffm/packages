@@ -1,4 +1,4 @@
-##ffffm-button-bind
+## ffffm-button-bind
 
 Mit diesem Package können im Router-Konfigurationsmodus dem Router-Wifi-Taster eigene Funktionalitäten zugeordnet werden. (Alternativ kann dieses auch per `uci` durchgeführt werden.)
 
@@ -13,10 +13,10 @@ Es stehen folgende Tasterfunktionalitäten zur Verfügung:
 - Wifi an/aus (default) (`uci set button-bind.wifi.function=0; uci commit`) 
 - Keine Funktion (`uci set button-bind.wifi.function=1; uci commit`)
 - Wifi-Reset (`uci set button-bind.wifi.function=2; uci commit`) 
-- alle Status-LEDs an/aus (`uci set button-bind.wifi.function=3; uci commit; reboot`)
-- Client-Netz an/aus (`uci set button-bind.wifi.function=4; uci commit`)
+- Temporäres Aktivieren der Status-LEDs (`uci set button-bind.wifi.function=3; uci commit; reboot`)
 
-**Hinweis für uci Nutzung**
+
+**Hinweis zur uci-Nutzung**
 
 Bei älteren Versionen dieses Package wurde nicht immer die Datei `/etc/config/button-bind` angelegt.
 
