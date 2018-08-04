@@ -1,2 +1,2 @@
 config button 'wifi'  
-	option function '0'
+	option function '1'
