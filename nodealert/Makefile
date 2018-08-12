@@ -9,7 +9,7 @@ include $(INCLUDE_DIR)/cmake.mk
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
-CMAKE_OPTIONS:=-DINSTALL_TESTS=ON
+CMAKE_OPTIONS:=-DINSTALL_TESTS=OFF
 
 define Package/nodealert
 	TITLE:=$(PKG_NAME)
@@ -29,8 +29,7 @@ endef
 
 define Package/nodealert/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_DIR) $(1)/lib/gluon/respondd
+	$(INSTALL_DIR) $(1)/usr/lib/respondd
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/respondd-alert.so $(1)/usr/lib/respondd/respondd-alert.so
 endef
  
