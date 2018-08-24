@@ -29,8 +29,8 @@ endef
 
 define Package/nodealert/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_DIR) $(1)/usr/lib/respondd
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/respondd-alert.so $(1)/usr/lib/respondd/respondd-alert.so
+	$(INSTALL_DIR) $(1)/lib/gluon/respondd
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/respondd-alert.so $(1)/lib/gluon/respondd/respondd-alert.so
 endef
- 
+
 $(eval $(call BuildPackage,nodealert))
