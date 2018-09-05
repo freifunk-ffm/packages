@@ -5,8 +5,8 @@
 
 #include "alert.h"
 
-// this function is available in libgluonutil too.
-static struct uci_section * get_first_section(struct uci_package *p, const char *type) {
+// this function is available in gluon-node-info too.
+struct uci_section * get_first_section(struct uci_package *p, const char *type) {
 	struct uci_element *e;
 	uci_foreach_element(&p->sections, e) {
 		struct uci_section *s = uci_to_section(e);
@@ -17,8 +17,7 @@ static struct uci_section * get_first_section(struct uci_package *p, const char 
 	return NULL;
 }
 
-
-// this function is available in libgluonutil too.
+// this function is available in gluon-node-info too.
 const char * get_first_option(struct uci_context *ctx, struct uci_package *p, const char *type, const char *option) {
 	struct uci_section *s = get_first_section(p, type);
 	if (s)
@@ -62,19 +61,19 @@ end:
 }
 
 struct json_object *alertme(void) {
-	int nodealert_downtime = get_nodealert();
-	if (nodealert_downtime < 0 )
-		return NULL;
-
 	struct json_object *ret = json_object_new_object();
 	if (!ret)
 		return NULL;
+
+	int nodealert_downtime = get_nodealert();
+	if (nodealert_downtime < 0 )
+		return ret;
 
 
 	struct json_object *nodealert = json_object_new_int(nodealert_downtime );
 
 	if (!nodealert)
-		return NULL;
+		return ret;
 
 	json_object_object_add(ret, "downtime_notification", nodealert);
 
