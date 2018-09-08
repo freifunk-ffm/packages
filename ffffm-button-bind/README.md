@@ -20,7 +20,7 @@ Es stehen folgende Tasterfunktionalitäten zur Verfügung:
 5. Client-Netz an/aus (`uci set button-bind.wifi.function=5; uci commit`)
 6. Mesh-VPN aus für 5 Stunden (`uci set button-bind.wifi.function=6; uci commit`)
 
-Bei der Option 3. startet der Knoten immer im Nachtmodus, dies funktioniert auch bei
+Bei den Optionen 3. und 4. startet der Knoten immer im Nachtmodus, dies funktioniert auch bei
 Garäten, die keinen Taster haben. Ohne Taster bekommt man die LESs allerdings
 dann auch nur hier im Config Mode wieder an.
 
@@ -35,7 +35,7 @@ sofort wieder einschalten.
 
 Bei älteren Versionen dieses Pakets wurde nicht immer die Datei `/etc/config/button-bind` angelegt.
 
-Wenn dieses der Fall sein sollte, dann einfach folgenden Inhalt auf dem Router
+Wenn dies der Fall sein sollte, dann einfach folgenden Inhalt auf dem Router
 in die leere Datei `/etc/config/button-bind` einfügen: 
 ```
 config button 'wifi'  
