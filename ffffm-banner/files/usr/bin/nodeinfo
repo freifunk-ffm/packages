@@ -13,8 +13,10 @@ echo -n "### Router IP: "
 jsonfilter -i $NODEINFO -e '@.network.addresses.*'
 echo -n "### Router MAC: "
 jsonfilter -i $NODEINFO -e '@.network.mac'
-echo "### Gateways:"
+echo "### Fastd-Gateways:"
 jsonfilter -i $STATISTICS -e '@.mesh_vpn.groups.backbone.peers'
+echo "### Wireguard-Gateway:"
+ip -6 route get :: | awk '{print $7 " " $11}'
 
 echo -n "### Hardware: "
 cat /tmp/sysinfo/model
