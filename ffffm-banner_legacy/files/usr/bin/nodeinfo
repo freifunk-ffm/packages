@@ -34,8 +34,8 @@ jsonfilter -i $STATISTICS -e '$.clients.wifi24'
 echo -n "### Connected clients 5GHz: "
 jsonfilter -i $STATISTICS -e '$.clients.wifi5'
 echo "### Mesh:"
-echo " MoL : $(uci -q get network.mesh_lan.auto)"
-echo " MoW : $(uci -q get network.mesh_wan.auto)"
+echo " MoL : $(uci -q get network.mesh_lan.disabled || echo 0)"
+echo " MoW : $(uci -q get network.mesh_wan.disabled)"
 echo " Fastd : $(uci -q get fastd.mesh_vpn.enabled)"
 echo " MTU: $(uci -q get fastd.mesh_vpn.mtu)"
 echo "### Location:"
