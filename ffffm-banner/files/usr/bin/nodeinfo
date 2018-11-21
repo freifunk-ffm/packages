@@ -29,20 +29,24 @@ echo "### Branch: $(uci -q get autoupdater.settings.branch)"
 echo "### Autoupdate: $(uci -q get autoupdater.settings.enabled)"
 echo -n "### Uptime:"
 uptime
-echo -n "### Connected clients 2.4GHz: "
-jsonfilter -i $STATISTICS -e '$.clients.wifi24'
-echo -n "### Connected clients 5GHz: "
-jsonfilter -i $STATISTICS -e '$.clients.wifi5'
 echo "### Mesh:"
-echo " MoL : $(uci -q get network.mesh_lan.disabled || echo 0)"
-echo " MoW : $(uci -q get network.mesh_wan.disabled)"
-echo " Fastd : $(uci -q get fastd.mesh_vpn.enabled || echo 0)"
-echo " Wireguard : $(uci -q get wireguard.mesh_vpn.enabled || echo 0)"
-echo " MTU: $(uci -q get fastd.mesh_vpn.mtu || uci -q get wireguard.mesh_vpn.mtu || echo 0)"
+echo -n " Mesh on LAN : "; if [ $(uci -q get network.mesh_lan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
+echo -n " Mesh on WAN : "; if [ $(uci -q get network.mesh_wan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
+echo "### Mesh-VPN:"
+echo " Fastd : $(uci -q get fastd.mesh_vpn.enabled || echo '-')"
+echo " Wireguard : $(uci -q get wireguard.mesh_vpn.enabled || echo '-')"
+echo " MTU: $(uci -q get fastd.mesh_vpn.mtu || uci -q get wireguard.mesh_vpn.mtu || echo '-')"
+echo "### Wifi:"
+echo -n " Connected clients 2.4 GHz: "
+jsonfilter -i $STATISTICS -e '$.clients.wifi24'
+echo -n " Connected clients 5 GHz: "
+jsonfilter -i $STATISTICS -e '$.clients.wifi5'
+echo " Radio0 Channel: $(uci -q get wireless.radio0.channel || echo '-')"
+echo " Radio1 Channel: $(uci -q get wireless.radio1.channel || echo '-')"
 echo "### Location:"
-echo " Aktiv: $(uci -q get gluon-node-info.@location[0].share_location)"
-echo " Lat: $(uci -q get  gluon-node-info.@location[0].latitude)"
-echo " Lon: $(uci -q get gluon-node-info.@location[0].longitude)"
+echo " Aktiv: $(uci -q get gluon-node-info.@location[0].share_location || echo '0')"
+echo " Latitude: $(uci -q get  gluon-node-info.@location[0].latitude || echo '-')"
+echo " Longitude: $(uci -q get gluon-node-info.@location[0].longitude || echo '-')"
 echo "### Contact Information: $(uci -q get gluon-node-info.@owner[0].contact)"
 echo "### SSH connection from/to : "$SSH_CONNECTION
 echo
