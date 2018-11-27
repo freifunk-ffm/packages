@@ -29,20 +29,20 @@ echo "### Branch: $(uci -q get autoupdater.settings.branch)"
 echo "### Autoupdate: $(uci -q get autoupdater.settings.enabled)"
 echo -n "### Uptime:"
 uptime
-echo "### Mesh:"
-echo -n " Mesh on LAN : "; if [ $(uci -q get network.mesh_lan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
-echo -n " Mesh on WAN : "; if [ $(uci -q get network.mesh_wan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
 echo "### Mesh-VPN:"
 echo " Fastd : $(uci -q get fastd.mesh_vpn.enabled || echo '-')"
 echo " Wireguard : $(uci -q get wireguard.mesh_vpn.enabled || echo '-')"
 echo " MTU: $(uci -q get fastd.mesh_vpn.mtu || uci -q get wireguard.mesh_vpn.mtu || echo '-')"
+echo "### Mesh:"
+echo -n " Mesh on LAN : "; if [ $(uci -q get network.mesh_lan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
+echo -n " Mesh on WAN : "; if [ $(uci -q get network.mesh_wan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
 echo "### Wifi:"
+echo " Radio0 Channel: $(uci -q get wireless.radio0.channel || echo '-')"
+echo " Radio1 Channel: $(uci -q get wireless.radio1.channel || echo '-')"
 echo -n " Connected clients 2.4 GHz: "
 jsonfilter -i $STATISTICS -e '$.clients.wifi24'
 echo -n " Connected clients 5 GHz: "
 jsonfilter -i $STATISTICS -e '$.clients.wifi5'
-echo " Radio0 Channel: $(uci -q get wireless.radio0.channel || echo '-')"
-echo " Radio1 Channel: $(uci -q get wireless.radio1.channel || echo '-')"
 echo "### Location:"
 echo " Aktiv: $(uci -q get gluon-node-info.@location[0].share_location || echo '0')"
 echo " Latitude: $(uci -q get  gluon-node-info.@location[0].latitude || echo '-')"
