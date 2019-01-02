@@ -1,17 +1,25 @@
 #!/usr/bin/lua                                                                                                               
                                                                                                                              
 local util = require 'gluon.util'                                                                                            
-local site = require 'gluon.site_config'                                                                                     
+local site = require 'gluon.site'                                                                                     
 local sysconfig = require 'gluon.sysconfig'                                                                                  
 local uci = require('simple-uci').cursor()                                                                                   
                                                                                                                              
--- Bei einem Sysupgrade 'ohne' Uebernahme der Einstellungen die Channels                                                     
--- der site.conf verwendet.                                                                                                  
+-- Bei einer Erstinstallation, und bei einem Sysupgrade ohne Uebernahme 
+-- der 'Einstellungen', werden die Channel der site.conf verwendet.                                                                                                  
 --                                                                                                                           
--- Bei einem normalem Sysupgrade immer die 'alten' Channels verwenden.                                                       
+-- Bei einem normalem Sysupgrade immer die 'alten' Channel verwenden.                                                       
                                                                                                                              
-if sysconfig.gluon_version then                                                                                              
-        os.execute("uci set gluon-core.@wireless[0].preserve_channels=1")                                                    
+if sysconfig.gluon_version then           
+                                                                                   
+        -- Setzen des Gluon-Internen Flags
+        os.execute("uci set gluon-core.@wireless[0].preserve_channels=1")
+
+        -- Entferne obsolete Frankfurter Flags
+        uci:delete('keep_settings', 'wireless','radio0_channel')
+        uci:delete('keep_settings', 'wireless','radio1_channel')
+        
 end                                                                                                                          
                                                                                                                              
 uci:save('gluon-core')
+uci:save('keep_settings')
