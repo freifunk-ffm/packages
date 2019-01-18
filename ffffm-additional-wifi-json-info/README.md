@@ -1,5 +1,5 @@
- ## Dieses Package ist obsolete. 
- ## Es wird durch das Gluon-Modul 'respondd-module-airtime' ersetzt.
+ ## Dieses Package ist obsolet. 
+ ## Es wird durch das Gluon-Modul '[respondd-module-airtime](https://github.com/freifunk-gluon/packages/tree/master/net/respondd-module-airtime)' ersetzt.
  Durch dieses Package werden zusätzliche Informationen durch respondd in die Info-JSON-Datei gepackt.
  Wie z.B.
  - Verwendeter Wifi-Kanal
