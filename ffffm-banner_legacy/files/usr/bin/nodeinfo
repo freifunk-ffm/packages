@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo
 NODEINFO="$(mktemp -p /tmp)"
 gluon-neighbour-info -d ::1 -p 1001 -c 1 -r nodeinfo > $NODEINFO
 
@@ -24,14 +25,14 @@ cat /lib/gluon/release
 echo -n "### Gluon: "
 cat /lib/gluon/gluon-version
 echo -n "### Build Date: "
-ls -l -d /etc | awk '{print $7, $6, $8;}'
+ls -l /lib/gluon/release | awk '{print $7, $6, $8;}'
 #ls -e -d /etc | awk '{print $8, $7, $10, $9;}'
 echo "### Branch: $(uci -q get autoupdater.settings.branch)"
 echo "### Autoupdate: $(uci -q get autoupdater.settings.enabled)"
 echo -n "### Uptime:"
 uptime
 echo "### Mesh-VPN:"
-echo " Fastd : $(uci -q get fastd.mesh_vpn.enabled || echo '-')"
+echo " Fastd enabled: $(uci -q get fastd.mesh_vpn.enabled || echo '-')"
 echo " MTU: $(uci -q get fastd.mesh_vpn.mtu)"
 echo "### Mesh:"
 echo -n " Mesh on LAN enabled: "; if [ $(uci -q get network.mesh_lan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
