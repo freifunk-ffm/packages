@@ -6,10 +6,11 @@ echo "
  logread     // logread -f		// syslog Ausgabe auf Konsole
  ip a s					// Alle IPs anzeigen
  ip r s t all				// Gesamte Routingtabelle
+ wg					// Informationen zu WireGuard 
  iwinfo					// WLAN-Paramter anzeigen
  iwinfo phy0 scan			// WLAN-Umgebung scannen
- iwinfo ibss0 assoclist			// WLAN-Analyse Mesh, einfach
- iw dev ibss0 station dump		// WLAN-Analyse Mesh, detailliert 
+ iwinfo mesh0 assoclist			// WLAN-Analyse Mesh, einfach
+ iw dev mesh0 station dump		// WLAN-Analyse Mesh, detailliert 
  iwinfo client0 assoclist		// WLAN-Analyse Clients, einfach
  iw dev client0 station dump		// WLAN-Analyse Clients, detailliert
  nodeinfo				// Diverse Infos zum Knoten
