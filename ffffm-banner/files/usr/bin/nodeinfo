@@ -1,68 +1,101 @@
 #!/bin/sh
 
-echo
 NODEINFO="$(mktemp -p /tmp)"
 gluon-neighbour-info -d ::1 -p 1001 -c 1 -r nodeinfo > $NODEINFO
 
 STATISTICS="$(mktemp -p /tmp)"
 gluon-neighbour-info -d ::1 -p 1001 -c 1 -r statistics > $STATISTICS
 
-
-echo "### Radio-Networks active:"
-iwinfo
-echo -n "### Router IP: "
-jsonfilter -i $NODEINFO -e '@.network.addresses.*'
-echo -n "### Router MAC: "
+echo
+# echo "### Gateways:"
+# jsonfilter -i $STATISTICS -e '@.mesh_vpn.groups.backbone.peers'
+echo -n "### Node ID: "
+jsonfilter -i $NODEINFO -e '@.node_id'
+echo -n "### Node MAC: "
 jsonfilter -i $NODEINFO -e '@.network.mac'
-echo "### Gateways:"
-jsonfilter -i $STATISTICS -e '@.mesh_vpn.groups.backbone.peers'
+echo -n "### Node IP: "
+jsonfilter -i $NODEINFO -e '@.network.addresses.*'
 
+echo
 echo -n "### Hardware: "
 cat /tmp/sysinfo/model
 echo -n "### Firmware: "
 cat /lib/gluon/release
 echo -n "### Gluon: "
 cat /lib/gluon/gluon-version
-echo -n "### Build Date: "
-ls -l /lib/gluon/release | awk '{print $7, $6, $8;}'
+#echo -n "### Build Date: "
+#ls -l /lib/gluon/release | awk '{print $7, $6, $8;}'
 #ls -e -d /etc | awk '{print $8, $7, $10, $9;}'
-echo "### Branch: $(uci -q get autoupdater.settings.branch)"
-echo "### Autoupdate: $(uci -q get autoupdater.settings.enabled)"
-echo -n "### Uptime:"
-uptime
+echo -n "### Site Code: "
+jsonfilter -i $NODEINFO -e '@.system.site_code'
+echo -n "### Domain Code: "
+jsonfilter -i $NODEINFO -e '@.system.domain_code'
+echo -n "### Autoupdate enabled: "
+uci -q get autoupdater.settings.enabled
+echo -n "### Branch: "
+uci -q get autoupdater.settings.branch
+
+echo
+echo -n "### Contact Information: "
+uci -q get gluon-node-info.@owner[0].contact || echo '-'
+
+echo
+echo "### Location:"
+echo -n " Enabled: "
+uci -q get gluon-node-info.@location[0].share_location || echo '0'
+echo -n " Latitude: "
+uci -q get  gluon-node-info.@location[0].latitude || echo '-'
+echo -n " Longitude: "
+uci -q get gluon-node-info.@location[0].longitude || echo '-'
+
+echo
 echo "### Mesh-VPN:"
-echo " Fastd enabled: $(uci -q get fastd.mesh_vpn.enabled || echo '-')"
-echo " Wireguard enabled: $(uci -q get wireguard.mesh_vpn.enabled || echo '-')"
-echo " MTU: $(uci -q get fastd.mesh_vpn.mtu || uci -q get wireguard.mesh_vpn.mtu || echo '-')"
+echo -n " Fastd enabled: "
+uci -q get fastd.mesh_vpn.enabled || echo '-'
+echo -n " Wireguard enabled: "
+uci -q get wireguard.mesh_vpn.enabled || echo '-'
+
+
+echo
 echo "### Mesh:"
-echo -n " Mesh on LAN enabled: "; if [ $(uci -q get network.mesh_lan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
-echo -n " Mesh on WAN enabled: "; if [ $(uci -q get network.mesh_wan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
-
-uci -q get wireless.ibss_radio0.disabled > /dev/null
+echo -n " Mesh on LAN enabled: "
+if [ $(uci -q get network.mesh_lan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
+echo -n " Mesh on WAN enabled: "
+if [ $(uci -q get network.mesh_wan.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
+for i in 0 1; do
+uci -q get wireless.mesh_radio$i.disabled > /dev/null
 if [ $? = '0' ]; then
-echo -n " Mesh on Radio0 enabled: "; if [ $(uci -q get wireless.ibss_radio0.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
+echo -n " Mesh on Radio$i enabled: "; if [ $(uci -q get wireless.mesh_radio$i.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
 fi
-uci -q get wireless.ibss_radio1.disabled > /dev/null
-if [ $? = '0' ]; then
-echo -n " Mesh on Radio1 enabled: "; if [ $(uci -q get wireless.ibss_radio1.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
-fi
+done
 
+echo
 echo "### Wifi:"
-echo " Radio0 channel: $(uci -q get wireless.radio0.channel || echo '-')"
-echo -n " Radio0 clients enabled: "; if [ $(uci -q get wireless.client_radio0.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
-echo " Radio1 channel: $(uci -q get wireless.radio1.channel || echo '-')"
-echo -n " Radio1 clients enabled: "; if [ $(uci -q get wireless.client_radio1.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
+echo -n " Radio0 channel: "
+uci -q get wireless.radio0.channel || echo '-'
+echo -n " Radio0 clients enabled: "
+if [ $(uci -q get wireless.client_radio0.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
+echo -n " Radio1 channel: "
+uci -q get wireless.radio1.channel || echo '-'
+echo -n " Radio1 clients enabled: "
+if [ $(uci -q get wireless.client_radio1.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
 echo -n " Connected clients 2.4 GHz: "
 jsonfilter -i $STATISTICS -e '$.clients.wifi24'
 echo -n " Connected clients 5 GHz: "
 jsonfilter -i $STATISTICS -e '$.clients.wifi5'
-echo "### Location:"
-echo " Enabled: $(uci -q get gluon-node-info.@location[0].share_location || echo '0')"
-echo " Latitude: $(uci -q get  gluon-node-info.@location[0].latitude || echo '-')"
-echo " Longitude: $(uci -q get gluon-node-info.@location[0].longitude || echo '-')"
-echo "### Contact Information: $(uci -q get gluon-node-info.@owner[0].contact)"
-echo "### SSH connection from/to : "$SSH_CONNECTION
+
 echo
+for i in 0 1; do
+iw mesh$i info > /dev/null
+if [ $? = '0' ]; then
+echo "### Mesh Wifi-Quality Radio$i:"
+iwinfo mesh$i assoclist
+fi
+done
+
+echo "### SSH connection from/to : "$SSH_CONNECTION
+echo -n "### Uptime:"
+uptime
 
 #Aufraeumen
 rm $NODEINFO
