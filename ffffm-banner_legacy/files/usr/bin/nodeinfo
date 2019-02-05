@@ -73,6 +73,7 @@ echo -n " Connected clients 5 GHz: "
 jsonfilter -i $STATISTICS -e '$.clients.wifi5'
 
 echo
+if [ -f /usr/sbin/iw ]; then
 for i in 0 1; do
 iw $MESH_DEVICE$i info > /dev/null
 if [ $? = '0' ]; then
@@ -80,6 +81,7 @@ echo "### Mesh Wifi-Quality Radio$i:"
 iwinfo $MESH_DEVICE$i assoclist
 fi
 done
+fi
 
 echo "### SSH connection from/to : "$SSH_CONNECTION
 echo -n "### Uptime:"
