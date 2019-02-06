@@ -15,11 +15,10 @@ Detektiert das Skript in zwei aufeinanderfolgenden Aufrufen ein Problem, so wird
 ### Kleine Funktionsbeschreibung:
 
 1) Überprüfen, ob überhaupt ein Problemtest durchgeführt werden kann/soll.  
-2) Auswertung von einigen ath9k Treiber-Flags. Prophylaktisch und wahrscheinlich Schlangenöl !?!  
-3) Überprüfen, welche Art von WLAN-Konnektivitaet (Mesh/Client/privat) vorhanden ist und dieses merken.  
-4) Überprüfen ob eine Gateway/UpLink Verbindung besteht und dieses merken.  
-5) Auswerten über die Zeit von WLAN Konnektivität, aktivem Mesh, Gateway/UpLink.  
-6) Tratten innerhalb von zwei Skript-Aufrufzyklen negativ wirkende Veränderungen auf, dann -> Wifi-Restart.  
+2) Überprüfen, welche Art von WLAN-Konnektivitaet (Mesh/Client/privat) vorhanden ist und dieses merken.  
+3) Überprüfen ob eine Gateway/UpLink Verbindung besteht und dieses merken.  
+4) Auswerten über die Zeit von WLAN Konnektivität, aktivem Mesh, Gateway/UpLink.  
+5) Tratten innerhalb von zwei Skript-Aufrufzyklen negativ wirkende Veränderungen auf, dann -> Wifi-Restart.  
 
 <br>
 
@@ -44,11 +43,14 @@ An der/den Meldungen ist zu sehen, ob gerade mittles 'wifi' der Ath9k-Treiber ne
 
 <br>
 ## Achtung:
-##### Dieses Package entfernt nicht die Ursached des Problems. 
-##### Es verhindert lediglich, dass sich WLAN-meshende Router nicht dauerhaft vom Netz trennen. 
+
+#### Dieses Package entfernt nicht die Ursached des Problems. 
+
+#### Es verhindert lediglich, dass sich WLAN-meshende Router nicht dauerhaft vom Netz trennen. 
 <br>
 <br>
-##### Quelle
-Basis ist eine frühe Version des Packages von Freifunk Altdorf.<br>
+
+### Quelle
+Basis ist eine Version des Packages von Freifunk Altdorf.<br>
 Siehe https://github.com/tecff/gluon-packages/tree/master/tecff-ath9k-broken-wifi-workaround
 
