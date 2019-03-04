@@ -5,10 +5,10 @@ local site = require 'gluon.site'
 local sysconfig = require 'gluon.sysconfig'                                                                                  
 local uci = require('simple-uci').cursor()                                                                                   
                                                                                                                              
--- Bei einer Erstinstallation, und bei einem Sysupgrade ohne Uebernahme 
--- der 'Einstellungen' werden die Channel der site.conf verwendet.                                                                                                  
+-- Bei einer Erstinstallation (wie auch bei einem Sysupgrade ohne Uebernahme 
+-- der 'Konfiguration') werden die Wifi-Kanaele der site.conf verwendet.                                                                                                  
 --                                                                                                                           
--- Bei einem normalem Sysupgrade werden immer die 'alten' Channel verwenden.                                                       
+-- Bei einem normalen Sysupgrade werden die vormals haendisch konfigurierten Wifi-Kanaele beibehalten.                                                       
                                                                                                                              
 if sysconfig.gluon_version then           
         -- Setzen des Gluon-internen Flags
