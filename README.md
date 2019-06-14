@@ -1,7 +1,7 @@
 This repository holds all packages from Freifunk Frankfurt that are meant to be
 used with the gluon firmware.
 
-The [MIT license](https://raw.githubusercontent.com/freifunk-ffm/packages/master/LICENSE) applies unless otherwise stated. 
+The [MIT license](LICENSE) applies unless otherwise stated. 
                   
 
 ---
