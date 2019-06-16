@@ -1,6 +1,9 @@
 This repository holds all packages from Freifunk Frankfurt that are meant to be
 used with the gluon firmware.
 
+The [MIT license](LICENSE) applies unless otherwise stated. 
+                  
+
 ---
 
 *** USE OF BRANCHES ***
