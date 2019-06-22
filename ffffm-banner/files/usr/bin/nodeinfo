@@ -23,9 +23,8 @@ echo -n "### Firmware: "
 cat /lib/gluon/release
 echo -n "### Gluon: "
 cat /lib/gluon/gluon-version
-#echo -n "### Build Date: "
-#ls -l /lib/gluon/release | awk '{print $7, $6, $8;}'
-#ls -e -d /etc | awk '{print $8, $7, $10, $9;}'
+echo -n "### Build Date: "
+uname -v | awk '{print $3, $4, $6, $5;}'
 echo -n "### Site Code: "
 jsonfilter -i $NODEINFO -e '@.system.site_code'
 echo -n "### Domain Code: "
@@ -85,6 +84,10 @@ echo -n " Connected clients 5 GHz: "
 jsonfilter -i $STATISTICS -e '$.clients.wifi5'
 
 echo
+echo -n "### Uptime:"
+uptime
+
+echo
 if [ -f /usr/sbin/iw ]; then
 for i in 0 1; do
 iw mesh$i info > /dev/null
@@ -96,8 +99,6 @@ done
 fi
 
 echo "### SSH connection from/to : "$SSH_CONNECTION
-echo -n "### Uptime:"
-uptime
 
 #Aufraeumen
 rm $NODEINFO
