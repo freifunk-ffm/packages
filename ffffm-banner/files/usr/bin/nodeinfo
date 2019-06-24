@@ -19,6 +19,9 @@ jsonfilter -i $NODEINFO -e '@.network.addresses.*'
 echo
 echo -n "### Hardware: "
 cat /tmp/sysinfo/model
+echo -n "### Hardware ID: "
+# Bei TP-Link Geraeten kann eine HWID ausgelesen werden
+echo $([ -f /lib/ar71xx.sh ]&&[ $(head -c 4 /tmp/sysinfo/model) = 'TP-L' ]&&(. /lib/ar71xx.sh ;. /lib/functions.sh ; echo $(tplink_get_hwid))||(echo '-'))
 echo -n "### Firmware: "
 cat /lib/gluon/release
 echo -n "### Gluon: "
