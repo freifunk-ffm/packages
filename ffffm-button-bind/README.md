@@ -14,3 +14,8 @@ Es stehen folgende Tasterfunktionalitäten zur Verfügung:
 1. Keine Funktion (default) (`uci set button-bind.wifi.function=1; uci commit`)
 2. Wifi-Reset (`uci set button-bind.wifi.function=2; uci commit`) 
 3. Nachtmodus - LEDs generell aus, aber während Taster-Betätigung LEDs an (`uci set button-bind.wifi.function=3; uci commit; reboot`)
+
+
+---
+## Forks
+Dieses Package wurd von rubo77 (Freifunk Nord) stark weiterentwicklet. Sein Repo ist hier zu finden: https://github.com/rubo77/ffm-packages
