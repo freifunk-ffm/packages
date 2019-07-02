@@ -36,7 +36,7 @@ uname -v | awk '{print $3, $4, $6, $5;}'
 echo "### Site Code: $(jsonfilter -i $NODEINFO -e '@.system.site_code')"
 echo "### Domain Code: $(jsonfilter -i $NODEINFO -e '@.system.domain_code')"
 echo "### Autoupdate enabled: $(uci -q get autoupdater.settings.enabled)"
-echo "### Branch: $(uci -q get autoupdater.settings.branch)"
+echo "### Autoupdate Branch: $(uci -q get autoupdater.settings.branch)"
 
 echo
 echo "### Contact Information: $(uci -q get gluon-node-info.@owner[0].contact || echo '-')"

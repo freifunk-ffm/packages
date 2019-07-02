@@ -34,7 +34,7 @@ echo -n "### Domain Code: "
 jsonfilter -i $NODEINFO -e '@.system.domain_code'
 echo -n "### Autoupdate enabled: "
 uci -q get autoupdater.settings.enabled
-echo -n "### Branch: "
+echo -n "### Autoupdate Branch: "
 uci -q get autoupdater.settings.branch
 
 echo
