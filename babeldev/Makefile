@@ -4,9 +4,12 @@ PKG_NAME:=babeldev
 PKG_VERSION:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL=https://github.com/jech/babeld.git
+PKG_SOURCE_URL=https://github.com/christf/babeld.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=e988a382e0c1a6e369f242a7930b20c27af78777
+
+# this is the next branch from christf including the socket-command extensions
+# for monitor
+PKG_SOURCE_VERSION:=b1aed734f07da4e51992acc3c19ef29eab019598
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 
 #
