@@ -7,9 +7,9 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/christf/babeld.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
-# this is the next branch from christf including the socket-command extensions
+# this is the neighbormonitor branch from christf including the socket-command extensions
 # for monitor
-PKG_SOURCE_VERSION:=b1aed734f07da4e51992acc3c19ef29eab019598
+PKG_SOURCE_VERSION:=5b188cd5f1c4aeab17b7a441ab9e928109df028e
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 
 #
