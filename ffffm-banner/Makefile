@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffffm-banner
-PKG_VERSION:=1.0
+PKG_VERSION:=2.0
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
@@ -10,15 +10,13 @@ include $(TOPDIR)/../package/gluon.mk
 define Package/$(PKG_NAME)
   SECTION:=ffffm
   CATEGORY:=Customization
-  TITLE:=Banner file replacement and a small help toolbox
-  DEPENDS:=+gluon-core +busybox
+  TITLE:=Banner file replacement
+  DEPENDS:=+busybox
   MAINTAINER:=Freifunk Frankfurt <admin@ffm.freifunk.net>
-  URL:=https://github.com/freifunk-gluon/packages
-  SOURCE:=https://github.com/freifunk-gluon/packages
 endef
 
 define Package/ffffm-banner/description
-	Banner file replacement and a small help toolbox
+	A banner file replacement
 endef
 
 define Build/Prepare
