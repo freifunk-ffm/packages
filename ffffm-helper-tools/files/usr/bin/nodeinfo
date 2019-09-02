@@ -54,10 +54,10 @@ uci -q get gluon-node-info.@location[0].longitude || echo '-'
 
 echo
 echo "### Mesh-VPN:"
-echo -n " Fastd enabled: "
-uci -q get fastd.mesh_vpn.enabled || echo '-'
+#echo -n " Fastd enabled: "
+#uci -q get fastd.mesh_vpn.enabled || echo '-'
 echo -n " Wireguard enabled: "
-uci -q get wireguard.mesh_vpn.enabled || echo '-'
+uci -q get wireguard.mesh_vpn_backbone.enabled || echo '-'
 
 
 echo
