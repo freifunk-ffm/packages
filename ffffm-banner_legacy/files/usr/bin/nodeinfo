@@ -31,8 +31,6 @@ echo -n "### Firmware: "
 cat /lib/gluon/release
 echo -n "### Gluon: "
 cat /lib/gluon/gluon-version
-echo -n "### Build Date: "
-uname -v | awk '{print $3, $4, $6, $5;}'
 echo "### Site Code: $(jsonfilter -i $NODEINFO -e '@.system.site_code')"
 echo "### Domain Code: $(jsonfilter -i $NODEINFO -e '@.system.domain_code')"
 echo "### Autoupdate enabled: $(uci -q get autoupdater.settings.enabled)"
