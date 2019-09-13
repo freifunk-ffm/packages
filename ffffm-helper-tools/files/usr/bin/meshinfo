@@ -1,0 +1,15 @@
+#!/bin/sh
+echo
+echo "### Wifi-Mesh Status:"
+echo
+if [ -f /usr/sbin/iw ]; then
+ for i in 0 1; do
+  iw mesh$i info > /dev/null
+  if [ $? = '0' ]; then
+   echo "-------"
+   echo "Radio$i:"
+   echo "-------"
+   iwinfo mesh$i assoclist
+  fi
+ done
+fi

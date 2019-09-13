@@ -19,5 +19,5 @@
  < ffm.freifunk.net >         < gluon.readthedocs.io >         < openwrt.org >
  -----------------------------------------------------------------------------
 
-         For router status information type in 'nodeinfo' or 'help'.
+       Enter 'nodeinfo', 'meshinfo' or 'help' to get status information.
 
