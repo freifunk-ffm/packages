@@ -9,7 +9,7 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
 # this is the neighbormonitor branch from christf including the socket-command extensions
 # for monitor
-PKG_SOURCE_VERSION:=5b188cd5f1c4aeab17b7a441ab9e928109df028e
+PKG_SOURCE_VERSION:=637bcace9404a98ab1df29153876f08095fa50d8
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 
 #
