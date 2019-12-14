@@ -11,11 +11,10 @@ define Package/$(PKG_NAME)
   SECTION:=ffffm
   CATEGORY:=Customization
   TITLE:=Banner file replacement
-  DEPENDS:=+busybox
-  MAINTAINER:=Freifunk Frankfurt <admin@ffm.freifunk.net>
+  DEPENDS:=+gluon-core +busybox
 endef
 
-define Package/ffffm-banner/description
+define Package/$(PKG_NAME)/description
 	A banner file replacement
 endef
 
@@ -29,9 +28,41 @@ endef
 define Build/Compile
 endef
 
+define Package/$(PKG_NAME)/preinst
+#!/bin/sh
+cd "$${IPKG_INSTROOT}/etc/"
+if [ -h "./banner" ] ; then
+	/bin/rm "./banner"
+elif [ -f "./banner" ] ; then
+	/bin/mv "./banner" "./banner.openwrt"
+fi
+/bin/ln -s "./banner.openwrt" "./banner"
+exit 0
+endef
+
+define Package/$(PKG_NAME)/postinst
+#!/bin/sh
+cd "$${IPKG_INSTROOT}/etc/"
+[ -h "./banner" ] && /bin/rm -f "./banner"
+/bin/ln -s "./banner.ffmod" "./banner"
+exit $$?
+endef
+
+define Package/$(PKG_NAME)/prerm
+#!/bin/sh
+cd "$${IPKG_INSTROOT}/etc/"
+if [ -h "./banner" ] ; then
+	[[ "$$(readlink -n ./banner)" == "./banner.ffmod" ]] && \
+	/bin/rm -f "./banner" && \
+	[ -f "./banner.openwrt" ] && \
+	/bin/ln -s "./banner.openwrt" "./banner"
+fi
+exit 0
+endef
 
 define Package/$(PKG_NAME)/install
-	$(CP) ./files/* $(1)/
+	$(INSTALL_DIR) $(1)/etc/
+	$(INSTALL_DATA) ./files/etc/banner.ffmod $(1)/etc/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
