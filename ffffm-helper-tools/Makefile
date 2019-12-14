@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffffm-helper-tools
-PKG_VERSION:=1.0
+PKG_VERSION:=2.0
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
@@ -12,10 +12,9 @@ define Package/$(PKG_NAME)
   CATEGORY:=Customization
   TITLE:=Small helper toolbox
   DEPENDS:=+gluon-core +busybox
-  MAINTAINER:=Freifunk Frankfurt <admin@ffm.freifunk.net>
 endef
 
-define Package/ffffm-banner/description
+define Package/$(PKG_NAME)/description
 	A small local helper toolbox
 endef
 
@@ -31,7 +30,10 @@ endef
 
 
 define Package/$(PKG_NAME)/install
-	$(CP) ./files/* $(1)/
+	$(INSTALL_DIR) $(1)/usr/bin/
+	$(INSTALL_BIN) ./files/usr/bin/help $(1)/usr/bin/
+	$(INSTALL_BIN) ./files/usr/bin/nodeinfo $(1)/usr/bin/
+	$(INSTALL_BIN) ./files/usr/bin/meshinfo $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
