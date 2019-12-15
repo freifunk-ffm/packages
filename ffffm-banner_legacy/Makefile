@@ -62,6 +62,7 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/
+	$(INSTALL_DIR) $(1)/usr/bin/
 	$(INSTALL_DATA) ./files/etc/banner.ffmod $(1)/etc/
 	$(INSTALL_BIN) ./files/usr/bin/help $(1)/usr/bin/
 	$(INSTALL_BIN) ./files/usr/bin/nodeinfo $(1)/usr/bin/
