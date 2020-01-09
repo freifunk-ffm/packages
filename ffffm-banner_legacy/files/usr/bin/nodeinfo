@@ -18,8 +18,11 @@ echo -n "### Node ID: "
 jsonfilter -i $NODEINFO -e '@.node_id'
 echo -n "### Node MAC: "
 jsonfilter -i $NODEINFO -e '@.network.mac'
-echo -n "### Node IP: "
+echo -n "### Node IP v6: "
 jsonfilter -i $NODEINFO -e '@.network.addresses.*'
+
+echo
+echo "### (Next)Node IPv4: $(uci -q get network.local_node.ipaddr || echo '-')"
 
 echo
 echo -n "### Hardware: "
