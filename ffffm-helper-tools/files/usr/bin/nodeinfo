@@ -78,13 +78,13 @@ echo
 echo "### Wifi:"
 echo -n " DFS-Outdoor Mode: "
 if [ ! $(uci -q get gluon.wireless.outdoor) ] ; then echo '-'; else uci -q get gluon.wireless.outdoor; fi
-echo -n " Radio0 active: "
+echo -n " Radio0 enabled: "
 if [ $(uci -q get wireless.radio0.disabled || echo 1) = '0' ]; then echo '1'; elif [ $(uci -q get wireless.client_radio0.disabled) ]; then echo '1'; else echo '-'; fi
 echo -n " Radio0 channel: "
 uci -q get wireless.radio0.channel || echo '-'
 echo -n " Radio0 clients enabled: "
 if [ ! $(uci -q get wireless.client_radio0.disabled) ] ; then echo '-'; elif [ $(uci -q get wireless.client_radio0.disabled || echo 1) = '1' ]; then echo '0'; else echo '1'; fi
-echo -n " Radio1 active: "
+echo -n " Radio1 enabled: "
 if [ $(uci -q get wireless.radio1.disabled || echo 1) = '0' ]; then echo '1'; elif [ $(uci -q get wireless.client_radio1.disabled) ]; then echo '1'; else echo '-'; fi
 echo -n " Radio1 channel: "
 uci -q get wireless.radio1.channel || echo '-'
