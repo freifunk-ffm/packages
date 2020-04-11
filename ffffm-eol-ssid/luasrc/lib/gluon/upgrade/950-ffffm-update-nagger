@@ -1,0 +1,22 @@
+#!/usr/bin/lua
+
+local util = require 'gluon.util'
+local uci = require('simple-uci').cursor()
+
+-- Reuse IBSS mac address
+local macaddr = util.generate_mac(2)
+if not macaddr then
+	return
+end
+
+uci:section('wireless', 'wifi-iface', 'dep_radio0', {
+	ifname = 'shitty0',
+	network = 'client',
+	disabled = '0',
+	device = 'radio0',
+	mode = 'ap',
+	macaddr = macaddr,
+	ssid = 'supportende.ffm.freifunk.net',
+})
+
+uci:commit('wireless')
