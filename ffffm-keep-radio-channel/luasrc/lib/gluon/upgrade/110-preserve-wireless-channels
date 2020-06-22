@@ -1,18 +1,18 @@
-#!/usr/bin/lua                                                                                                               
-                                                                                                                             
-local util = require 'gluon.util'                                                                                            
-local site = require 'gluon.site'                                                                                     
-local sysconfig = require 'gluon.sysconfig'                                                                                  
-local uci = require('simple-uci').cursor()                                                                                   
-                                                                                                                             
--- Bei einer Erstinstallation (wie auch bei einem Sysupgrade ohne Uebernahme 
--- der 'Konfiguration') werden die Wifi-Kanaele der site.conf verwendet.                                                                                                  
---                                                                                                                           
--- Bei einem normalen Sysupgrade werden die vormals haendisch konfigurierten Wifi-Kanaele beibehalten.                                                       
-                                                                                                                             
-if sysconfig.gluon_version then           
+#!/usr/bin/lua
+
+local util = require 'gluon.util'
+local site = require 'gluon.site'
+local sysconfig = require 'gluon.sysconfig'
+local uci = require('simple-uci').cursor()
+
+-- Bei einer Erstinstallation (wie auch bei einem Sysupgrade ohne Uebernahme
+-- der 'Konfiguration') werden die Wifi-Kanaele der site.conf verwendet.
+--
+-- Bei einem normalen Sysupgrade werden die vormals haendisch konfigurierten Wifi-Kanaele beibehalten.
+
+if sysconfig.gluon_version then
         -- Setzen des Gluon-internen Flags
         os.execute("uci set gluon-core.@wireless[0].preserve_channels=1")
-end                                                                                                                          
-                                                                                                                             
+end
+
 uci:save('gluon-core')
