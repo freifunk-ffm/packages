@@ -26,6 +26,7 @@ define Package/babeldev
 	CATEGORY:=Network
 	SUBMENU:=Routing and Redirection
 	PROVIDES:=babeld
+	CONFLICTS:=babeld
 	TITLE:=A loop-free distance-vector routing protocol
 	URL:=http://www.pps.univ-paris-diderot.fr/~jch/software/babel/
 	MAINTAINER:=Gabriel Kerneis <gabriel@kerneis.info>
