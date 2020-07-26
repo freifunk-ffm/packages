@@ -113,7 +113,7 @@ fi
 #######################################################################################
 # Check Outdoor-Mode (wegen gleichzeitigem DSF-Scan in Kombination mit einem 'wifi')
 #######################################################################################
-if [ "$(uci -q get gluon.wireless.outdoor)" != "1" ] ; then
+if [ "$(uci -q get gluon.wireless.outdoor)" == "1" ] ; then
 exit
 fi
 
