@@ -162,10 +162,20 @@ fi
 #######################################################################################
 # Observe the dmesg output
 #######################################################################################
-DMESG=0
+DMESG_ATH9K=0
 if dmesg | grep AR_PHY_AGC_CONTROL
 then
-	DMESG=1
+	DMESG_ATH9K=1
+fi
+
+# Bad ATH10K_PCI workaround.
+# See https://forum.openwrt.org/t/ath10k-pci-0000-01-00-0-swba-overrun-on-vdev-0-skipped-old-beacon/5002
+DMESG_ATH10K=0
+if [ -d /sys/bus/pci/drivers/ath10k_pci ]; then
+	if dmesg | grep ath10k_pci | grep 'SWBA overrun on vdev'
+	then
+		DMESG_ATH10K=1
+	fi
 fi
 
 ######################################################################################
@@ -284,10 +294,20 @@ fi
 #        multilog "Just an info: TX queue is stopped and TX path hangs"
 # fi
 
-# DMESG Problem
-if [ $DMESG -eq 1 ]; then
+# DMESG ath9k Problem
+if [ $DMESG_ATH9K -eq 1 ]; then
 	WIFIRESTART=1
-	multilog "Found a dmesg problem. Ring buffer cleared."
+	multilog "Found a dmesg ath9k-problem. Ring buffer cleared."
+# clear the dmesg ring buffer
+	dmesg -c
+# Bei diesem Problem das Wifi sofort neustarten lassen
+	touch $RESTARTFILE
+fi
+
+# DMESG ath10k Problem
+if [ $DMESG_ATH10K -eq 1 ]; then
+	WIFIRESTART=1
+	multilog "Found a dmesg ath10k-problem. Ring buffer cleared."
 # clear the dmesg ring buffer
 	dmesg -c
 # Bei diesem Problem das Wifi sofort neustarten lassen
