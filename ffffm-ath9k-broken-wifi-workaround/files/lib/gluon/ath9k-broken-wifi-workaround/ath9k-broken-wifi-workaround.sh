@@ -137,7 +137,7 @@ for i in $(ls /sys/class/net/); do
 			ATH9K_IFS="$i"
 		fi
 # 		gather a list of devices
-		if expr "$i" : "\(client\|ibss\|mesh\)[0-9]" >/dev/null; then
+		if expr "$i" : "\(client\|mesh\)[0-1]" >/dev/null; then
 			ATH9K_UCI="$(uci show wireless | grep $i | cut -d"." -f1-2)"
 			ATH9K_DEV="$(uci get ${ATH9K_UCI}.device)"
 			if [ -n "$ATH9K_DEVS" ]; then
@@ -214,7 +214,7 @@ done
 
 MESHCONNECTION=0
 for wifidev in $ATH9K_IFS; do
-	if expr "$wifidev" : "\(ibss\|mesh\)[0-9]" >/dev/null; then
+	if expr "$wifidev" : "\(mesh\)[0-1]" >/dev/null; then
 		if [ "$(batctl o | egrep "$wifidev" | wc -l)" -gt 0 ]; then
 			MESHCONNECTION=1
 # 			systemlog "found wifi mesh partners."
