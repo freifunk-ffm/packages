@@ -324,7 +324,7 @@ if [ ! -f "$RESTARTFILE" ] && [ "$WIFIRESTART" -eq 1 ]; then
 # 	Schadet ja nicht...
 #   Eine ggf. doppelte Behandlung stoert nicht. 
 	for wifidev in $ATH9K_IFS; do
-		/usr/sbin/iw dev $wifidev scan
+		/usr/sbin/iw dev $wifidev scan lowpri
 	done
 	multilog "Wifi restart is pending"
 elif [ $WIFIRESTART -eq 1 ]; then
