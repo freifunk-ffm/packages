@@ -320,8 +320,12 @@ fi
 
 if [ ! -f "$RESTARTFILE" ] && [ "$WIFIRESTART" -eq 1 ]; then
 	touch $RESTARTFILE
-# 	Jetzt ein Wifi-Treiber-Restart
-	/sbin/wifi
+# 	Sicherheitshalber mal ein Scan als Behelf absetzen.
+# 	Schadet ja nicht...
+#   Eine ggf. doppelte Behandlung stoert nicht. 
+	for wifidev in $ATH9K_IFS; do
+		/usr/sbin/iw dev $wifidev scan
+	done
 	multilog "Wifi restart is pending"
 elif [ $WIFIRESTART -eq 1 ]; then
 	multilog "*** Wifi restarted ***"
@@ -331,6 +335,11 @@ elif [ $WIFIRESTART -eq 1 ]; then
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
 # 	Jetzt ein Wifi-Treiber-Restart
+# 	Doppeltgemoppelt haelt besser. Daher erst ein 'iw scan' gefolgt von einem 'wifi'
+#   Eine ggf. doppelte Behandlung stoert nicht.
+	for wifidev in $ATH9K_IFS; do
+		/usr/sbin/iw dev $wifidev scan
+	done
 	/sbin/wifi
 else
 # 	systemlog "Everything seems to be ok"
