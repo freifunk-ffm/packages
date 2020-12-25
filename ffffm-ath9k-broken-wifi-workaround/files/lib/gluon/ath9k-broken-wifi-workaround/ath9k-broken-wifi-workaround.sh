@@ -41,18 +41,6 @@
 #
 ######################################################################################
 
-
-######################################################################################
-#
-# Devise:
-# Lieber einmal mehr als einmal weniger :o)
-#
-######################################################################################
-
-
-CLIENTFILE="/tmp/ath9k-wifi-client-connect"
-PRIVATEFILE="/tmp/ath9k-wifi-private-connect"
-MESHFILE="/tmp/ath9k-wifi-mesh-connect"
 GWFILE="/tmp/ath9k-wifi-gateway-connect"
 
 RESTARTFILE="/tmp/ath9k-wifi-restart-pending"
@@ -179,65 +167,6 @@ if [ -d /sys/bus/pci/drivers/ath10k_pci ]; then
 fi
 
 ######################################################################################
-# Check client wifi connectivity (client lost)
-######################################################################################
-
-# Check if there are client connectivity to this node
-CLIENTCONNECTION=0
-CLIENTCONNECTIONCOUNT="$(batctl tl | grep W | wc -l)"
-if [ "$CLIENTCONNECTIONCOUNT" -gt 0 ]; then
-# 	note: this check doesn't know which radio the clients are on
-	CLIENTCONNECTION=1
-# 	systemlog "found batman local clients."
-	if [ ! -f "$CLIENTFILE" ]; then
-# 		create file so we can check later if there were batman local clients before
-		touch $CLIENTFILE
-	fi
-fi
-
-######################################################################################
-# Check private wifi connectivity (private wifi lost)
-######################################################################################
-
-# Check if there are privat wifi connectivity to this node
-PRIVATECONNECTION=0
-for wifidev in $ATH9K_IFS; do
-	if expr "$wifidev" : "wlan[0-9]" >/dev/null; then
-		iw dev $wifidev station dump 2>/dev/null | grep -q Station
-		if [ "$?" == "0" ]; then
-			PRIVATECONNECTION=1
-# 			systemlog "Found private device connectivity"
-			if [ ! -f "$PRIVCLIENTFILE" ]; then
-# 				create file so we can check later if there were private wifi clients before
-				touch $PRIVATEFILE
-			fi
-			break
-		fi
-	fi
-done
-
-######################################################################################
-# Check mesh connection (mesh lost)
-######################################################################################
-
-# Check for an active mesh
-
-MESHCONNECTION=0
-for wifidev in $ATH9K_IFS; do
-	if expr "$wifidev" : "\(mesh\)[0-1]" >/dev/null; then
-		if [ "$(batctl o | egrep "$wifidev" | wc -l)" -gt 0 ]; then
-			MESHCONNECTION=1
-# 			systemlog "found wifi mesh partners."
-			if [ ! -f "$MESHFILE" ]; then
-				# create file so we can check later if there was a wifi mesh connection before
-				touch $MESHFILE
-			fi
-			break
-		fi
-	fi
-done
-
-######################################################################################
 # Check gateway connection (uplink lost)
 ######################################################################################
 
@@ -264,23 +193,6 @@ fi
 ######################################################################################
 
 WIFIRESTART=0
-
-# All wifi connectivity lost
-if [ "$CLIENTCONNECTION" -eq 0 ] && [ "$MESHCONNECTION" -eq 0 ] && [ "$PRIVATECONNECTION" -eq 0 ]; then
-# There were wifi connectivity before, but there are none at the moment.
-	if [ -f "$CLIENTFILE" ] || [ -f "$MESHFILE" ] || [ -f "$PRIVATEFILE" ]; then
-		# There were client or mesh connectivity before, but there are none at the moment.
-		WIFIRESTART=1
-		multilog "All wifi connectivity (client/mesh/private) lost"
-	fi
-fi
-
-# Mesh lost. This separated check is just for safety reasons ( I saw a node with a broken ibss but with active clients).
-if [ -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 0 ]; then
-# There were mesh connections before, but there are none at the moment.
-	WIFIRESTART=1
-	multilog "Mesh lost"
-fi
 
 # No pingable default gateway.
 if [ -f "$GWFILE" ] && [ $GWCONNECTION -eq 0 ]; then
@@ -329,9 +241,6 @@ if [ ! -f "$RESTARTFILE" ] && [ "$WIFIRESTART" -eq 1 ]; then
 	multilog "Wifi restart is pending"
 elif [ $WIFIRESTART -eq 1 ]; then
 	multilog "*** Wifi restarted ***"
-	rm -rf $CLIENTFILE
-	rm -rf $MESHFILE
-	rm -rf $PRIVATEFILE
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
 # 	Jetzt ein Wifi-Treiber-Restart
