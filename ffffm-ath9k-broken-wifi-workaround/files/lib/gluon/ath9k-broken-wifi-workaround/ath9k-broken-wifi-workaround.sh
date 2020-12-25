@@ -15,10 +15,12 @@
 #
 # Funktion:
 # 1) Ueberpruefen, ob ueberhaupt ein Problemtest durchgefuehrt werden kann/darf/soll.
-# 2) Ueberpruefen, welche WLAN-Konnektivitaet vorhanden ist und dieses merken.
-# 3) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
-# 4) Auswerten ueber die Zeit von WLAN Konnektivitaet, aktivem Mesh, Gateway/UpLink.
-# 5) Tratten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
+# 2) Ueberpruefen ob eine Gateway/UpLink Verbindung besteht und dieses merken.
+# 3) Auswerten ueber die Zeit von Gateway/UpLink.
+# 4) Ueberpruefung von auffaelligen dmesg-Logeintraegen
+# 5) Tritt ein Probleme erstmalig auf, dann ist der erste Loesungsversuch ein iw-Scan. 
+#    Dieser Scan behebt im ersten Schritt einfachere Treiber-Probleme.
+# 6) Traten innerhalb von zwei Skript-Aufrufzyklen Probleme auf, dann -> Wifi-Restart.
 #
 # Ausgabe:
 # Es werden Ereignisse in die eigens definierte Logdatei /tmp/log/wifi-problem-timestamps
@@ -29,7 +31,7 @@
 
 ######################################################################################
 #
-# Zum Debuggen und selber Rumbasteln einfach die "#" vor allen "systemlog XYZ" entfernen
+# Zum Debuggen und zum selber Rumbasteln einfach die "#" vor allen "systemlog XYZ" entfernen
 #
 ######################################################################################
 
@@ -102,6 +104,7 @@ fi
 # Check Outdoor-Mode (wegen gleichzeitigem DSF-Scan in Kombination mit einem 'wifi')
 #######################################################################################
 if [ "$(uci -q get gluon.wireless.outdoor)" == "1" ] ; then
+# 	systemlog "Node is an outdoor device, aborting"
 exit
 fi
 
@@ -230,11 +233,9 @@ fi
 # Should I really do it?
 ######################################################################################
 
-if [ ! -f "$RESTARTFILE" ] && [ "$WIFIRESTART" -eq 1 ]; then
+if [ "$WIFIRESTART" -eq 1 ] && [ ! -f "$RESTARTFILE" ]; then
 	touch $RESTARTFILE
-# 	Sicherheitshalber mal ein Scan als Behelf absetzen.
-# 	Schadet ja nicht...
-#   Eine ggf. doppelte Behandlung stoert nicht. 
+# 	Als ersten Behebungsversuch einen iw-Scan durchfuehren.
 	for wifidev in $ATH9K_IFS; do
 		/usr/sbin/iw dev $wifidev scan lowpri
 	done
@@ -244,8 +245,7 @@ elif [ $WIFIRESTART -eq 1 ]; then
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
 # 	Jetzt ein Wifi-Treiber-Restart
-# 	Doppeltgemoppelt haelt besser. Daher erst ein 'iw scan' gefolgt von einem 'wifi'
-#   Eine ggf. doppelte Behandlung stoert nicht.
+# 	Daher erst ein 'iw scan' gefolgt von einem 'wifi'
 	for wifidev in $ATH9K_IFS; do
 		/usr/sbin/iw dev $wifidev scan
 	done
