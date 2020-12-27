@@ -43,6 +43,7 @@
 #
 ######################################################################################
 
+MESHFILE="/tmp/ath9k-wifi-mesh-connect"
 GWFILE="/tmp/ath9k-wifi-gateway-connect"
 
 RESTARTFILE="/tmp/ath9k-wifi-restart-pending"
@@ -170,6 +171,27 @@ if [ -d /sys/bus/pci/drivers/ath10k_pci ]; then
 fi
 
 ######################################################################################
+# Check mesh connection (wifi mesh lost)
+######################################################################################
+
+# Check for an active mesh
+
+MESHCONNECTION=0
+for wifidev in $ATH9K_IFS; do
+	if expr "$wifidev" : "\(mesh\)[0-1]" >/dev/null; then
+		if [ "$(batctl o | egrep "$wifidev" | wc -l)" -gt 0 ]; then
+			MESHCONNECTION=1
+# 			systemlog "found wifi mesh partners."
+			if [ ! -f "$MESHFILE" ]; then
+				# create file so we can check later if there was a wifi mesh connection before
+				touch $MESHFILE
+			fi
+			break
+		fi
+	fi
+done
+
+######################################################################################
 # Check gateway connection (uplink lost)
 ######################################################################################
 
@@ -196,6 +218,14 @@ fi
 ######################################################################################
 
 WIFIRESTART=0
+
+# Wifi mesh lost. This separated check is just for safety reasons ( I saw a node with a broken ibss but with active clients).
+if [ -f "$MESHFILE" ] && [ "$MESHCONNECTION" -eq 0 ]; then
+# There were mesh connections before, but there are none at the moment.
+	WIFIRESTART=1
+	multilog "Wifi mesh lost"
+fi
+
 
 # No pingable default gateway.
 if [ -f "$GWFILE" ] && [ $GWCONNECTION -eq 0 ]; then
@@ -242,6 +272,7 @@ if [ "$WIFIRESTART" -eq 1 ] && [ ! -f "$RESTARTFILE" ]; then
 	multilog "Wifi restart is pending"
 elif [ $WIFIRESTART -eq 1 ]; then
 	multilog "*** Wifi restarted ***"
+	rm -rf $MESHFILE
 	rm -rf $GWFILE
 	rm -rf $RESTARTFILE
 # 	Jetzt ein Wifi-Treiber-Restart
