@@ -199,8 +199,8 @@ done
 GWCONNECTION=0
 GATEWAY=$(batctl gwl | grep -e "^=>" -e "^\*" | awk -F'[ ]' '{print $2}')
 if [ $GATEWAY ]; then
-	RANDOM=$(awk 'BEGIN { srand(); printf("%d\n",rand()*25) }')
-	sleep $RANDOM
+	RANDSLEEP=$(awk 'BEGIN { srand(); printf("%d\n",rand()*25) }')
+	sleep $RANDSLEEP
 	batctl ping -c 5 $GATEWAY > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		GWCONNECTION=1
