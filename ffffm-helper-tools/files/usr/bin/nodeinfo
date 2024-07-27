@@ -1,10 +1,34 @@
 #!/bin/sh
+. /usr/share/libubox/jshn.sh
+json_init 
+_set_var _json_no_warning 1
 
 NODEINFO="$(mktemp -p /tmp)"
 gluon-neighbour-info -d ::1 -p 1001 -c 1 -r nodeinfo > $NODEINFO
 
 STATISTICS="$(mktemp -p /tmp)"
 gluon-neighbour-info -d ::1 -p 1001 -c 1 -r statistics > $STATISTICS
+
+echo "### Gluon-Info: "
+gluon-info
+echo -n "### Hardware ID: "
+# Bei TP-Link Geraeten kann eine HWID ausgelesen werden
+echo $([ -f /lib/ar71xx.sh ]&&[ $(head -c 4 /tmp/sysinfo/model) = 'TP-L' ]&&(. /lib/ar71xx.sh ;. /lib/functions.sh ; echo $(tplink_get_hwid))||(echo '-'))
+echo -n "### Autoupdate enabled: "
+uci -q get autoupdater.settings.enabled
+echo -n "### Autoupdate Branch: "
+uci -q get autoupdater.settings.branch
+
+echo "### Location:"
+echo -n " Enabled: "
+uci -q get gluon-node-info.@location[0].share_location || echo '0'
+echo -n " Latitude:  "
+uci -q get  gluon-node-info.@location[0].latitude || echo '-'
+echo -n " Longitude: "
+uci -q get gluon-node-info.@location[0].longitude || echo '-'
+
+echo -n "### Contact Information: "
+uci -q get gluon-node-info.@owner[0].contact || echo '-'
 
 echo
 echo -n "### Node ID: "
@@ -15,48 +39,31 @@ echo -n "### Node IPv6: "
 jsonfilter -i $NODEINFO -e '@.network.addresses.*'
 
 echo
-echo "### (Next)Node IPv4: $(uci -q get network.local_node.ipaddr || echo '-')"
+echo "### (Next)Node IPv4:   $(uci -q get network.local_node.ipaddr || echo '-')"
 
-echo
-echo "### Gateways:"
-wg | grep endpoint
-
-echo
-echo -n "### Hardware: "
-cat /tmp/sysinfo/model
-echo -n "### Hardware ID: "
-# Bei TP-Link Geraeten kann eine HWID ausgelesen werden
-echo $([ -f /lib/ar71xx.sh ]&&[ $(head -c 4 /tmp/sysinfo/model) = 'TP-L' ]&&(. /lib/ar71xx.sh ;. /lib/functions.sh ; echo $(tplink_get_hwid))||(echo '-'))
-echo -n "### Firmware: "
-cat /lib/gluon/release
-echo -n "### Gluon: "
-cat /lib/gluon/gluon-version
-echo -n "### Site Code: "
-jsonfilter -i $NODEINFO -e '@.system.site_code'
-echo -n "### Domain Code: "
-jsonfilter -i $NODEINFO -e '@.system.domain_code'
-echo -n "### Autoupdate enabled: "
-uci -q get autoupdater.settings.enabled
-echo -n "### Autoupdate Branch: "
-uci -q get autoupdater.settings.branch
-
-echo
-echo -n "### Contact Information: "
-uci -q get gluon-node-info.@owner[0].contact || echo '-'
-
-echo
-echo "### Location:"
-echo -n " Enabled: "
-uci -q get gluon-node-info.@location[0].share_location || echo '0'
-echo -n " Latitude: "
-uci -q get  gluon-node-info.@location[0].latitude || echo '-'
-echo -n " Longitude: "
-uci -q get gluon-node-info.@location[0].longitude || echo '-'
-
-echo
-echo "### Mesh-VPN:"
-echo -n " Wireguard enabled: "
+echo -n "### Mesh-VPN: enabled: "
 uci -q get gluon.mesh_vpn.enabled || echo '-'
+
+echo "### Gateways:"
+json_load_file $STATISTICS
+json_select "mesh_vpn"
+json_select "groups"
+json_select "backbone"
+json_select "peers"
+json_get_keys peers
+for gw in $peers; do
+    if json_select "$gw"; then
+        json_get_keys values
+        for key in $values; do
+            json_get_var $key $key
+        done
+        if [ ! -z $method ]; then
+            gwup="$(echo "$established" | cut -d '.' -f 1)"
+            timestring=$(date -ud "@$gwup" +"$(( $gwup/3600/24 )) days %H hours %M minutes %S seconds")
+            echo $gw -- method: $method - established: $timestring
+        fi
+fi
+done
 
 echo
 echo "### Mesh:"
@@ -92,14 +99,20 @@ jsonfilter -i $STATISTICS -e '$.clients.wifi24'
 echo -n " Connected clients 5 GHz: "
 jsonfilter -i $STATISTICS -e '$.clients.wifi5'
 
+## get memory usage
+json_load_file $STATISTICS
+json_select memory
+json_get_keys memitems
+for memitem in $memitems; do
+    json_get_var $memitem $memitem
+done
 echo
+echo "### RAM: $total, free: $free, available: $available, buffers: $buffers, cached: $cached"
+
 echo -n "### Uptime:"
 uptime
 
-echo
 echo "### SSH connection from/to : "$SSH_CONNECTION
-
-echo
 
 #Aufraeumen
 rm $NODEINFO
